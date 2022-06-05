@@ -21,29 +21,30 @@ public class UserService {
     public List<User> getUsers() {
         return users;
     }
-/*
+
     public List<User> getCustomers() {
-        List<User> customers = getUsers();
-        for(User user : customers){
-            if(!user.flag){
-                return users;
+        List<User> users = getUsers();
+        List<User> customers = new ArrayList<>();
+        for (int i=0; i < userCount(); i++){
+            if (!users.get(i).flag) {
+                customers.add(users.get(i));
             }
         }
-        return null;
+        return customers;
     }
 
 
-    public List<User> getAllEmployees() {
-        List<User> employees = getUsers();
-
-        for (User user : employees) {
-            if (!user.flag) {
-                employees.add(user);
+    public List<User> getEmployees() {
+        List<User> users = getUsers();
+        List<User> employees = new ArrayList<>();
+        for (int i=0; i < userCount(); i++){
+            if (users.get(i).flag) {
+                employees.add(users.get(i));
             }
         }
         return employees;
     }
-    */
+
     public String getAllCustomersAsString() {
         List<User> customers = getUsers();
         StringBuilder builder = new StringBuilder();

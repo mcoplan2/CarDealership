@@ -57,7 +57,7 @@ public class UserServiceTest {
         for(int i=0; i<numUsers; i++){
             userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
         }
-        Assertions.assertEquals("2",userService.getAllUsersAsString());
+        Assertions.assertEquals("2",userService.getUsers());
     }
     @Test
     public void userServiceCreateManyUsersTestCustomerString(){
@@ -73,7 +73,7 @@ public class UserServiceTest {
         for(int i=0; i<numUsers; i++){
             userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
         }
-        Assertions.assertEquals("2",userService.getAllCustomersAsString());
+        Assertions.assertEquals("2",userService.getCustomers());
     }
     @Test
     public void userServiceCreateManyUsersTestEmployeeString(){

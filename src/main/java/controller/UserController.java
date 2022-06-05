@@ -5,6 +5,7 @@ import model.User;
 import service.UserService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class UserController {
@@ -16,10 +17,21 @@ public class UserController {
         ctx.json(users);
     };
 
+    public Handler getAllCustomers = ctx -> {
+        List<User> customers = userService.getCustomers();
+        ctx.json(customers);
+    };
+
+    public Handler getAllEmployees = ctx -> {
+        List<User> employees = userService.getEmployees();
+        ctx.json(employees);
+    };
+    /*
     public Handler getAllCustomers = ctx -> ctx.json(userService.getAllCustomersAsString());
-
+*/
+    /*
     public Handler getAllEmployees = ctx -> ctx.json(userService.getAllEmployeesAsString());
-
+*/
 
     public Handler getUserById = ctx -> {
         String param = ctx.pathParam("id");
