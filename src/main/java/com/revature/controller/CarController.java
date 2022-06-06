@@ -1,9 +1,8 @@
-package controller;
+package com.revature.controller;
 
+import com.revature.model.Car;
+import com.revature.service.CarService;
 import io.javalin.http.Handler;
-import model.Car;
-import model.User;
-import service.CarService;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class CarController {
 
     public Handler createNewCar = ctx -> {
         Car car = ctx.bodyAsClass(Car.class);
-        // need to get user ID from path
+        // grabs the user id from the path and converts it to type int.
         carService.createCar(car, Integer.parseInt(ctx.pathParam("id")));
     };
 

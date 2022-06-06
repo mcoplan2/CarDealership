@@ -1,11 +1,10 @@
-package controller;
+package com.revature.controller;
 
+import com.revature.model.User;
+import com.revature.service.UserService;
 import io.javalin.http.Handler;
-import model.User;
-import service.UserService;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 
 public class UserController {
@@ -13,7 +12,7 @@ public class UserController {
     UserService userService = new UserService();
 
     public Handler getAllUsers = ctx -> {
-        List<User> users = userService.getUsers();
+        List<User> users = UserService.getUsers();
         ctx.json(users);
     };
 

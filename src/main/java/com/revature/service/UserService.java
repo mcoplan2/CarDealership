@@ -1,9 +1,8 @@
-package service;
+package com.revature.service;
 
-import model.User;
+import com.revature.model.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class UserService {

@@ -1,8 +1,8 @@
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.revature.model.User;
+import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import service.UserService;
-import model.User;
+
 
 public class UserServiceTest {
 
@@ -11,14 +11,14 @@ public class UserServiceTest {
     public void userServiceCreateEmployee(){
         UserService userService = new UserService();
         userService.createUser(new User("Test","Test","test","test",1, User.Role.EMPLOYEE));
-        Assertions.assertEquals(1, userService.userCount());
+        Assertions.assertEquals(1, UserService.userCount());
     }
     //Test that creating a Customer populates the List
     @Test
     public void userServiceCreateCustomer(){
         UserService userService = new UserService();
         userService.createUser(new User("Test","Test","test","test",0, User.Role.CUSTOMER));
-        Assertions.assertEquals(1, userService.userCount());
+        Assertions.assertEquals(1, UserService.userCount());
     }
 
     //Test that creates various different users to test different functionality
@@ -41,7 +41,7 @@ public class UserServiceTest {
         for(int i=0; i<numUsers; i++){
             userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
-        Assertions.assertEquals(5, userService.userCount());
+        Assertions.assertEquals(5, UserService.userCount());
     }
     @Test
     public void userServiceCreateManyUsersTestAllUsersString(){
