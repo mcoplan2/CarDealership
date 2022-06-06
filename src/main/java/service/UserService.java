@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class UserService {
-    private List<User> users = new ArrayList<>();
+    private static final List<User> users = new ArrayList<>();
 
 
     // maybe in future we check if user(0) to see role, then create the API layers for offers
@@ -33,7 +33,7 @@ public class UserService {
          */
     }
 
-    public List<User> getUsers() {
+    public static List<User> getUsers() {
         return users;
     }
 
@@ -128,7 +128,7 @@ public class UserService {
         }
         return null;
     }
-    public int userCount() {
+    public static int userCount() {
         return users.size();
     }
 

@@ -1,3 +1,4 @@
+import controller.CarController;
 import controller.UserController;
 import io.javalin.Javalin;
 
@@ -5,6 +6,7 @@ public class Driver {
     public static void main(String[] arg){
 
         UserController userController = new UserController();
+        CarController carController = new CarController();
         Javalin app = Javalin.create().start(8080);
 
         app.get("/", context -> context.result("Welcome to the Car Dealership API"));
@@ -15,6 +17,10 @@ public class Driver {
         app.get("/customers/{id}", userController.getCustomerById);
         app.get("/employees", userController.getAllEmployees);
         app.get("/employees/{id}", userController.getEmployeeById);
+        app.get("/employees/*/cars", carController.getAllCars);
+        app.post("/employees/{id}/cars", carController.createNewCar);
+        app.get("/customers/*/cars", carController.getAllCars);
+        app.post("/customers/{id}/cars", carController.createNewCar);
         //layout
         /*
         /users/{id}/customers/{id}
