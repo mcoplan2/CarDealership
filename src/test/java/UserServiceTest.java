@@ -10,14 +10,14 @@ public class UserServiceTest {
     @Test
     public void userServiceCreateEmployee(){
         UserService userService = new UserService();
-        userService.createUser(new User("Test","Test","test","test",1,true));
+        userService.createUser(new User("Test","Test","test","test",1, User.Role.EMPLOYEE));
         Assertions.assertEquals(1, userService.userCount());
     }
     //Test that creating a Customer populates the List
     @Test
     public void userServiceCreateCustomer(){
         UserService userService = new UserService();
-        userService.createUser(new User("Test","Test","test","test",0,true));
+        userService.createUser(new User("Test","Test","test","test",0, User.Role.CUSTOMER));
         Assertions.assertEquals(1, userService.userCount());
     }
 
@@ -36,10 +36,10 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        boolean[] flag = {false,true,false,false,false};
+        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
-            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
+            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
         Assertions.assertEquals(5, userService.userCount());
     }
@@ -52,10 +52,10 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        boolean[] flag = {false,true,false,false,false};
+        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
-            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
+            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
         Assertions.assertEquals("2",userService.getUsers());
     }
@@ -68,10 +68,10 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        boolean[] flag = {false,true,false,false,false};
+        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
-            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
+            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
         Assertions.assertEquals("2",userService.getCustomers());
     }
@@ -84,10 +84,10 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        boolean[] flag = {false,true,false,false,false};
+        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
-            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
+            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
         Assertions.assertEquals("2",userService.getAllEmployeesAsString());
     }
@@ -102,10 +102,10 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {1, 2, 3, 4, 5};
-        boolean[] flag = {false,true,false,false,false};
+        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
-            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],flag[i]));
+            userService.createUser(new User(fName[i],lName[i],uName[i],pass[i],id[i],role[i]));
         }
         Assertions.assertEquals(d,userService.getUserById(4));
     }

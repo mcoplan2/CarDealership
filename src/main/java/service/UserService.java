@@ -16,7 +16,7 @@ public class UserService {
     public void createUser(User user) {
        // if (user.flag || users.size() == 0)
        // boolean found = true;
-        List<User> users = getUsers();
+        //List<User> users = getUsers();
         //if(userCount() == 0){
         users.add(user);
         //}
@@ -59,28 +59,26 @@ public class UserService {
         }
         return employees;
     }
-/*
+
     public String getAllCustomersAsString() {
         List<User> customers = getUsers();
         StringBuilder builder = new StringBuilder();
 
         for (User user : customers) {
-            if (!user.flag) {
+            if (user.role.equals(User.Role.CUSTOMER)) {
                 builder.append(user.userName).append(" ").append(user.lastName).
                         append(" ").append(user.firstName).append("\n\n");
             }
         }
         return builder.toString();
         }
- */
 
-/*
     public String getAllEmployeesAsString() {
         List<User> employees = getUsers();
         StringBuilder builder = new StringBuilder();
 
         for (User user : employees) {
-            if (user.flag) {
+            if (user.role.equals(User.Role.EMPLOYEE)) {
                 builder.append(user.id).append("\t").append(user.userName).append("\t").append(user.lastName).
                         append("\t").append(user.firstName).append("\n\n");
 
@@ -89,7 +87,7 @@ public class UserService {
         return builder.toString();
     }
 
- */
+
 
     public String getAllUsersAsString() {
         List<User> users = getUsers();
@@ -103,6 +101,7 @@ public class UserService {
         return builder.toString();
 
     }
+
 
     public User getUserById(int id){
         for(User user:users){
