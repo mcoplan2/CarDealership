@@ -17,8 +17,8 @@ public class Driver {
         app.get("/employees/{id}", userController.getEmployeeById);
         //layout
         /*
-        /users/{id}/offers
-        /users/{id}/cars
+        /users/{id}/customers/{id}
+        /users/{id}/employees/{id}
         /
         */
 

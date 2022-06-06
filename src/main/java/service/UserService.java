@@ -15,7 +15,22 @@ public class UserService {
     // maybe check if the user has been created
     public void createUser(User user) {
        // if (user.flag || users.size() == 0)
+       // boolean found = true;
+        List<User> users = getUsers();
+        //if(userCount() == 0){
         users.add(user);
+        //}
+        /*
+        for(int i=0; i<userCount(); i++){
+            if(user.id != users.get(i).id){
+                found = false;
+            }
+        }
+        if (!found) {
+            users.add(user);
+        }
+
+         */
     }
 
     public List<User> getUsers() {
@@ -26,7 +41,7 @@ public class UserService {
         List<User> users = getUsers();
         List<User> customers = new ArrayList<>();
         for (int i=0; i < userCount(); i++){
-            if (!users.get(i).flag) {
+            if (users.get(i).role.equals(User.Role.CUSTOMER)) {
                 customers.add(users.get(i));
             }
         }
@@ -38,13 +53,13 @@ public class UserService {
         List<User> users = getUsers();
         List<User> employees = new ArrayList<>();
         for (int i=0; i < userCount(); i++){
-            if (users.get(i).flag) {
+            if (users.get(i).role.equals(User.Role.EMPLOYEE)) {
                 employees.add(users.get(i));
             }
         }
         return employees;
     }
-
+/*
     public String getAllCustomersAsString() {
         List<User> customers = getUsers();
         StringBuilder builder = new StringBuilder();
@@ -56,8 +71,10 @@ public class UserService {
             }
         }
         return builder.toString();
-    }
+        }
+ */
 
+/*
     public String getAllEmployeesAsString() {
         List<User> employees = getUsers();
         StringBuilder builder = new StringBuilder();
@@ -71,6 +88,8 @@ public class UserService {
         }
         return builder.toString();
     }
+
+ */
 
     public String getAllUsersAsString() {
         List<User> users = getUsers();
@@ -93,18 +112,18 @@ public class UserService {
         }
         return null;
     }
-    public User getCustomerById(int id, boolean flag){
+    public User getCustomerById(int id, User.Role role){
         for (User user:users){
-            if(user.id == id && user.flag == flag){
+            if(user.id == id && role.name().equalsIgnoreCase("CUSTOMER")){
                 return user;
             }
         }
         return null;
     }
 
-    public User getEmployeeById(int id, boolean flag){
+    public User getEmployeeById(int id, User.Role role){
         for (User user:users){
-            if(user.id == id && user.flag == flag){
+            if(user.id == id && role.name().equalsIgnoreCase("EMPLOYEE")){
                 return user;
             }
         }
@@ -114,8 +133,11 @@ public class UserService {
         return users.size();
     }
 
+    /*
     public User get(int index){
         return users.get(index);
         }
+
+     */
 }
 
