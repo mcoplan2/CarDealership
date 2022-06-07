@@ -1,6 +1,7 @@
 package com.revature;
 
 import com.revature.controller.CarController;
+import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
 import io.javalin.Javalin;
 
@@ -9,6 +10,8 @@ public class Driver {
 
         UserController userController = new UserController();
         CarController carController = new CarController();
+        OfferController offerController = new OfferController();
+
         Javalin app = Javalin.create().start(8080);
 
         app.get("/", context -> context.result("Welcome to the Car Dealership API"));
@@ -23,6 +26,8 @@ public class Driver {
         app.post("/employees/{id}/cars", carController.createNewCar);
         app.get("/customers/*/cars", carController.getAllCars);
         app.post("/customers/{id}/cars", carController.createNewCar);
+        app.get("/offers", offerController.getAllOffers);
+        app.post("/offers", offerController.createNewOffer);
         //layout
         /*
         /users/{id}/customers/{id}

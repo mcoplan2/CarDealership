@@ -7,6 +7,7 @@ public class Car {
     public String make;
     public String model;
     public int year;
+    public int id;
     public Status status;
 
     public Car(){}
@@ -15,15 +16,17 @@ public class Car {
         this.status = status;
     }
 
-    public Car(String make, String model, int year, Status status){
+    public Car(String make, String model, int year, int id, Status status){
         this.make = make;
         this.model = model;
         this.year = year;
+        this.id = id;
         this.status = status;
     }
     @Override
     public String toString() {
-        return "Year: " + year + "\n" +
+        return  "ID: " + id + "\n" +
+                "Year: " + year + "\n" +
                 "Make: " + make + "\n" +
                 "Model: " + model + "\n" +
                 "Status: " + status + "\n\n";
