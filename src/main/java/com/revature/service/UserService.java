@@ -112,7 +112,7 @@ public class UserService {
     }
     public User getCustomerById(int id, User.Role role){
         for (User user:users){
-            if(user.id == id && role.name().equalsIgnoreCase("CUSTOMER")){
+            if(user.id == id && role.equals(User.Role.CUSTOMER)){
                 return user;
             }
         }
@@ -121,7 +121,7 @@ public class UserService {
 
     public User getEmployeeById(int id, User.Role role){
         for (User user:users){
-            if(user.id == id && role.name().equalsIgnoreCase("EMPLOYEE")){
+            if(user.id == id && role.equals(User.Role.EMPLOYEE)){
                 return user;
             }
         }
