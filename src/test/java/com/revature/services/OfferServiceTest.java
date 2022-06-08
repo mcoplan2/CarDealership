@@ -1,3 +1,5 @@
+package com.revature.services;
+
 import com.revature.model.Car;
 import com.revature.model.Offer;
 import com.revature.model.User;
@@ -6,8 +8,6 @@ import com.revature.service.OfferService;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Optional;
 
 public class OfferServiceTest {
 

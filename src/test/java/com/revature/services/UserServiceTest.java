@@ -1,3 +1,5 @@
+package com.revature.services;
+
 import com.revature.model.User;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
