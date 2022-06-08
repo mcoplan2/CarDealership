@@ -11,7 +11,6 @@ import java.util.List;
 public class OfferController {
 
     OfferService offerService = new OfferService();
-    CarService carService = new CarService();
 
     public Handler getAllOffers = ctx -> {
         List<Offer> offers = offerService.getOffers();

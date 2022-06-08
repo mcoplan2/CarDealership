@@ -5,8 +5,9 @@ public class Offer {
         ACCEPTED, REJECTED, OPEN;
     }
 
-    public int Amount;
+    public int amount;
     public int id;
+    public static int incrementId = 0;
     public int userId;
     public Status status;
 
@@ -16,9 +17,11 @@ public class Offer {
         this.id = id;
     }
 
-    public Offer(int id, int userId, Status status){
-        this.id = id;
+    public Offer(int userId, int amount, Status status){
+        this.id = incrementId++;
+        this.amount = amount;
         this.userId = userId;
         this.status = status;
+
     }
 }

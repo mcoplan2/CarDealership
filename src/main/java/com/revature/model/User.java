@@ -10,6 +10,7 @@ public class User {
     public String userName;
     public String password;
     public int id;
+    public static int incrementId = 0;
     //0 for customer, 1 for employee
     public Role role;
 
@@ -20,12 +21,12 @@ public class User {
         this.role=role;
     }
 
-    public User(String firstName, String lastName, String userName, String password, int id, Role role){
+    public User(String firstName, String lastName, String userName, String password, Role role){
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
-        this.id = id;
+        this.id = incrementId++;
         this.role = role;
     }
 

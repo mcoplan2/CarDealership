@@ -8,6 +8,7 @@ public class Car {
     public String model;
     public int year;
     public int id;
+    public static int incrementId = 0;
     public Status status;
 
     public Car(){}
@@ -16,11 +17,11 @@ public class Car {
         this.status = status;
     }
 
-    public Car(String make, String model, int year, int id, Status status){
+    public Car(String make, String model, int year, Status status){
         this.make = make;
         this.model = model;
         this.year = year;
-        this.id = id;
+        this.id = incrementId++;
         this.status = status;
     }
     @Override
