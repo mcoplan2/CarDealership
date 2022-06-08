@@ -8,7 +8,7 @@ public class Offer {
     private int amount;
     private int id;
     public static int incrementId = 0;
-    public Status status;
+    private Status status;
 
     public Offer(){}
 
@@ -21,6 +21,30 @@ public class Offer {
         this.amount = amount;
         this.status = status;
 
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

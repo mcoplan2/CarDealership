@@ -79,7 +79,7 @@ public class UserService {
 
         for (User user : employees) {
             if (user.getRole().equals(User.Role.EMPLOYEE)) {
-                builder.append(user.id).append("\t").append(user.getUserName()).append("\t").append(user.getLastName()).
+                builder.append(user.getId()).append("\t").append(user.getUserName()).append("\t").append(user.getLastName()).
                         append("\t").append(user.getFirstName()).append("\n\n");
 
             }
@@ -93,7 +93,7 @@ public class UserService {
         StringBuilder builder = new StringBuilder();
 
         for (User user : users) {
-            builder.append(user.id).append("\t").append(user.getUserName()).append("\t").append(user.getLastName()).
+            builder.append(user.getId()).append("\t").append(user.getUserName()).append("\t").append(user.getLastName()).
                     append("\t").append(user.getFirstName()).append("\n\n");
 
         }
@@ -104,7 +104,7 @@ public class UserService {
 
     public User getUserById(int id) {
         for (User user : users) {
-            if (user.id == id) {
+            if (user.getId() == id) {
                 return user;
             }
         }
@@ -113,7 +113,7 @@ public class UserService {
 
     public User getCustomerById(int id, User.Role role) {
         for (User user : users) {
-            if (user.id == id && role.equals(User.Role.CUSTOMER)) {
+            if (user.getId() == id && role.equals(User.Role.CUSTOMER)) {
                 return user;
             }
         }
@@ -122,7 +122,7 @@ public class UserService {
 
     public User getEmployeeById(int id, User.Role role) {
         for (User user : users) {
-            if (user.id == id && role.equals(User.Role.EMPLOYEE)) {
+            if (user.getId() == id && role.equals(User.Role.EMPLOYEE)) {
                 return user;
             }
         }
@@ -139,7 +139,7 @@ public class UserService {
     public User getCarsById(int id) {
         List<Car> cars = CarService.getCars();
         for (User user : users) {
-            if (user.id == id) {
+            if (user.getId() == id) {
                 return user;
             }
         }

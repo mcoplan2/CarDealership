@@ -9,7 +9,7 @@ public class User {
     private String lastName;
     private String userName;
     private String password;
-    public int id;
+    private int id;
     private static int incrementId = 0;
     //0 for customer, 1 for employee
     private Role role;
@@ -69,6 +69,14 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
