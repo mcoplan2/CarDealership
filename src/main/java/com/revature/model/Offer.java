@@ -17,11 +17,18 @@ public class Offer {
         this.id = id;
     }
 
-    public Offer(int userId, int amount, Status status){
+    public Offer(int amount, Status status){
         this.id = incrementId++;
         this.amount = amount;
-        this.userId = userId;
         this.status = status;
 
+    }
+
+    @Override
+    public String toString() {
+        return  "ID: " + id + "\n" +
+                "userId: " + userId + "\n" +
+                "Amount: " + amount + "\n" +
+                "Status: " + status + "\n\n";
     }
 }
