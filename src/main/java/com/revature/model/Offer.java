@@ -5,10 +5,9 @@ public class Offer {
         ACCEPTED, REJECTED, OPEN;
     }
 
-    public int amount;
-    public int id;
+    private int amount;
+    private int id;
     public static int incrementId = 0;
-    public int userId;
     public Status status;
 
     public Offer(){}
@@ -27,7 +26,6 @@ public class Offer {
     @Override
     public String toString() {
         return  "ID: " + id + "\n" +
-                "userId: " + userId + "\n" +
                 "Amount: " + amount + "\n" +
                 "Status: " + status + "\n\n";
     }

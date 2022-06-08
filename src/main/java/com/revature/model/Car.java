@@ -4,10 +4,10 @@ public class Car {
     public enum Status{
         AVAILABLE, TAKEN;
     }
-    public String make;
-    public String model;
-    public int year;
-    public int id;
+    private String make;
+    private String model;
+    private int year;
+    private int id;
     public static int incrementId = 0;
     public Status status;
 
@@ -24,6 +24,31 @@ public class Car {
         this.id = incrementId++;
         this.status = status;
     }
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year){
+        this.year = year;
+    }
+
     @Override
     public String toString() {
         return  "ID: " + id + "\n" +
