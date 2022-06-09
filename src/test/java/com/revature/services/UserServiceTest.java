@@ -18,14 +18,74 @@ public class UserServiceTest {
         UserService userService = new UserService();
         Assertions.assertDoesNotThrow(() -> userService.createNewUser(user));
     }
-    //Test that creating a Customer populates the List
+
     @Test
     public void whenGivenUserObjectCreateNewUserReturnsTrue(){
+        User user = new User();
         UserService userService = new UserService();
-        userService.createNewUser(new User("Test","Test","test","test",User.Role.CUSTOMER));
-        Assertions.assertEquals(1, userService.userCount());
+        Mockito.when(mockedList.add(user)).thenReturn(true);
+        boolean result = userService.createNewUser(user);
+        Assertions.assertTrue(result);
     }
 
+    @Test
+    public void whenGetUsersIsCalledDoesNotThrowAnException() {
+        Assertions.assertDoesNotThrow(UserService::getUsers);
+    }
+
+    @Test
+    public void whenGetCustomersIsCalledDoesNotThrowAnException() {
+        UserService userService = new UserService();
+        Assertions.assertDoesNotThrow(userService::getCustomers);
+    }
+
+    @Test
+    public void whenGetEmployeesIsCalledDoesNotThrowAnException() {
+        UserService userService = new UserService();
+        Assertions.assertDoesNotThrow(userService::getEmployees);
+    }
+
+    @Test
+    public void whenGivenValidIdGetUserByIdReturnsCorrectUser() {
+        User user = new User("Test", "Test", "test", "test", User.Role.EMPLOYEE);
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+
+        UserService userService = new UserService(mockedList);
+        User result = userService.getUserById(0);
+
+        Assertions.assertEquals(user.getId(), result.getId());
+        Assertions.assertEquals(user.getFirstName(), result.getFirstName());
+        Assertions.assertEquals(user.getLastName(), result.getLastName());
+    }
+
+    @Test
+    public void whenGivenValidIdGetCustomerByIdReturnsCorrectCustomer() {
+        User user = new User("Test", "Test", "test", "test", User.Role.CUSTOMER);
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+
+        UserService userService = new UserService(mockedList);
+        User result = userService.getCustomerById(0);
+
+        Assertions.assertEquals(user.getId(), result.getId());
+        Assertions.assertEquals(user.getFirstName(), result.getFirstName());
+        Assertions.assertEquals(user.getLastName(), result.getLastName());
+    }
+
+    @Test
+    public void whenGivenValidIdGetEmployeeByIdReturnsCorrectEmployee() {
+        User user = new User("Test", "Test", "test", "test", User.Role.EMPLOYEE);
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+
+        UserService userService = new UserService(mockedList);
+        User result = userService.getEmployeeById(0);
+
+        Assertions.assertEquals(user.getId(), result.getId());
+        Assertions.assertEquals(user.getFirstName(), result.getFirstName());
+        Assertions.assertEquals(user.getLastName(), result.getLastName());
+    }
     //Test that creates various different users to test different functionality
     //Testing different String combinations
     //Testing various IDs

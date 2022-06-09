@@ -94,29 +94,56 @@ public class UserService {
 */
 
     public User getUserById(int id) {
+
+        for(int i = 0; i<users.size(); i++) {
+            if(users.get(i).getId() == id){
+                return users.get(i);
+            }
+        }
+
+        /*
         for (User user : users) {
             if (user.getId() == id) {
                 return user;
             }
-        }
+        } */
         return null;
     }
 
-    public User getCustomerById(int id, User.Role role) {
+    public User getCustomerById(int id) {
+
+        for (int i = 0; i < users.size(); i++) {
+            if ((users.get(i).getId() == id) && users.get(i).getRole().equals(User.Role.CUSTOMER)) {
+                return users.get(i);
+            }
+        }
+        /*
         for (User user : users) {
             if (user.getId() == id && role.equals(User.Role.CUSTOMER)) {
                 return user;
             }
         }
+
+         */
         return null;
     }
 
-    public User getEmployeeById(int id, User.Role role) {
+    public User getEmployeeById(int id) {
+
+        for (int i = 0; i < users.size(); i++) {
+            if ((users.get(i).getId() == id) && users.get(i).getRole().equals(User.Role.EMPLOYEE)) {
+                return users.get(i);
+            }
+        }
+
+        /*
         for (User user : users) {
             if (user.getId() == id && role.equals(User.Role.EMPLOYEE)) {
                 return user;
             }
         }
+
+         */
         return null;
     }
 

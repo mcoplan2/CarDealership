@@ -46,7 +46,7 @@ public class UserController {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
         try {
-            ctx.json(userService.getEmployeeById(id, User.Role.EMPLOYEE));
+            ctx.json(userService.getEmployeeById(id));
         } catch (NullPointerException e){
             ctx.result("BROKEN");
         }
@@ -56,7 +56,7 @@ public class UserController {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
         try {
-            ctx.json(userService.getCustomerById(id, User.Role.CUSTOMER));
+            ctx.json(userService.getCustomerById(id));
         } catch (NullPointerException e){
             ctx.result("BROKEN");
         }
