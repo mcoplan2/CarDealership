@@ -36,7 +36,7 @@ public class OfferServiceTest {
     }
 
     @Test
-    public void whenGivenUserObjectCreateNewUserReturnsTrue(){
+    public void whenGivenOfferObjectWithCarAvailCreateOfferUserReturnsTrue(){
         Car car = new Car("Test", "Test", 2322, CarStatus.AVAILABLE);
         List<Car> mockedList2 = Mockito.mock(List.class);
         CarService carService = new CarService(mockedList2);
@@ -56,6 +56,28 @@ public class OfferServiceTest {
         Mockito.when(mockedList.add(offer)).thenReturn(true);
         boolean result = offerService.createOffer(offer,1);
         Assertions.assertTrue(result);
+    }
+    @Test
+    public void whenGivenOfferObjectWithNotAvailCareCreateNewOfferReturnsFalse(){
+        Car car = new Car("Test", "Test", 2322, CarStatus.TAKEN);
+        List<Car> mockedList2 = Mockito.mock(List.class);
+        CarService carService = new CarService(mockedList2);
+        car.setId(1);
+
+        Mockito.when(mockedList2.size()).thenReturn(1);
+        Mockito.when(mockedList2.get(0)).thenReturn(car);
+
+        Offer offer = new Offer(500, OfferStatus.OPEN);
+        OfferService offerService = new OfferService(mockedList);
+        offer.setId(1);
+
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(offer);
+
+
+        Mockito.when(mockedList.add(offer)).thenReturn(true);
+        boolean result = offerService.createOffer(offer,1);
+        Assertions.assertFalse(result);
     }
 
     @Test
