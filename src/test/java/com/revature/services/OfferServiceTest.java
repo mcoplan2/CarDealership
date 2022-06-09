@@ -12,9 +12,6 @@ import org.mockito.Mockito;
 import java.util.List;
 
 public class OfferServiceTest {
-
-
-
     List<Offer> mockedList = Mockito.mock(List.class);
 
     @Test

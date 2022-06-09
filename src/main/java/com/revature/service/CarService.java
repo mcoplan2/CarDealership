@@ -23,13 +23,14 @@ public class CarService {
 
     // Only Employees can create cars, takes in a car object and a user ID
     // If the Role for the ID is an EMPLOYEE, then createCar is allowed.
-    public void createCar(Car car, int id){
+    public boolean createCar(Car car, int id){
         List<User> users = UserService.getUsers();
         for(int i = 0; i < UserService.userCount(); i++) {
             if (users.get(i).getId() == id && users.get(i).getRole().equals(UserRoles.EMPLOYEE)) {
-                cars.add(car);
+                return cars.add(car);
             }
         }
+        return false;
     }
     public static List<Car> getCars() {
         return cars;
