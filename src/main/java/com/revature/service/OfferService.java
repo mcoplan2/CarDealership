@@ -3,6 +3,7 @@ package com.revature.service;
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
 import com.revature.model.Offer;
+import com.revature.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,29 @@ public class OfferService {
         }
     }
 
-    public static int offerSize() {
+    public static int offerCount() {
         return offers.size();
+    }
+
+    public boolean deleteOfferById(int id){
+        for(int i = 0; i < offers.size(); i++){
+            if(offers.get(i).getId() == id){
+                offers.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Updates the offer at the current ID
+    // Pass in the ID you want to modify wih the new Offer Object.
+    public boolean updateOfferById(int id, Offer offer){
+        for (int i = 0; i < offers.size(); i++) {
+            if(offers.get(i).getId() == id) {
+                offers.set(id, offer);
+                return true;
+            }
+        }
+        return false;
     }
 }

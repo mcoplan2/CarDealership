@@ -92,15 +92,42 @@ public class UserServiceTest {
     public void whenUserCountIsCalledItReturnsTheCorrectNumberOfUsers(){
         User user = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
         Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(user);
 
         User user2 = new User("Test2", "Test2", "test2", "test2", UserRoles.EMPLOYEE);
         Mockito.when(mockedList.size()).thenReturn(2);
-        Mockito.when(mockedList.get(1)).thenReturn(user2);
 
         UserService userService = new UserService(mockedList);
         int result = userService.userCount();
         Assertions.assertEquals(2, result);
+    }
+
+    @Test
+    public void whenGivenUserIdDeleteUserByIdReturnsTrue(){
+        UserService service = new UserService(mockedList);
+        User user = new User();
+        user.setId(1);
+
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+        Mockito.when(mockedList.remove(0)).thenReturn(user);
+
+        Assertions.assertTrue(service.deleteUserById(1));
+    }
+
+    @Test
+    public void whenGivenUserIdUpdateUserByIdReturnsTrue(){
+        UserService service = new UserService(mockedList);
+        User user = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
+        Mockito.when(mockedList.size()).thenReturn(1);
+
+        User user2 = new User("Test2", "Test2", "test2", "test2", UserRoles.EMPLOYEE);
+        Mockito.when(mockedList.size()).thenReturn(2);
+
+        Mockito.when(mockedList.size()).thenReturn(2);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+        Mockito.when(mockedList.set(0, user2)).thenReturn(user2);
+
+        Assertions.assertTrue(service.updateUserById(0, user2));
     }
     //               -------------------------
     //               ---INTEGRATION TESTS-----

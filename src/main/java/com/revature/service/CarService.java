@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.model.Car;
+import com.revature.model.Offer;
 import com.revature.model.User;
 import com.revature.model.UserRoles;
 
@@ -47,5 +48,26 @@ public class CarService {
     public static int carCount(){
         return cars.size();
     }
-}
 
+    public boolean deleteCarById(int id){
+        for(int i = 0; i < cars.size(); i++){
+            if(cars.get(i).getId() == id){
+                cars.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Updates the car at the current ID
+    // Pass in the ID you want to modify wih the new Car Object.
+    public boolean updateCarById(int id, Car car){
+        for (int i = 0; i < cars.size(); i++) {
+            if(cars.get(i).getId() == id) {
+                cars.set(id, car);
+                return true;
+            }
+        }
+        return false;
+    }
+}

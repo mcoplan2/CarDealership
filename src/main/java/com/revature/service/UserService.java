@@ -83,6 +83,27 @@ public class UserService {
         return users.size();
     }
 
+    public boolean deleteUserById(int id){
+        for (int i = 0; i < users.size(); i++){
+            if (users.get(i).getId() == id) {
+                users.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Updates the user at the current ID
+    // Pass in the ID you want to modify wih the new User Object.
+    public boolean updateUserById(int id, User user){
+        for (int i = 0; i < users.size(); i++) {
+            if(users.get(i).getId() == id) {
+                users.set(id, user);
+                return true;
+            }
+        }
+        return false;
+    }
     // checks to see if the user id matches the user and if the car they own is equal.
     // Look at OFFERS, maybem ove this function to offers
     // ALSO NEED TO UPDATE CURRENT CAR TO TAKEN WHEN APPROVED BY EMPLOYEE ( THIS IS OFFERS).

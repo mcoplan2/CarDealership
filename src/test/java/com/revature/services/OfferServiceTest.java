@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 public class OfferServiceTest {
 
+
+
     @Test
     public void offerServiceCreateOfferWorks(){
         OfferService offerService = new OfferService();
@@ -21,6 +23,6 @@ public class OfferServiceTest {
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
         offerService.createOffer(new Offer(500, OfferStatus.OPEN),0);
         offerService.createOffer(new Offer(500, OfferStatus.OPEN),1);
-        Assertions.assertEquals(1, OfferService.offerSize());
+        Assertions.assertEquals(1, OfferService.offerCount());
     }
 }
