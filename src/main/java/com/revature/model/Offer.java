@@ -4,14 +4,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Offer implements Serializable {
-    public enum Status {
-        ACCEPTED, REJECTED, OPEN;
-    }
 
     private int amount;
     private int id;
     public static int incrementId = 0;
-    private Status status;
+    private OfferStatus status;
 
     public Offer(){}
 
@@ -19,7 +16,7 @@ public class Offer implements Serializable {
         this.id = id;
     }
 
-    public Offer(int amount, Status status){
+    public Offer(int amount, OfferStatus status){
         this.id = incrementId++;
         this.amount = amount;
         this.status = status;
@@ -42,11 +39,11 @@ public class Offer implements Serializable {
         this.id = id;
     }
 
-    public Status getStatus() {
+    public OfferStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(OfferStatus status) {
         this.status = status;
     }
 

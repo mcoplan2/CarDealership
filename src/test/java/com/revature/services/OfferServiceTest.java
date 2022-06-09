@@ -19,8 +19,8 @@ public class OfferServiceTest {
         userService.createNewUser(new User("Test3","Test","test","test", UserRoles.EMPLOYEE));
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
-        offerService.createOffer(new Offer(500, Offer.Status.OPEN),0);
-        offerService.createOffer(new Offer(500, Offer.Status.OPEN),1);
+        offerService.createOffer(new Offer(500, OfferStatus.OPEN),0);
+        offerService.createOffer(new Offer(500, OfferStatus.OPEN),1);
         Assertions.assertEquals(1, OfferService.offerSize());
     }
 }
