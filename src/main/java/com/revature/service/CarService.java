@@ -8,7 +8,16 @@ import java.util.List;
 
 public class CarService {
 
-    private static List<Car> cars = new ArrayList<>();
+    private static List<Car> cars;
+
+    public CarService(){
+        cars = new ArrayList<>();
+    }
+
+    public CarService(List<Car> cars){
+        this.cars = cars;
+
+    }
 
     // Only Employees can create cars, takes in a car object and a user ID
     // If the Role for the ID is an EMPLOYEE, then createCar is allowed.

@@ -86,6 +86,24 @@ public class UserServiceTest {
         Assertions.assertEquals(user.getFirstName(), result.getFirstName());
         Assertions.assertEquals(user.getLastName(), result.getLastName());
     }
+
+    @Test
+    public void whenUserCountIsCalledItReturnsTheCorrectNumberOfUsers(){
+        User user = new User("Test1", "Test1", "test1", "test1", User.Role.CUSTOMER);
+        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedList.get(0)).thenReturn(user);
+
+        User user2 = new User("Test2", "Test2", "test2", "test2", User.Role.EMPLOYEE);
+        Mockito.when(mockedList.size()).thenReturn(2);
+        Mockito.when(mockedList.get(1)).thenReturn(user2);
+
+        UserService userService = new UserService(mockedList);
+        int result = userService.userCount();
+        Assertions.assertEquals(2, result);
+    }
+    //               -------------------------
+    //               ---INTEGRATION TESTS-----
+    //-              -------------------------
     //Test that creates various different users to test different functionality
     //Testing different String combinations
     //Testing various IDs
