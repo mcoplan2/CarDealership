@@ -27,6 +27,16 @@ public class UserService {
         return users;
     }
 
+    public List<User> getAllUsersByRole(UserRoles role) {
+        List<User> filteredUsers = new ArrayList<>();
+        for(int i = 0; i < users.size(); i++) {
+            if(users.get(i).getRole().equals(role)) {
+                filteredUsers.add(users.get(i));
+            }
+        }
+        return filteredUsers;
+    }
+
     public List<User> getCustomers() {
         List<User> users = getUsers();
         List<User> customers = new ArrayList<>();

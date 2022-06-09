@@ -47,6 +47,12 @@ public class UserServiceTest {
     }
 
     @Test
+    public void whenGetAllUsersByRoleIsCalledDoesNotThrowAnException() {
+        UserService userService = new UserService();
+        Assertions.assertDoesNotThrow( () -> userService.getAllUsersByRole(UserRoles.CUSTOMER));
+    }
+
+    @Test
     public void whenGivenValidIdGetUserByIdReturnsCorrectUser() {
         User user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
         Mockito.when(mockedList.size()).thenReturn(1);
