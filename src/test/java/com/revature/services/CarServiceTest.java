@@ -16,7 +16,7 @@ public class CarServiceTest {
     List<Car> mockedList = Mockito.mock(List.class);
 
     @Test
-    public void whenGivenOfferObjectCreateNewOfferDoesNotThrowAnException() {
+    public void whenGivenCarObjectCreateNewCarDoesNotThrowAnException() {
         User user = new User("Test", "Test", "test", "test", UserRoles.CUSTOMER);
         List<User> mockedList2 = Mockito.mock(List.class);
         UserService userService = new UserService(mockedList2);
@@ -36,7 +36,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void whenGivenUserObjectCreateNewUserReturnsTrueAsEmployee(){
+    public void whenGivenCarObjectCreateNewCarReturnsTrueAsEmployee(){
         User user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
         List<User> mockedList2 = Mockito.mock(List.class);
         UserService userService = new UserService(mockedList2);
@@ -59,7 +59,7 @@ public class CarServiceTest {
     }
 
     @Test
-    public void whenGivenUserObjectCreateNewUserReturnsFalseAsCustomer(){
+    public void whenGivenCarObjectCreateNewCarReturnsFalseAsCustomer(){
         User user = new User("Test", "Test", "test", "test", UserRoles.CUSTOMER);
         List<User> mockedList2 = Mockito.mock(List.class);
         UserService userService = new UserService(mockedList2);

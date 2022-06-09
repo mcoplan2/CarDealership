@@ -27,6 +27,8 @@ public class CarService {
         List<User> users = UserService.getUsers();
         for(int i = 0; i < UserService.userCount(); i++) {
             if (users.get(i).getId() == id && users.get(i).getRole().equals(UserRoles.EMPLOYEE)) {
+                // grab the user ID and set it in the cars list.
+                cars.get(i).setUserId(id);
                 return cars.add(car);
             }
         }

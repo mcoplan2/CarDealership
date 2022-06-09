@@ -15,17 +15,21 @@ public class Driver {
         Javalin app = Javalin.create().start(8080);
 
         app.get("/", context -> context.result("Welcome to the Car Dealership API"));
+
         app.get("/users", userController.getAllUsers);
         app.get("/users/{id}", userController.getUserById);
         app.post("/users", userController.createNewUser);
+
         app.get("/customers", userController.getAllCustomers);
         app.get("/customers/{id}", userController.getCustomerById);
+        app.get("/customers/*/cars", carController.getAllCars);
+        app.post("/customers/{id}/cars", carController.createNewCar);
+
         app.get("/employees", userController.getAllEmployees);
         app.get("/employees/{id}", userController.getEmployeeById);
         app.get("/employees/*/cars", carController.getAllCars);
         app.post("/employees/{id}/cars", carController.createNewCar);
-        app.get("/customers/*/cars", carController.getAllCars);
-        app.post("/customers/{id}/cars", carController.createNewCar);
+
         app.get("/offers", offerController.getAllOffers);
         app.post("/offers", offerController.createNewOffer);
         //layout

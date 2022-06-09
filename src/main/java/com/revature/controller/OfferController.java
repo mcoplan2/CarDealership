@@ -1,8 +1,6 @@
 package com.revature.controller;
 
-import com.revature.model.Car;
 import com.revature.model.Offer;
-import com.revature.service.CarService;
 import com.revature.service.OfferService;
 import io.javalin.http.Handler;
 
