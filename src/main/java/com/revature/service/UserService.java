@@ -7,30 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
-    private static final List<User> users = new ArrayList<>();
+    private static List<User> users;
 
+    public UserService() {
+        users = new ArrayList<>();
+    }
 
+    public UserService(List<User> users) {
+        this.users = users;
+    }
     // maybe in future we check if user(0) to see role, then create the API layers for offers
 
     // maybe check if the user has been created
-    public void createUser(User user) {
-        // if (user.flag || users.size() == 0)
-        // boolean found = true;
-        //List<User> users = getUsers();
-        //if(userCount() == 0){
-        users.add(user);
-        //}
-        /*
-        for(int i=0; i<userCount(); i++){
-            if(user.id != users.get(i).id){
-                found = false;
-            }
-        }
-        if (!found) {
-            users.add(user);
-        }
-
-         */
+    public boolean createNewUser(User user) {
+        return users.add(user);
     }
 
     public static List<User> getUsers() {
@@ -60,6 +50,7 @@ public class UserService {
         return employees;
     }
 
+    /*
     public String getAllCustomersAsString() {
         List<User> customers = getUsers();
         StringBuilder builder = new StringBuilder();
@@ -100,7 +91,7 @@ public class UserService {
         return builder.toString();
 
     }
-
+*/
 
     public User getUserById(int id) {
         for (User user : users) {

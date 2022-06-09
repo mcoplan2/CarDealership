@@ -16,7 +16,7 @@ public class CarController {
     };
 
     public Handler getAllCars = ctx -> {
-        List<Car> cars = CarService.getCars();
+        List<Car> cars = carService.getCars();
         ctx.json(cars);
     };
 

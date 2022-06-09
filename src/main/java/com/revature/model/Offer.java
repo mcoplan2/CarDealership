@@ -1,6 +1,9 @@
 package com.revature.model;
 
-public class Offer {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Offer implements Serializable {
     public enum Status {
         ACCEPTED, REJECTED, OPEN;
     }
@@ -45,6 +48,19 @@ public class Offer {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Offer offer = (Offer) o;
+        return amount == offer.amount && id == offer.id && status == offer.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, id, status);
     }
 
     @Override

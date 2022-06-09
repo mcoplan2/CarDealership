@@ -1,6 +1,9 @@
 package com.revature.model;
 
-public class Car {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Car implements Serializable {
     public enum Status{
         AVAILABLE, TAKEN;
     }
@@ -55,6 +58,18 @@ public class Car {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return year == car.year && id == car.id && Objects.equals(make, car.make) && Objects.equals(model, car.model) && status == car.status;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(make, model, year, id, status);
     }
 
     @Override

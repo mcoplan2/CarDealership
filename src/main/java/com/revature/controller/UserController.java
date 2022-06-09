@@ -12,7 +12,7 @@ public class UserController {
     UserService userService = new UserService();
 
     public Handler getAllUsers = ctx -> {
-        List<User> users = UserService.getUsers();
+        List<User> users = userService.getUsers();
         ctx.json(users);
     };
 
@@ -65,6 +65,6 @@ public class UserController {
 
     public Handler createNewUser = ctx -> {
         User user = ctx.bodyAsClass(User.class);
-        userService.createUser(user);
+        userService.createNewUser(user);
     };
 }
