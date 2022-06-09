@@ -29,8 +29,11 @@ public class OfferService {
     public boolean createOffer(Offer offer, int carId) {
         List<Car> cars = CarService.getCars();
         for (int i = 0; i < CarService.carCount(); i++) {
-            if (cars.get(i).status.equals(CarStatus.AVAILABLE) && cars.get(i).getId() == carId)
-                return offers.add(offer);
+            if (cars.get(i).status.equals(CarStatus.AVAILABLE) && cars.get(i).getId() == carId) {
+                offers.add(offer);
+                offer.setCarId(carId);
+                return true;
+            }
         }
         return false;
     }
