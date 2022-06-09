@@ -4,23 +4,21 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class Car implements Serializable {
-    public enum Status{
-        AVAILABLE, TAKEN;
-    }
+
     private String make;
     private String model;
     private int year;
     private int id;
     public static int incrementId = 0;
-    public Status status;
+    public CarStatus status;
 
     public Car(){}
 
-    public Car(Status status){
+    public Car(CarStatus status){
         this.status = status;
     }
 
-    public Car(String make, String model, int year, Status status){
+    public Car(String make, String model, int year, CarStatus status){
         this.make = make;
         this.model = model;
         this.year = year;

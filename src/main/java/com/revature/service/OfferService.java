@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.model.Car;
+import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class OfferService {
     public void createOffer(Offer offer, int carId) {
         List<Car> cars = CarService.getCars();
         for (int i = 0; i < CarService.carCount(); i++) {
-            if (cars.get(i).status.equals(Car.Status.AVAILABLE) && cars.get(i).getId() == carId)
+            if (cars.get(i).status.equals(CarStatus.AVAILABLE) && cars.get(i).getId() == carId)
                 offers.add(offer);
         }
     }
