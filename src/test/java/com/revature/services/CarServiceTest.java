@@ -46,6 +46,6 @@ public class CarServiceTest {
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),1);
         carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),2);
-        Assertions.assertEquals("1", carService.getCarById(1).toString());
+        Assertions.assertEquals(1, carService.getCarById(1).getId());
     }
 }

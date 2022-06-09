@@ -10,19 +10,38 @@ import java.util.List;
 
 public class OfferService {
 
-    private static final List<Offer> offers = new ArrayList<>();
+    private static List<Offer> offers;
+
+    public OfferService(){
+        offers = new ArrayList<>();
+    }
+
+
+    public OfferService(List<Offer> offers) {
+        this.offers = offers;
+    }
 
     public List<Offer> getOffers() {
         return offers;
     }
 
     // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
-    public void createOffer(Offer offer, int carId) {
+    public boolean createOffer(Offer offer, int carId) {
         List<Car> cars = CarService.getCars();
         for (int i = 0; i < CarService.carCount(); i++) {
             if (cars.get(i).status.equals(CarStatus.AVAILABLE) && cars.get(i).getId() == carId)
-                offers.add(offer);
+                return offers.add(offer);
         }
+        return false;
+    }
+
+    public Offer getOfferById(int id){
+        for(int i =0; i<offers.size(); i++) {
+            if (offers.get(i).getId() == id) {
+                return offers.get(i);
+            }
+        }
+        return null;
     }
 
     public static int offerCount() {

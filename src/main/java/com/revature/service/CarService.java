@@ -35,6 +35,16 @@ public class CarService {
         return cars;
     }
 
+
+    public Car getCarById(int id){
+        for(int i =0; i<cars.size(); i++) {
+            if (cars.get(i).getId() == id) {
+                return cars.get(i);
+            }
+        }
+        return null;
+    }
+    /*
     public Car getCarById(int id){
         for(Car car: cars){
             if(car.getId() == id) {
@@ -44,7 +54,7 @@ public class CarService {
         return null;
     }
 
-
+*/
     public static int carCount(){
         return cars.size();
     }
