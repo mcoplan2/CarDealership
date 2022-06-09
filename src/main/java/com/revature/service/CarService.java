@@ -2,6 +2,7 @@ package com.revature.service;
 
 import com.revature.model.Car;
 import com.revature.model.User;
+import com.revature.model.UserRoles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class CarService {
     public void createCar(Car car, int id){
         List<User> users = UserService.getUsers();
         for(int i = 0; i < UserService.userCount(); i++) {
-            if (users.get(i).getId() == id && users.get(i).getRole().equals(User.Role.EMPLOYEE)) {
+            if (users.get(i).getId() == id && users.get(i).getRole().equals(UserRoles.EMPLOYEE)) {
                 cars.add(car);
             }
         }

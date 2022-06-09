@@ -1,6 +1,7 @@
 package com.revature.services;
 
 import com.revature.model.User;
+import com.revature.model.UserRoles;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenValidIdGetUserByIdReturnsCorrectUser() {
-        User user = new User("Test", "Test", "test", "test", User.Role.EMPLOYEE);
+        User user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
         Mockito.when(mockedList.size()).thenReturn(1);
         Mockito.when(mockedList.get(0)).thenReturn(user);
 
@@ -61,7 +62,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenValidIdGetCustomerByIdReturnsCorrectCustomer() {
-        User user = new User("Test", "Test", "test", "test", User.Role.CUSTOMER);
+        User user = new User("Test", "Test", "test", "test", UserRoles.CUSTOMER);
         Mockito.when(mockedList.size()).thenReturn(1);
         Mockito.when(mockedList.get(0)).thenReturn(user);
 
@@ -75,7 +76,7 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenValidIdGetEmployeeByIdReturnsCorrectEmployee() {
-        User user = new User("Test", "Test", "test", "test", User.Role.EMPLOYEE);
+        User user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
         Mockito.when(mockedList.size()).thenReturn(1);
         Mockito.when(mockedList.get(0)).thenReturn(user);
 
@@ -89,11 +90,11 @@ public class UserServiceTest {
 
     @Test
     public void whenUserCountIsCalledItReturnsTheCorrectNumberOfUsers(){
-        User user = new User("Test1", "Test1", "test1", "test1", User.Role.CUSTOMER);
+        User user = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
         Mockito.when(mockedList.size()).thenReturn(1);
         Mockito.when(mockedList.get(0)).thenReturn(user);
 
-        User user2 = new User("Test2", "Test2", "test2", "test2", User.Role.EMPLOYEE);
+        User user2 = new User("Test2", "Test2", "test2", "test2", UserRoles.EMPLOYEE);
         Mockito.when(mockedList.size()).thenReturn(2);
         Mockito.when(mockedList.get(1)).thenReturn(user2);
 
@@ -118,7 +119,7 @@ public class UserServiceTest {
         String[] lName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
-        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
+        UserRoles[] role = {UserRoles.CUSTOMER, UserRoles.EMPLOYEE, UserRoles.CUSTOMER, UserRoles.CUSTOMER, UserRoles.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
             userService.createNewUser(new User(fName[i],lName[i],uName[i],pass[i],role[i]));
@@ -134,12 +135,12 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
+        UserRoles[] role = {UserRoles.CUSTOMER, UserRoles.EMPLOYEE, UserRoles.CUSTOMER, UserRoles.CUSTOMER, UserRoles.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
             userService.createNewUser(new User(fName[i],lName[i],uName[i],pass[i],role[i]));
         }
-        Assertions.assertEquals("2",userService.getUsers());
+        Assertions.assertEquals("2",userService.getUsers().toString());
     }
     @Test
     public void userServiceCreateManyUsersTestCustomerString(){
@@ -150,7 +151,7 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
+        UserRoles[] role = {UserRoles.CUSTOMER, UserRoles.EMPLOYEE, UserRoles.CUSTOMER, UserRoles.CUSTOMER, UserRoles.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
             userService.createNewUser(new User(fName[i],lName[i],uName[i],pass[i],role[i]));
@@ -166,7 +167,7 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {0, 1, 2, 3, 4};
-        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
+        UserRoles[] role = {UserRoles.CUSTOMER, UserRoles.EMPLOYEE, UserRoles.CUSTOMER, UserRoles.CUSTOMER, UserRoles.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
             userService.createNewUser(new User(fName[i],lName[i],uName[i],pass[i],role[i]));
@@ -176,7 +177,7 @@ public class UserServiceTest {
     @Test
     public void userServiceCheckIfGetUserByIDWorks(){
         int numUsers = 5;
-        String s = "ID: 2" + "\n" + "Username: " +"Test4" + "\n"+ "Role: " + User.Role.CUSTOMER + "\n\n";
+        String s = "ID: 2" + "\n" + "Username: " +"Test4" + "\n"+ "Role: " + UserRoles.CUSTOMER + "\n\n";
         Object d = s;
         UserService userService = new UserService();
         String[] fName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
@@ -184,7 +185,7 @@ public class UserServiceTest {
         String[] uName = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         String[] pass = {"Test1", "Test2", "Test3", "Test4", "Test5"};
         int[] id  = {1, 2, 3, 4, 5};
-        User.Role[] role = {User.Role.CUSTOMER, User.Role.EMPLOYEE, User.Role.CUSTOMER, User.Role.CUSTOMER, User.Role.CUSTOMER};
+        UserRoles[] role = {UserRoles.CUSTOMER, UserRoles.EMPLOYEE, UserRoles.CUSTOMER, UserRoles.CUSTOMER, UserRoles.CUSTOMER};
 
         for(int i=0; i<numUsers; i++){
             userService.createNewUser(new User(fName[i],lName[i],uName[i],pass[i],role[i]));

@@ -5,9 +5,6 @@ import java.util.Objects;
 
 public class User implements Serializable {
 
-    public enum Role{
-        CUSTOMER, EMPLOYEE;
-    }
     private String firstName;
     private String lastName;
     private String userName;
@@ -15,17 +12,17 @@ public class User implements Serializable {
     private int id;
     private static int incrementId = 0;
     //0 for customer, 1 for employee
-    private Role role;
+    private UserRoles role;
 
     public User(){
         this.id = incrementId++;
     }
     //this constructor is used to check if the user is a Customer or Employee.
-   public User(Role role){
+   public User(UserRoles role){
         this.role=role;
     }
 
-    public User(String firstName, String lastName, String userName, String password, Role role){
+    public User(String firstName, String lastName, String userName, String password, UserRoles role){
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -66,11 +63,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Role getRole() {
+    public UserRoles getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(UserRoles role) {
         this.role = role;
     }
 

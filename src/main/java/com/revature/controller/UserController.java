@@ -25,12 +25,6 @@ public class UserController {
         List<User> employees = userService.getEmployees();
         ctx.json(employees);
     };
-    /*
-    public Handler getAllCustomers = ctx -> ctx.json(userService.getAllCustomersAsString());
-*/
-    /*
-    public Handler getAllEmployees = ctx -> ctx.json(userService.getAllEmployeesAsString());
-*/
 
     public Handler getUserById = ctx -> {
         String param = ctx.pathParam("id");
@@ -61,7 +55,6 @@ public class UserController {
             ctx.result("BROKEN");
         }
     };
-
 
     public Handler createNewUser = ctx -> {
         User user = ctx.bodyAsClass(User.class);
