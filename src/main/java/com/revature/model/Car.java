@@ -10,10 +10,12 @@ public class Car implements Serializable {
     private int year;
     private int id;
     private int userId;
-    public static int incrementId = 0;
+    private static int incrementId = 0;
     public CarStatus status;
 
-    public Car(){}
+    public Car(){
+        this.id = incrementId++;
+    }
 
     public Car(CarStatus status){
         this.status = status;

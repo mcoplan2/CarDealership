@@ -20,4 +20,14 @@ public class CarController {
         ctx.json(cars);
     };
 
+    public Handler getCarById = ctx -> {
+        String param = ctx.pathParam("id");
+        int id = Integer.parseInt(param);
+        try {
+            ctx.json(carService.getCarById(id));
+        } catch (NullPointerException e){
+            ctx.result("BROKEN");
+        }
+    };
+
 }
