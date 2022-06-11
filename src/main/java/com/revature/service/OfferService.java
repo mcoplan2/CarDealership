@@ -1,36 +1,35 @@
 package com.revature.service;
 
-import com.revature.model.Car;
-import com.revature.model.CarStatus;
-import com.revature.model.Offer;
-import com.revature.model.User;
+import com.revature.model.*;
+import com.revature.repository.OfferRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OfferService {
 
-    private static List<Offer> offers;
+    private OfferRepository offerRepository;
 
-    public OfferService(){
-        offers = new ArrayList<>();
+    public OfferService() {
+        offerRepository = new OfferRepository();
     }
 
-
-    public OfferService(List<Offer> offers) {
-        this.offers = offers;
+    public OfferService(OfferRepository offerRepository) {
+        this.offerRepository = offerRepository;
     }
+
 
     public List<Offer> getOffers() {
-        return offers;
+        return offerRepository.getAll();
     }
 
     // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
-    public boolean createOffer(Offer offer, int carId) {
-        List<Car> cars = CarService.getCars();
-        for (int i = 0; i < CarService.carCount(); i++) {
-            if (cars.get(i).status.equals(CarStatus.AVAILABLE) && cars.get(i).getId() == carId) {
-                offers.add(offer);
+        public boolean createOffer(Offer offer, int carId) {
+        CarService carService = new CarService();
+        for (int i = 0; i < carService.carCount(); i++) {
+            if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)
+                    && carService.getCarById(carId).getId() == carId) {
+                offerRepository.create(offer);
                 offer.setCarId(carId);
                 return true;
             }
@@ -38,38 +37,25 @@ public class OfferService {
         return false;
     }
 
-    public Offer getOfferById(int id){
-        for(int i =0; i<offers.size(); i++) {
-            if (offers.get(i).getId() == id) {
-                return offers.get(i);
-            }
-        }
-        return null;
+    public List<Offer> getAllOffersByStatus(OfferStatus status) {
+        return offerRepository.getAllByStatus(status);
     }
 
-    public static int offerCount() {
-        return offers.size();
+    public Offer getOfferById(int id){
+        return offerRepository.getById(id);
+    }
+
+    public int offerCount() {
+        return offerRepository.count();
     }
 
     public boolean deleteOfferById(int id){
-        for(int i = 0; i < offers.size(); i++){
-            if(offers.get(i).getId() == id){
-                offers.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return offerRepository.deleteById(id);
     }
 
     // Updates the offer at the current ID
     // Pass in the ID you want to modify wih the new Offer Object.
-    public boolean updateOfferById(int id, Offer offer){
-        for (int i = 0; i < offers.size(); i++) {
-            if(offers.get(i).getId() == id) {
-                offers.set(id, offer);
-                return true;
-            }
-        }
-        return false;
+    public Offer updateOfferById(Offer offer){
+        return offerRepository.update(offer);
     }
 }

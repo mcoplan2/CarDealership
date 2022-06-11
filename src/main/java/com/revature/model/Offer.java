@@ -9,6 +9,7 @@ public class Offer implements Serializable {
     private int id;
 
     private int carId;
+    private int userId;
     public static int incrementId = 0;
     private OfferStatus status;
 
@@ -18,9 +19,10 @@ public class Offer implements Serializable {
         this.id = id;
     }
 
-    public Offer(int amount, OfferStatus status){
+    public Offer(int amount, int userId, OfferStatus status){
         this.id = incrementId++;
         this.amount = amount;
+        this.userId = userId;
         this.status = status;
 
     }
@@ -57,25 +59,29 @@ public class Offer implements Serializable {
         this.carId = carId;
     }
 
+    public int getUserId() {return userId;}
+
+    public void setUserId(int userId) {this.userId = userId;}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Offer offer = (Offer) o;
-        return amount == offer.amount && id == offer.id && carId == offer.carId && status == offer.status;
+        return amount == offer.amount && id == offer.id && carId == offer.carId && userId == offer.userId && status == offer.status;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(amount, id, carId, status);
+        return Objects.hash(amount, id, carId, userId, status);
     }
-
     @Override
     public String toString() {
         return "Offer{" +
                 "amount=" + amount +
                 ", id=" + id +
                 ", carId=" + carId +
+                ", userId=" + userId +
                 ", status=" + status +
                 '}';
     }

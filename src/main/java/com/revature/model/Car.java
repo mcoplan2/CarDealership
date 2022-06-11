@@ -68,6 +68,14 @@ public class Car implements Serializable {
         this.userId = userId;
     }
 
+    public CarStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CarStatus status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

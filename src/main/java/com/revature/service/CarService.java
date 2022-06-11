@@ -1,87 +1,67 @@
 package com.revature.service;
 
-import com.revature.model.Car;
-import com.revature.model.Offer;
-import com.revature.model.User;
-import com.revature.model.UserRoles;
+import com.revature.model.*;
+import com.revature.repository.CarRepository;
+import com.revature.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarService {
 
-    private static List<Car> cars;
+    private CarRepository carRepository;
 
-    public CarService(){
-        cars = new ArrayList<>();
+    public CarService() {
+        carRepository = new CarRepository();
     }
 
-    public CarService(List<Car> cars){
-        this.cars = cars;
-
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
     }
 
     // Only Employees can create cars, takes in a car object and a user ID
     // If the Role for the ID is an EMPLOYEE, then createCar is allowed.
-    public boolean createCar(Car car, int id){
-        List<User> users = UserService.getUsers();
-        for(int i = 0; i < UserService.userCount(); i++) {
-            if (users.get(i).getId() == id && users.get(i).getRole().equals(UserRoles.EMPLOYEE)) {
+
+    public Car createNewCar(Car car, int id) {
+        UserService userService = new UserService();
+        for (int i = 0; i < userService.userCount() ; i++) {
+            if (userService.getUserById(id).getRole().equals(UserRoles.EMPLOYEE)
+                    && userService.getUserById(id).getId() == id) {
                 // grab the user ID and set it in the cars list.
-                return cars.add(car);
-                //car.setUserId(id);
+                car.setUserId(id);
+                return carRepository.create(car);
                 //return true;
             }
         }
-        return false;
-    }
-    public static List<Car> getCars() {
-        return cars;
-    }
-
-
-    public Car getCarById(int id){
-        for(int i =0; i<cars.size(); i++) {
-            if (cars.get(i).getId() == id) {
-                return cars.get(i);
-            }
-        }
-        return null;
-    }
-    /*
-    public Car getCarById(int id){
-        for(Car car: cars){
-            if(car.getId() == id) {
-                return car;
-            }
-        }
         return null;
     }
 
-*/
-    public static int carCount(){
-        return cars.size();
+
+    public Car createNewCar(Car car) {
+        return carRepository.create(car);
+    }
+    public List<Car> getCars() {
+        return carRepository.getAll();
+    }
+
+    public List<Car> getAllCarsByStatus(CarStatus status) {
+        return carRepository.getAllByStatus(status);
+    }
+    public Car getCarById(int id){
+        return carRepository.getById(id);
+    }
+
+    public int carCount(){
+        return carRepository.count();
     }
 
     public boolean deleteCarById(int id){
-        for(int i = 0; i < cars.size(); i++){
-            if(cars.get(i).getId() == id){
-                cars.remove(i);
-                return true;
-            }
-        }
-        return false;
+        return carRepository.deleteById(id);
     }
 
     // Updates the car at the current ID
     // Pass in the ID you want to modify wih the new Car Object.
-    public boolean updateCarById(int id, Car car){
-        for (int i = 0; i < cars.size(); i++) {
-            if(cars.get(i).getId() == id) {
-                cars.set(id, car);
-                return true;
-            }
-        }
-        return false;
+    public Car updateCarById(Car car) {
+        return carRepository.update(car);
     }
 }

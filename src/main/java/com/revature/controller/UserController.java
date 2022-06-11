@@ -21,7 +21,7 @@ public class UserController {
         String roleParam = ctx.queryParam("role");
 
         if(roleParam == null){
-            users = UserService.getUsers();
+            users = userService.getUsers();
         }
 
         else {
@@ -42,12 +42,12 @@ public class UserController {
     };
 
     public Handler getAllCustomers = ctx -> {
-        List<User> customers = userService.getCustomers();
+        List<User> customers = userService.getAllUsersByRole(UserRoles.CUSTOMER);
         ctx.json(customers);
     };
 
     public Handler getAllEmployees = ctx -> {
-        List<User> employees = userService.getEmployees();
+        List<User> employees = userService.getAllUsersByRole(UserRoles.EMPLOYEE);
         ctx.json(employees);
     };
 
@@ -65,7 +65,7 @@ public class UserController {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
         try {
-            ctx.json(userService.getEmployeeById(id));
+            ctx.json(userService.getUserIdAndCheckRole(id, UserRoles.EMPLOYEE));
         } catch (NullPointerException e){
             ctx.result("BROKEN");
         }
@@ -75,7 +75,7 @@ public class UserController {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
         try {
-            ctx.json(userService.getCustomerById(id));
+            ctx.json(userService.getUserIdAndCheckRole(id, UserRoles.CUSTOMER));
         } catch (NullPointerException e){
             ctx.result("BROKEN");
         }
@@ -85,4 +85,13 @@ public class UserController {
         User user = ctx.bodyAsClass(User.class);
         userService.createNewUser(user);
     };
+
+    public Handler updateUserById = ctx -> {
+        String param = ctx.pathParam("id");
+        int id = Integer.parseInt(param);
+        User user = ctx.bodyAsClass(User.class);
+
+        userService.updateUserById(user);
+    };
+
 }

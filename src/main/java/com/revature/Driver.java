@@ -20,26 +20,25 @@ public class Driver {
         app.post("/users", userController.createNewUser);
 
         app.get("/users/{id}", userController.getUserById);
+        app.put("/users/{id}", userController.updateUserById);
 
         app.get("/users/{id}/cars", carController.getAllCars);
         app.post("/users/{id}/cars", carController.createNewCar);
 
-        app.get("/users/{id}/cars/{id}", carController.getCarById);
+        app.get("/cars", carController.getAllCars);
+        app.get("/cars/{id}", carController.getCarById);
 
-        app.get("/users/{id}/cars/{id}/offers", offerController.getAllOffers);
-        app.post("/users/{id}/cars/{id}/offers", offerController.createNewOffer);
+        app.get("/cars/{id}/offers", offerController.getAllOffers);
+        app.post("/cars/{id}/offers", offerController.createNewOffer);
 
-        app.get("/users/{id}/cars/{id}/offers/{id}", offerController.getOfferById);
+        app.get("/offers", offerController.getAllOffers);
+        app.get("/offers/{id}", offerController.getOfferById);
 
         app.get("/customers", userController.getAllCustomers);
         app.get("/customers/{id}", userController.getCustomerById);
 
         app.get("/employees", userController.getAllEmployees);
         app.get("/employees/{id}", userController.getEmployeeById);
-
-
-        app.get("/offers", offerController.getAllOffers);
-        app.post("/offers", offerController.createNewOffer);
         //layout
         /*
         /users/{id}/customers/{id}

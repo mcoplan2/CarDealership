@@ -10,9 +10,11 @@ public class CarController {
     CarService carService = new CarService();
 
     public Handler createNewCar = ctx -> {
+        String param = ctx.pathParam("id");
+        int id = Integer.parseInt(param);
+        
         Car car = ctx.bodyAsClass(Car.class);
-        // grabs the user id from the path and converts it to type int.
-        carService.createCar(car, Integer.parseInt(ctx.pathParam("id")));
+        carService.createNewCar(car, id);
     };
 
     public Handler getAllCars = ctx -> {
