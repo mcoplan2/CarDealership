@@ -192,7 +192,7 @@ public class UserServiceTest {
     @Test
     public void userServiceCheckIfGetUserByIDWorks(){
         int numUsers = 5;
-        String s = "ID: 2" + "\n" + "Username: " +"Test4" + "\n"+ "Role: " + UserRoles.CUSTOMER + "\n\n";
+        String s = "ID: 2" + "\n" + "Username: " +"Test2" + "\n"+ "Role: " + UserRoles.EMPLOYEE + "\n\n";
         Object d = s;
         UserService userService = new UserService();
         String[] fName = {"Test1", "Test2", "Test3", "Test4", "Test5"};

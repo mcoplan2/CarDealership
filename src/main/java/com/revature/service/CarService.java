@@ -37,9 +37,11 @@ public class CarService {
     }
 
 
-    public Car createNewCar(Car car) {
+    /*public Car createNewCar(Car car) {
         return carRepository.create(car);
     }
+
+     */
     public List<Car> getCars() {
         return carRepository.getAll();
     }
@@ -63,5 +65,9 @@ public class CarService {
     // Pass in the ID you want to modify wih the new Car Object.
     public Car updateCarById(Car car) {
         return carRepository.update(car);
+    }
+
+    public Car getCarIdAndCheckStatus(int id, CarStatus status) {
+        return carRepository.getCarIdByRole(id,status);
     }
 }

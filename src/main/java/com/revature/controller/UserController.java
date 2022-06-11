@@ -15,6 +15,11 @@ public class UserController {
 
     UserService userService = new UserService();
 
+    public Handler createNewUser = ctx -> {
+        User user = ctx.bodyAsClass(User.class);
+        userService.createNewUser(user);
+    };
+
     public Handler getAllUsers = ctx -> {
         List<User> users;
 
@@ -81,17 +86,16 @@ public class UserController {
         }
     };
 
-    public Handler createNewUser = ctx -> {
-        User user = ctx.bodyAsClass(User.class);
-        userService.createNewUser(user);
-    };
-
     public Handler updateUserById = ctx -> {
-        String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
         User user = ctx.bodyAsClass(User.class);
 
         userService.updateUserById(user);
     };
 
+    public Handler deleteUserById = ctx -> {
+        String param = ctx.pathParam("id");
+        int id = Integer.parseInt(param);
+
+        userService.deleteUserById(id);
+    };
 }

@@ -16,23 +16,29 @@ public class Driver {
 
         app.get("/", context -> context.result("Welcome to the Car Dealership API"));
 
+        // READ All users & CREATE a user
         app.get("/users", userController.getAllUsers);
         app.post("/users", userController.createNewUser);
 
+        // READ user @ ID, UPDATE user @ ID, DELETE user @ ID
         app.get("/users/{id}", userController.getUserById);
         app.put("/users/{id}", userController.updateUserById);
-
-        app.get("/users/{id}/cars", carController.getAllCars);
-        app.post("/users/{id}/cars", carController.createNewCar);
+        app.delete("/users/{id}", userController.deleteUserById);
 
         app.get("/cars", carController.getAllCars);
-        app.get("/cars/{id}", carController.getCarById);
+        app.post("/users/{id}/cars", carController.createNewCar);
 
-        app.get("/cars/{id}/offers", offerController.getAllOffers);
+        app.get("/cars/{id}", carController.getCarById);
+        app.put("/cars/{id}", carController.updateCarById);
+        app.delete("/cars/{id}", carController.deleteCarById);
+
+        //app.get("/cars/{id}/offers", offerController.getAllOffers);
+        app.get("/offers", offerController.getAllOffers);
         app.post("/cars/{id}/offers", offerController.createNewOffer);
 
-        app.get("/offers", offerController.getAllOffers);
         app.get("/offers/{id}", offerController.getOfferById);
+        app.put("/offers/{id}", offerController.updateOfferById);
+        app.delete("/offers/{id}", offerController.deleteUserById);
 
         app.get("/customers", userController.getAllCustomers);
         app.get("/customers/{id}", userController.getCustomerById);

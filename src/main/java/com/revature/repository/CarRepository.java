@@ -75,6 +75,15 @@ public class CarRepository  implements CrudDAO<Car> {
         return cars.size();
     }
 
+    public Car getCarIdByRole(int id, CarStatus status) {
+        for(int i = 0; i < cars.size(); i++) {
+            if(cars.get(i).getId() == id && cars.get(i).getStatus().equals(status)){
+                return cars.get(i);
+            }
+        }
+        return null;
+    }
+
     // Method to get all users by a specific Role
     public List<Car> getAllByStatus(CarStatus status) {
         List<Car> filteredCars = new ArrayList<>();

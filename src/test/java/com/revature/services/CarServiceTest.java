@@ -1,10 +1,7 @@
 package com.revature.services;
 
 import com.revature.model.*;
-import com.revature.repository.CarRepository;
-import com.revature.repository.UserRepository;
 import com.revature.service.CarService;
-import com.revature.service.OfferService;
 import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,7 @@ import java.util.List;
 
 
 public class CarServiceTest {
-    /*
+
 
     List<Car> mockedList = Mockito.mock(List.class);
 
@@ -25,8 +22,8 @@ public class CarServiceTest {
         userService.createNewUser(new User("Test1","Test","test","test", UserRoles.EMPLOYEE));
         userService.createNewUser(new User("Test2","Test","test","test", UserRoles.CUSTOMER));
         userService.createNewUser(new User("Test3","Test","test","test", UserRoles.EMPLOYEE));
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
         Assertions.assertEquals(2, carService.carCount());
     }
 
@@ -37,9 +34,9 @@ public class CarServiceTest {
         userService.createNewUser(new User("Test","Test","test","test",UserRoles.CUSTOMER));
         userService.createNewUser(new User("Test2","Test","test","test",UserRoles.CUSTOMER));
         userService.createNewUser(new User("Test3","Test","test","test",UserRoles.CUSTOMER));
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),1);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),2);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),1);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),2);
         Assertions.assertEquals(0, carService.carCount());
     }
     @Test
@@ -49,11 +46,9 @@ public class CarServiceTest {
         userService.createNewUser(new User("Test","Test","test","test",UserRoles.CUSTOMER));
         userService.createNewUser(new User("Test2","Test","test","test",UserRoles.EMPLOYEE));
         userService.createNewUser(new User("Test3","Test","test","test",UserRoles.CUSTOMER));
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),1);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),2);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),1);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),2);
         Assertions.assertEquals(1, carService.getCarById(1).getId());
     }
-
-     */
 }
