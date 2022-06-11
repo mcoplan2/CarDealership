@@ -12,7 +12,7 @@ offer is accepted than formulating a payment plan that works for you.
 >* **POST /users**  &emsp;&emsp;&emsp;&emsp;&nbsp;Create a new user
 >* **GET /users/{id}**  &emsp;&emsp;&emsp;View a user by their ID
 >* **PUT /users/{id}**  &emsp;&emsp;&emsp;Modify a user at their ID
->* **DELETE /users/{id}**  &emsp;Delete a user at their ID
+>* **DELETE /users/{id}**  &emsp;&ensp;Delete a user at their ID
 
 
 ```
@@ -31,7 +31,7 @@ offer is accepted than formulating a payment plan that works for you.
 >* **POST /users/{id}/cars** &emsp;&ensp;Create a new car
 >* **GET /cars/{id}** &emsp;&emsp;&emsp;&emsp;&emsp;View a car via ID
 >* **PUT /cars/{id}**&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Modify a car via ID
->* **DELETE /cars/{id}**&emsp;&emsp;&emsp;&ensp;Modify a car via ID
+>* **DELETE /cars/{id}**&emsp;&emsp;&emsp;&ensp;&nbsp;Modify a car via ID
 
 ```
 {
@@ -48,7 +48,7 @@ offer is accepted than formulating a payment plan that works for you.
 >* **POST /cars/{id}/offers** &emsp;&ensp;&nbsp;&nbsp;Create a new offer on a specific car
 >* **GET /offers/{id}** &emsp;&emsp;&emsp;&emsp;&emsp;&nbsp;View an offer via ID
 >* **PUT /offers/{id}**&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Modify an offer via ID
->* **DELETE /offers/{id}**&emsp;&emsp;&emsp;&ensp;Modify an offer via ID
+>* **DELETE /offers/{id}**&emsp;&emsp;&emsp;&ensp;&nbsp;&nbsp;Modify an offer via ID
 
 ```
 {

@@ -73,4 +73,14 @@ public class CarController {
         carService.deleteCarById(id);
     };
 
+    public Handler getAllCarsFromASpecificUserId = ctx -> {
+        List<Car> cars;
+
+        String param = ctx.queryParam("id");
+        int id = Integer.parseInt(param);
+
+        cars = carService.getAllCarsOwnedFromASpecificUserId(id);
+        ctx.json(cars);
+        };
+
 }

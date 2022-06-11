@@ -95,4 +95,15 @@ public class CarRepository  implements CrudDAO<Car> {
         }
         return filteredCars;
     }
+
+    public List<Car> getAllCarsOwnedFromASpecificUserId(int id) {
+        List<Car> filteredCars = new ArrayList<>();
+
+        for(int i = 0; i<cars.size(); i++) {
+            if (cars.get(i).getUserId() == id && cars.get(i).getStatus().equals(CarStatus.OWNED) ) {
+                filteredCars.add(cars.get(i));
+            }
+        }
+        return filteredCars;
+    }
 }

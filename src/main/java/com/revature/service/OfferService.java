@@ -30,6 +30,8 @@ public class OfferService {
             if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)
                     && carService.getCarById(carId).getId() == carId) {
                 offerRepository.create(offer);
+                // TODO: Automatically change offer status to OPEN on creation?
+                offer.setStatus(OfferStatus.OPEN);
                 offer.setCarId(carId);
                 return true;
             }

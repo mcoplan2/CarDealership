@@ -70,4 +70,8 @@ public class CarService {
     public Car getCarIdAndCheckStatus(int id, CarStatus status) {
         return carRepository.getCarIdByRole(id,status);
     }
+
+    public List<Car> getAllCarsOwnedFromASpecificUserId(int id) {
+        return carRepository.getAllCarsOwnedFromASpecificUserId(id);
+    }
 }
