@@ -1,8 +1,8 @@
 # Car Dealership Web API
 ___
 ###### `Overview`
-This API allows you to emulate the process of visiting a Car Dealership, viewing cars, making offers on cars, and if your 
-offer is accepted than formulating a payment plan that works for you.
+This API allows you to emulate the process of visiting a Car Dealership, viewing cars, and making offers on cars. If your 
+offer is accepted it formulates a payment plan that works for you.
 ---
 ###### `Tutorial`
 
