@@ -28,10 +28,11 @@ offer is accepted than formulating a payment plan that works for you.
 
 > ### /cars portion
 >* **GET /cars** &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;View all the cars
+>* **GET /users/{id}/cars** &emsp;&ensp;&nbsp;&nbsp;&nbsp;View cars owned by a specific user
 >* **POST /users/{id}/cars** &emsp;&ensp;Create a new car
->* **GET /cars/{id}** &emsp;&emsp;&emsp;&emsp;&emsp;View a car via ID
->* **PUT /cars/{id}**&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Modify a car via ID
->* **DELETE /cars/{id}**&emsp;&emsp;&emsp;&ensp;&nbsp;Modify a car via ID
+>* **GET /cars/{id}** &emsp;&emsp;&emsp;&emsp;&emsp;View a car via Car ID
+>* **PUT /cars/{id}**&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;Modify a car via Car ID
+>* **DELETE /cars/{id}**&emsp;&emsp;&emsp;&ensp;&nbsp;Modify a car via Car ID
 
 ```
 {
