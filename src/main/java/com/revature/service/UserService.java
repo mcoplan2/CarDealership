@@ -11,15 +11,22 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+    private static UserService instance;
 
     public UserService() {
         userRepository = new UserRepository();
+        instance = this;
     }
 
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
+        instance = this;
     }
     // maybe check if the user has been created
+
+    public static UserService getInstance() {
+        return instance;
+    }
     public User createNewUser(User user) {
         return userRepository.create(user);
     }

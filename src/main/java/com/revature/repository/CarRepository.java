@@ -100,7 +100,7 @@ public class CarRepository  implements CrudDAO<Car> {
         List<Car> filteredCars = new ArrayList<>();
 
         for(int i = 0; i<cars.size(); i++) {
-            if (cars.get(i).getUserId() == id && cars.get(i).getStatus().equals(CarStatus.OWNED) ) {
+            if (cars.get(i).getUserId() == id && cars.get(i).getStatus().equals(CarStatus.PURCHASED) ) {
                 filteredCars.add(cars.get(i));
             }
         }

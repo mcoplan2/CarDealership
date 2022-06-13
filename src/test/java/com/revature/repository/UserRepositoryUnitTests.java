@@ -2,11 +2,8 @@ package com.revature.repository;
 
 import com.revature.model.User;
 import com.revature.model.UserRoles;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.List;

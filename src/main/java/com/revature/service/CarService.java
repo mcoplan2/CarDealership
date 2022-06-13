@@ -10,22 +10,34 @@ import java.util.List;
 public class CarService {
 
     private CarRepository carRepository;
+    private UserService userService;
 
     public CarService() {
         carRepository = new CarRepository();
+        this.userService = UserService.getInstance();
     }
 
+    // Add user service to the carservice constructor.
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
+        this.userService = UserService.getInstance();
     }
 
     // Only Employees can create cars, takes in a car object and a user ID
     // If the Role for the ID is an EMPLOYEE, then createCar is allowed.
 
     public Car createNewCar(Car car, int id) {
-        UserService userService = new UserService();
-        for (int i = 0; i < userService.userCount() ; i++) {
-            if (userService.getUserById(id).getRole().equals(UserRoles.EMPLOYEE)
+         User user = userService.getUserById(id);
+        if(user.getRole().equals(UserRoles.EMPLOYEE)){
+            //car.setUserId(id);
+            return carRepository.create(car);
+        }
+        else
+            return null;
+
+            /*
+        for (int i = 0; i < users.size() ; i++) {
+            if (users.get(i).getUserById(id).getRole().equals(UserRoles.EMPLOYEE)
                     && userService.getUserById(id).getId() == id) {
                 // grab the user ID and set it in the cars list.
                 car.setUserId(id);
@@ -34,6 +46,8 @@ public class CarService {
             }
         }
         return null;
+
+             */
     }
 
 
@@ -67,7 +81,7 @@ public class CarService {
         return carRepository.update(car);
     }
 
-    public Car getCarIdAndCheckStatus(int id, CarStatus status) {
+    public Car getCarFromIdAndCheckStatus(int id, CarStatus status) {
         return carRepository.getCarIdByRole(id,status);
     }
 

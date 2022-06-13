@@ -1,5 +1,7 @@
 package com.revature.repository;
 
+import com.revature.model.Car;
+import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
 
@@ -73,6 +75,17 @@ public class OfferRepository implements CrudDAO<Offer> {
 
         for(int i = 0; i<offers.size(); i++) {
             if (offers.get(i).getStatus().equals(status)) {
+                filteredOffers.add(offers.get(i));
+            }
+        }
+        return filteredOffers;
+    }
+
+    public List<Offer> getAllOffersFromASpecificUserId(int id) {
+        List<Offer> filteredOffers = new ArrayList<>();
+
+        for(int i = 0; i<offers.size(); i++) {
+            if (offers.get(i).getUserId() == id && offers.get(i).getStatus().equals(OfferStatus.OPEN)) {
                 filteredOffers.add(offers.get(i));
             }
         }

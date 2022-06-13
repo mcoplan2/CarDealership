@@ -23,7 +23,7 @@ public class CarServiceTest {
         userService.createNewUser(new User("Test2","Test","test","test", UserRoles.CUSTOMER));
         userService.createNewUser(new User("Test3","Test","test","test", UserRoles.EMPLOYEE));
         carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
-        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
+        carService.createNewCar(new Car("honda", "ford", 2832, CarStatus.PURCHASED),2);
         Assertions.assertEquals(2, carService.carCount());
     }
 

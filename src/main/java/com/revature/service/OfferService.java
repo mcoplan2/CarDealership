@@ -24,13 +24,23 @@ public class OfferService {
     }
 
     // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
-        public boolean createOffer(Offer offer, int carId) {
+    public Offer createOffer(Offer offer, int carId) {
         CarService carService = new CarService();
+        Car pendingCar = carService.getCarById(carId);
+        if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)) {
+            // TODO: Automatically change offer status to OPEN on creation?
+            offer.setCarId(carId);
+            pendingCar.setStatus(CarStatus.PENDING);
+            return offerRepository.create(offer);
+        } else
+            return null;
+    }
+
+        /*
         for (int i = 0; i < carService.carCount(); i++) {
             if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)
                     && carService.getCarById(carId).getId() == carId) {
                 offerRepository.create(offer);
-                // TODO: Automatically change offer status to OPEN on creation?
                 offer.setStatus(OfferStatus.OPEN);
                 offer.setCarId(carId);
                 return true;
@@ -38,6 +48,8 @@ public class OfferService {
         }
         return false;
     }
+
+         */
 
     public List<Offer> getAllOffersByStatus(OfferStatus status) {
         return offerRepository.getAllByStatus(status);
@@ -60,4 +72,25 @@ public class OfferService {
     public Offer updateOfferById(Offer offer){
         return offerRepository.update(offer);
     }
+
+    public List<Offer> getAllOffersFromASpecificUserId(int id) {
+        return offerRepository.getAllOffersFromASpecificUserId(id);
+    }
+
+    //TODO: Remove Enums from json and handle in service class, only leave Customer and Employee
+    // Maybe add Offers/ID/Approve to Javalin path and run this command through
+    // (Grab USER ID from body and check if it is an employee?)
+    public boolean approveOfferById(int id){
+        CarService carService = new CarService();
+        Offer pendingOffer = offerRepository.getById(id);
+        int carId = pendingOffer.getCarId();
+        Car pendingCar = carService.getCarById(carId);
+        if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
+            pendingOffer.setStatus(OfferStatus.ACCEPTED);
+            pendingCar.setStatus(CarStatus.PURCHASED);
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -24,6 +24,7 @@ public class Driver {
         app.get("/users/{id}", userController.getUserById);
         app.put("/users/{id}", userController.updateUserById);
         app.delete("/users/{id}", userController.deleteUserById);
+        app.get("/users/{id}/offers", offerController.getAllOffersFromASpecificUserId);
 
         app.get("/cars", carController.getAllCars);
         app.post("/users/{id}/cars", carController.createNewCar);

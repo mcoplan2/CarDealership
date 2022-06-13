@@ -1,9 +1,6 @@
 package com.revature.controller;
 
-import com.revature.model.Offer;
-import com.revature.model.OfferStatus;
-import com.revature.model.User;
-import com.revature.model.UserRoles;
+import com.revature.model.*;
 import com.revature.service.OfferService;
 import io.javalin.http.Handler;
 
@@ -70,5 +67,15 @@ public class OfferController {
         int id = Integer.parseInt(param);
 
         offerService.deleteOfferById(id);
+    };
+
+    public Handler getAllOffersFromASpecificUserId = ctx -> {
+        List<Offer> offers;
+
+        String param = ctx.queryParam("id");
+        int id = Integer.parseInt(param);
+
+        offers = offerService.getAllOffersFromASpecificUserId(id);
+        ctx.json(offers);
     };
 }
