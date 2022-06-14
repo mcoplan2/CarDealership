@@ -34,13 +34,13 @@ public class Driver {
         app.put("/cars/{id}", carController.updateCarById);
         app.delete("/cars/{id}", carController.deleteCarById);
 
-        //app.get("/cars/{id}/offers", offerController.getAllOffers);
         app.get("/offers", offerController.getAllOffers);
         app.post("/cars/{id}/offers", offerController.createNewOffer);
 
         app.get("/offers/{id}", offerController.getOfferById);
         app.put("/offers/{id}", offerController.updateOfferById);
         app.delete("/offers/{id}", offerController.deleteUserById);
+        app.post("/offers/{id}/review", offerController.approveOrDenyOffer);
 
         app.get("/customers", userController.getAllCustomers);
         app.get("/customers/{id}", userController.getCustomerById);

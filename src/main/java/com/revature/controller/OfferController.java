@@ -78,4 +78,18 @@ public class OfferController {
         offers = offerService.getAllOffersFromASpecificUserId(id);
         ctx.json(offers);
     };
+
+    public Handler approveOrDenyOffer = ctx -> {
+        String param = ctx.queryParam("id");
+        int id = Integer.parseInt(param);
+
+        String body = ctx.body();
+        boolean result = Boolean.parseBoolean(body);
+
+        if(result) {
+            offerService.approveOfferById(id);
+        } else {
+            offerService.denyOfferById(id);
+        }
+    };
 }

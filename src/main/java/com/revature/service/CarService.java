@@ -12,15 +12,23 @@ public class CarService {
     private CarRepository carRepository;
     private UserService userService;
 
+    private static CarService instance;
+
     public CarService() {
         carRepository = new CarRepository();
+        instance = this;
         this.userService = UserService.getInstance();
     }
 
     // Add user service to the carservice constructor.
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
+        instance = this;
         this.userService = UserService.getInstance();
+    }
+
+    public static CarService getInstance() {
+        return instance;
     }
 
     // Only Employees can create cars, takes in a car object and a user ID
@@ -29,7 +37,6 @@ public class CarService {
     public Car createNewCar(Car car, int id) {
          User user = userService.getUserById(id);
         if(user.getRole().equals(UserRoles.EMPLOYEE)){
-            //car.setUserId(id);
             return carRepository.create(car);
         }
         else

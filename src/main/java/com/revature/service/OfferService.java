@@ -9,13 +9,16 @@ import java.util.List;
 public class OfferService {
 
     private OfferRepository offerRepository;
+    private CarService carService;
 
     public OfferService() {
         offerRepository = new OfferRepository();
+        this.carService = CarService.getInstance();
     }
 
     public OfferService(OfferRepository offerRepository) {
         this.offerRepository = offerRepository;
+        this.carService = CarService.getInstance();
     }
 
 
@@ -25,31 +28,16 @@ public class OfferService {
 
     // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
     public Offer createOffer(Offer offer, int carId) {
-        CarService carService = new CarService();
         Car pendingCar = carService.getCarById(carId);
-        if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)) {
+        if (!carService.getCarById(carId).status.equals(CarStatus.PURCHASED)) {
             // TODO: Automatically change offer status to OPEN on creation?
             offer.setCarId(carId);
-            pendingCar.setStatus(CarStatus.PENDING);
+            offer.setStatus(OfferStatus.OPEN);
+            pendingCar.setUserId(offer.getUserId());
             return offerRepository.create(offer);
         } else
             return null;
     }
-
-        /*
-        for (int i = 0; i < carService.carCount(); i++) {
-            if (carService.getCarById(carId).status.equals(CarStatus.AVAILABLE)
-                    && carService.getCarById(carId).getId() == carId) {
-                offerRepository.create(offer);
-                offer.setStatus(OfferStatus.OPEN);
-                offer.setCarId(carId);
-                return true;
-            }
-        }
-        return false;
-    }
-
-         */
 
     public List<Offer> getAllOffersByStatus(OfferStatus status) {
         return offerRepository.getAllByStatus(status);
@@ -81,16 +69,24 @@ public class OfferService {
     // Maybe add Offers/ID/Approve to Javalin path and run this command through
     // (Grab USER ID from body and check if it is an employee?)
     public boolean approveOfferById(int id){
-        CarService carService = new CarService();
         Offer pendingOffer = offerRepository.getById(id);
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
         if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
+            pendingCar.setUserId(pendingOffer.getUserId());
             pendingOffer.setStatus(OfferStatus.ACCEPTED);
             pendingCar.setStatus(CarStatus.PURCHASED);
             return true;
         }
         return false;
+    }
+    public void denyOfferById(int id){
+        Offer pendingOffer = offerRepository.getById(id);
+        int carId = pendingOffer.getCarId();
+        Car pendingCar = carService.getCarById(carId);
+        pendingCar.setUserId(pendingOffer.getUserId());
+        pendingOffer.setStatus(OfferStatus.REJECTED);
+        pendingCar.setStatus(CarStatus.AVAILABLE);
     }
 
 }

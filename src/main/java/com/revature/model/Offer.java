@@ -13,7 +13,7 @@ public class Offer implements Serializable {
     public static int incrementId = 0;
     private OfferStatus status;
 
-    public Offer(){}
+    public Offer(){ this.id = incrementId++; }
 
     public Offer(int id){
         this.id = id;
