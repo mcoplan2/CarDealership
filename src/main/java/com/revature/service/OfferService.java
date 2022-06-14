@@ -68,6 +68,7 @@ public class OfferService {
     //TODO: Remove Enums from json and handle in service class, only leave Customer and Employee
     // Maybe add Offers/ID/Approve to Javalin path and run this command through
     // (Grab USER ID from body and check if it is an employee?)
+    // LOOP TO REJECT ALL OFFERS THAT BELONG TO THIS CAR ID
     public boolean approveOfferById(int id){
         Offer pendingOffer = offerRepository.getById(id);
         int carId = pendingOffer.getCarId();
@@ -76,6 +77,12 @@ public class OfferService {
             pendingCar.setUserId(pendingOffer.getUserId());
             pendingOffer.setStatus(OfferStatus.ACCEPTED);
             pendingCar.setStatus(CarStatus.PURCHASED);
+            carService.updateCarById(pendingCar);
+            for(int i = 0; i < offerCount(); i++) {
+                if(offerRepository.getById(i).getCarId() == pendingCar.getId()) {
+                    offerRepository.getById(i).setStatus(OfferStatus.REJECTED);
+                }
+            }
             return true;
         }
         return false;

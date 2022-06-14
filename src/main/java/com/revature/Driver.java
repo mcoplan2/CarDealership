@@ -52,8 +52,11 @@ public class Driver {
                     get(offerController.getOfferById);
                     put(offerController.updateOfferById);
                     delete(offerController.deleteUserById);
-                    path("review", () -> {
-                        post(offerController.approveOrDenyOffer);
+                    path("approve", () -> {
+                        post(offerController.approveOffer);
+                    });
+                    path("deny", () -> {
+                        post(offerController.denyOffer);
                     });
                 });
             });

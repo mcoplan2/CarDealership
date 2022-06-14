@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.model.*;
 import com.revature.service.OfferService;
+import com.revature.service.UserService;
 import io.javalin.http.Handler;
 
 import java.util.Arrays;
@@ -11,6 +12,11 @@ import java.util.Locale;
 public class OfferController {
 
     OfferService offerService = new OfferService();
+    private UserService userService;
+
+    public OfferController() {
+        this.userService = UserService.getInstance();
+    }
 
     public Handler createNewOffer = ctx -> {
         String param = ctx.pathParam("id");
@@ -80,17 +86,31 @@ public class OfferController {
     };
 
     // TODO : fix this to pass in a userId to check if employee
-    public Handler approveOrDenyOffer = ctx -> {
+    public Handler approveOffer = ctx -> {
         String param = ctx.queryParam("id");
         int id = Integer.parseInt(param);
-
         String body = ctx.body();
-        boolean result = Boolean.parseBoolean(body);
+        try {
+            int result = Integer.parseInt(body);
+            if(userService.getUserById(result).getRole().equals(UserRoles.EMPLOYEE)) {
+                offerService.approveOfferById(id);
+            }
+        } catch (NullPointerException e){
+            ctx.status(404).result("Enter a valid ID in the path");
+        }
+    };
 
-        if(result) {
-            offerService.approveOfferById(id);
-        } else {
-            offerService.denyOfferById(id);
+    public Handler denyOffer = ctx -> {
+        String param = ctx.queryParam("id");
+        int id = Integer.parseInt(param);
+        String body = ctx.body();
+        try {
+            int result = Integer.parseInt(body);
+            if(userService.getUserById(result).getRole().equals(UserRoles.EMPLOYEE)) {
+                offerService.denyOfferById(id);
+            }
+        } catch (NullPointerException e){
+            ctx.status(404).result("Enter a valid ID in the path");
         }
     };
 }
