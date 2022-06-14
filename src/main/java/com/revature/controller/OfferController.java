@@ -79,6 +79,7 @@ public class OfferController {
         ctx.json(offers);
     };
 
+    // TODO : fix this to pass in a userId to check if employee
     public Handler approveOrDenyOffer = ctx -> {
         String param = ctx.queryParam("id");
         int id = Integer.parseInt(param);

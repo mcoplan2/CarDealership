@@ -5,6 +5,8 @@ import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
 import io.javalin.Javalin;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
 public class Driver {
     public static void main(String[] arg){
 
@@ -16,43 +18,45 @@ public class Driver {
 
         app.get("/", context -> context.result("Welcome to the Car Dealership API"));
 
-        // READ All users & CREATE a user
-        app.get("/users", userController.getAllUsers);
-        app.post("/users", userController.createNewUser);
-
-        // READ user @ ID, UPDATE user @ ID, DELETE user @ ID
-        app.get("/users/{id}", userController.getUserById);
-        app.put("/users/{id}", userController.updateUserById);
-        app.delete("/users/{id}", userController.deleteUserById);
-        app.get("/users/{id}/offers", offerController.getAllOffersFromASpecificUserId);
-
-        app.get("/cars", carController.getAllCars);
-        app.post("/users/{id}/cars", carController.createNewCar);
-        app.get("/users/{id}/cars", carController.getAllCarsFromASpecificUserId);
-
-        app.get("/cars/{id}", carController.getCarById);
-        app.put("/cars/{id}", carController.updateCarById);
-        app.delete("/cars/{id}", carController.deleteCarById);
-
-        app.get("/offers", offerController.getAllOffers);
-        app.post("/cars/{id}/offers", offerController.createNewOffer);
-
-        app.get("/offers/{id}", offerController.getOfferById);
-        app.put("/offers/{id}", offerController.updateOfferById);
-        app.delete("/offers/{id}", offerController.deleteUserById);
-        app.post("/offers/{id}/review", offerController.approveOrDenyOffer);
-
-        app.get("/customers", userController.getAllCustomers);
-        app.get("/customers/{id}", userController.getCustomerById);
-
-        app.get("/employees", userController.getAllEmployees);
-        app.get("/employees/{id}", userController.getEmployeeById);
-        //layout
-        /*
-        /users/{id}/customers/{id}
-        /users/{id}/employees/{id}
-        /
-        */
-
+        app.routes(() -> {
+            path("users", () -> {
+                get(userController.getAllUsers);
+                post(userController.createNewUser);
+                path("{id}", () -> {
+                    get(userController.getUserById);
+                    put(userController.updateUserById);
+                    delete(userController.deleteUserById);
+                    path("cars", () -> {
+                        get(carController.getAllCarsFromASpecificUserId);
+                        post(carController.createNewCar);
+                    });
+                    path("offers", () -> {
+                        get(offerController.getAllOffersFromASpecificUserId);
+                    });
+                });
+            });
+            path("cars", () -> {
+                get(carController.getAllCars);
+                path("{id}", () -> {
+                    get(carController.getCarById);
+                    put(carController.updateCarById);
+                    delete(carController.deleteCarById);
+                    path("offers", () -> {
+                        post(offerController.createNewOffer);
+                    });
+                });
+            });
+            path("offers", () -> {
+                get(offerController.getAllOffers);
+                path("{id}", () -> {
+                    get(offerController.getOfferById);
+                    put(offerController.updateOfferById);
+                    delete(offerController.deleteUserById);
+                    path("review", () -> {
+                        post(offerController.approveOrDenyOffer);
+                    });
+                });
+            });
+        });
     }
 }
