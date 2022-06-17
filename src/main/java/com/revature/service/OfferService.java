@@ -29,7 +29,7 @@ public class OfferService {
     // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
     public Offer createOffer(Offer offer, int carId) {
         Car pendingCar = carService.getCarById(carId);
-        if (!carService.getCarById(carId).status.equals(CarStatus.PURCHASED)) {
+        if (!carService.getCarById(carId).getStatus().equals(CarStatus.PURCHASED)) {
             // TODO: Automatically change offer status to OPEN on creation?
             offer.setCarId(carId);
             offer.setStatus(OfferStatus.OPEN);
