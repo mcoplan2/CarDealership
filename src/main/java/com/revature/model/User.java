@@ -10,13 +10,9 @@ public class User implements Serializable {
     private String userName;
     private String password;
     private int id;
-    private static int incrementId = 0;
-    //0 for customer, 1 for employee
     private UserRoles role;
 
-    public User(){
-        this.id = incrementId++;
-    }
+    public User(){}
     //this constructor is used to check if the user is a Customer or Employee.
    public User(UserRoles role){
         this.role=role;
@@ -27,7 +23,6 @@ public class User implements Serializable {
         this.lastName = lastName;
         this.userName = userName;
         this.password = password;
-        this.id = incrementId++;
         this.role = role;
     }
 

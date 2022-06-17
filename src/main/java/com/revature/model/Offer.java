@@ -5,29 +5,23 @@ import java.util.Objects;
 
 public class Offer implements Serializable {
 
-    private int amount;
+    private double amount;
     private int id;
 
     private int carId;
     private int userId;
-    public static int incrementId = 0;
     private OfferStatus status;
 
-    public Offer(){ this.id = incrementId++; }
-
-    public Offer(int id){
-        this.id = id;
-    }
+    public Offer(){ }
 
     public Offer(int amount, int userId, OfferStatus status){
-        this.id = incrementId++;
         this.amount = amount;
         this.userId = userId;
         this.status = status;
 
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 

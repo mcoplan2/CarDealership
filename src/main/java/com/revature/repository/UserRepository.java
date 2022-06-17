@@ -24,7 +24,7 @@ public class UserRepository implements CrudDAO<User> {
 
     @Override
     public User create(User user) {
-        String sql = "insert into users(first_name, last_name, username, password) values(?,?,?,?)";
+        String sql = "insert into users(first_name, last_name, username, pass, role) values(?,?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -32,6 +32,7 @@ public class UserRepository implements CrudDAO<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getUserName());
             statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole().name());
 
             int success = statement.executeUpdate();
 
@@ -56,11 +57,12 @@ public class UserRepository implements CrudDAO<User> {
 
             while (results.next()) {
                 User user = new User();
+                user.setId(results.getInt("id"));
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setId(results.getInt("id"));
+                user.setPassword(results.getString("pass"));
+                user.setRole((UserRoles.valueOf(results.getString("role"))));
 
                 users.add(user);
             }
@@ -80,11 +82,12 @@ public class UserRepository implements CrudDAO<User> {
 
             if(results.next()) {
                 User user = new User();
+                user.setId(results.getInt("id"));
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setId(results.getInt("id"));
+                user.setPassword(results.getString("pass"));
+                user.setRole((UserRoles.valueOf(results.getString("role"))));
 
                 users.add(user);
                 return user;
@@ -97,7 +100,7 @@ public class UserRepository implements CrudDAO<User> {
 
     @Override
     public User update(User user) {
-        String sql = "update users set first_name = ?, last_name = ?, username = ?, password = ?";
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, pass = ?, role = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -105,6 +108,7 @@ public class UserRepository implements CrudDAO<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getUserName());
             statement.setString(4, user.getPassword());
+            statement.setString(5, user.getRole().name());
 
             int success = statement.executeUpdate();
 
@@ -164,11 +168,12 @@ public class UserRepository implements CrudDAO<User> {
 
             while (results.next()) {
                 User user = new User();
+                user.setId(results.getInt("id"));
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setUserName(results.getString("username"));
                 user.setPassword(results.getString("password"));
-                user.setId(results.getInt("id"));
+                user.setRole((UserRoles.valueOf(results.getString("role"))));
 
                 users.add(user);
             }
@@ -187,11 +192,13 @@ public class UserRepository implements CrudDAO<User> {
 
             if(results.next()) {
                 User user = new User();
+                user.setId(results.getInt("id"));
                 user.setFirstName(results.getString("first_name"));
                 user.setLastName(results.getString("last_name"));
                 user.setUserName(results.getString("username"));
                 user.setPassword(results.getString("password"));
-                user.setId(results.getInt("id"));
+                user.setRole((UserRoles.valueOf(results.getString("role"))));
+
 
                 users.add(user);
                 return user;

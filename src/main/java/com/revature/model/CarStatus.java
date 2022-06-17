@@ -1,5 +1,5 @@
 package com.revature.model;
 
 public enum CarStatus {
-        AVAILABLE, PURCHASED;
+        AVAILABLE, PURCHASED, OWNED;
 }
