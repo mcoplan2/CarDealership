@@ -2,7 +2,12 @@ package com.revature.repository;
 
 import com.revature.model.User;
 import com.revature.model.UserRoles;
+import com.revature.util.ConnectionUtility;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,41 +22,99 @@ public class UserRepository implements CrudDAO<User> {
     public UserRepository(List<User> users){
         this.users = users;
     }
-
-    // POST Method
+    
     @Override
     public User create(User user) {
-        if(users.add(user)) {
-            return user;
-        } else {
-            return null;
-        }
-    }
+        String sql = "insert into users(first_name, last_name, username, password) values(?,?,?,?)";
 
-    // GET Method
-    @Override
-    public List<User> getAll() {
-        return users;
-    }
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getUserName());
+            statement.setString(4, user.getPassword());
 
-    // GET Method
-    @Override
-    public User getById(int id) {
-        for(int i = 0; i<users.size(); i++) {
-            if(users.get(i).getId() == id){
-                return users.get(i);
+            int success = statement.executeUpdate();
+
+            if (success == 1) {
+                return user;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    // PUT Method
+    @Override
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        String sql = "select * from users";
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUserName(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setId(results.getInt("id"));
+
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    @Override
+    public User getById(int id) {
+        String sql = "select * from users where id = "+id;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
+                User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUserName(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setId(results.getInt("id"));
+                users.add(user);
+
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public User update(User user) {
-        for (int i = 0; i < users.size(); i++) {
-            if(users.get(i).getId() == user.getId()) {
-                return users.set(i, user);
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, password = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getUserName());
+            statement.setString(4, user.getPassword());
+
+            int success = statement.executeUpdate();
+
+            if (success == 1) {
+                return user;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -59,38 +122,83 @@ public class UserRepository implements CrudDAO<User> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        for (int i = 0; i < users.size(); i++){
-            if (users.get(i).getId() == id) {
-                users.remove(i);
+        String sql = "delete from users where id = "+id;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
                 return true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
-    // Method to return size of List
     @Override
     public int count() {
-        return users.size();
+        String sql = "select count(*) from users";
+        int count = 0;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
+                count = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
-    // Method to get all users by a specific Role
     public List<User> getAllByRole(UserRoles role) {
-        List<User> filteredUsers = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        String sql = "select * from users where role = ?";
 
-        for(int i = 0; i<users.size(); i++) {
-            if (users.get(i).getRole().equals(role)) {
-                filteredUsers.add(users.get(i));
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUserName(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setId(results.getInt("id"));
+
+                users.add(user);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return filteredUsers;
+        return users;
     }
 
     public User getUserIdByRole(int id, UserRoles role) {
-        for(int i = 0; i<users.size(); i++) {
-            if(users.get(i).getId() == id && users.get(i).getRole().equals(role)){
-                return users.get(i);
+        String sql = "select * from users where id = "+id +" and role = "+role;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
+                User user = new User();
+                user.setFirstName(results.getString("first_name"));
+                user.setLastName(results.getString("last_name"));
+                user.setUserName(results.getString("username"));
+                user.setPassword(results.getString("password"));
+                user.setId(results.getInt("id"));
+                users.add(user);
+
+                return user;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

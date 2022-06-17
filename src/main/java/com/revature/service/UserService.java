@@ -22,7 +22,6 @@ public class UserService {
         this.userRepository = userRepository;
         instance = this;
     }
-    // maybe check if the user has been created
 
     public static UserService getInstance() {
         return instance;
@@ -50,28 +49,7 @@ public class UserService {
     public User getUserIdAndCheckRole(int id, UserRoles role) {
         return userRepository.getUserIdByRole(id,role);
     }
-    /*
-    public User getCustomerById(int id) {
-        if (getUserById(id).getId() == id && g) {
-            return userRepository.getById(id);
-        } else {
-            return null;
-        }
-    }
 
-    public User getEmployeeById(int id) {
-
-        for (int i = 0; i < users.size(); i++) {
-            if ((users.get(i).getId() == id) && users.get(i).getRole().equals(UserRoles.EMPLOYEE)) {
-                return users.get(i);
-            }
-        }
-        return null;
-    }
-    */
-
-    // Updates the user at the current ID
-    // Pass in the ID you want to modify wih the new User Object.
     public User updateUserById(User user) {
         return userRepository.update(user);
     }

@@ -2,9 +2,6 @@ package com.revature.service;
 
 import com.revature.model.*;
 import com.revature.repository.CarRepository;
-import com.revature.repository.UserRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarService {
@@ -20,7 +17,6 @@ public class CarService {
         this.userService = UserService.getInstance();
     }
 
-    // Add user service to the carservice constructor.
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
         instance = this;
