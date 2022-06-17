@@ -10,14 +10,9 @@ public class Car implements Serializable {
     private int year;
     private int id;
     private int userId;
-
-    public CarStatus status;
+    private CarStatus status;
 
     public Car(){
-    }
-
-    public Car(CarStatus status){
-        this.status = status;
     }
 
     public Car(String make, String model, int year, CarStatus status){
@@ -31,47 +26,54 @@ public class Car implements Serializable {
         return make;
     }
 
-    public void setMake(String make) {
+    public Car setMake(String make) {
         this.make = make;
+        return this;
     }
 
     public String getModel() {
         return model;
     }
 
-    public void setModel(String model) {
+    public Car setModel(String model) {
         this.model = model;
+        return this;
     }
 
     public int getYear() {
         return year;
     }
 
-    public void setYear(int year){
+    public Car setYear(int year) {
         this.year = year;
+        return this;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public Car setId(int id) {
         this.id = id;
+        return this;
     }
 
     public int getUserId() {
         return userId;
     }
-    public void setUserId(int userId) {
+
+    public Car setUserId(int userId) {
         this.userId = userId;
+        return this;
     }
 
     public CarStatus getStatus() {
         return status;
     }
 
-    public void setStatus(CarStatus status) {
+    public Car setStatus(CarStatus status) {
         this.status = status;
+        return this;
     }
 
     @Override

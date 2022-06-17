@@ -7,7 +7,6 @@ public class Offer implements Serializable {
 
     private double amount;
     private int id;
-
     private int carId;
     private int userId;
     private OfferStatus status;
@@ -25,37 +24,46 @@ public class Offer implements Serializable {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public Offer setAmount(double amount) {
         this.amount = amount;
+        return this;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public Offer setId(int id) {
         this.id = id;
-    }
-
-    public OfferStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(OfferStatus status) {
-        this.status = status;
+        return this;
     }
 
     public int getCarId() {
         return carId;
     }
 
-    public void setCarId(int carId) {
+    public Offer setCarId(int carId) {
         this.carId = carId;
+        return this;
     }
 
-    public int getUserId() {return userId;}
+    public int getUserId() {
+        return userId;
+    }
 
-    public void setUserId(int userId) {this.userId = userId;}
+    public Offer setUserId(int userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public OfferStatus getStatus() {
+        return status;
+    }
+
+    public Offer setStatus(OfferStatus status) {
+        this.status = status;
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -13,10 +13,6 @@ public class User implements Serializable {
     private UserRoles role;
 
     public User(){}
-    //this constructor is used to check if the user is a Customer or Employee.
-   public User(UserRoles role){
-        this.role=role;
-    }
 
     public User(String firstName, String lastName, String userName, String password, UserRoles role){
         this.firstName = firstName;
@@ -30,48 +26,54 @@ public class User implements Serializable {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public User setFirstName(String firstName) {
         this.firstName = firstName;
+        return this;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public User setLastName(String lastName) {
         this.lastName = lastName;
+        return this;
     }
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public User setUserName(String userName) {
         this.userName = userName;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public User setPassword(String password) {
         this.password = password;
-    }
-
-    public UserRoles getRole() {
-        return role;
-    }
-
-    public void setRole(UserRoles role) {
-        this.role = role;
+        return this;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public User setId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public UserRoles getRole() {
+        return role;
+    }
+
+    public User setRole(UserRoles role) {
+        this.role = role;
+        return this;
     }
 
     @Override
