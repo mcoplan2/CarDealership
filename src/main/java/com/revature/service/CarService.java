@@ -1,5 +1,4 @@
 package com.revature.service;
-
 import com.revature.model.*;
 import com.revature.repository.CarRepository;
 import java.util.List;
@@ -37,28 +36,8 @@ public class CarService {
         }
         else
             return null;
-
-            /*
-        for (int i = 0; i < users.size() ; i++) {
-            if (users.get(i).getUserById(id).getRole().equals(UserRoles.EMPLOYEE)
-                    && userService.getUserById(id).getId() == id) {
-                // grab the user ID and set it in the cars list.
-                car.setUserId(id);
-                return carRepository.create(car);
-                //return true;
-            }
-        }
-        return null;
-
-             */
     }
 
-
-    /*public Car createNewCar(Car car) {
-        return carRepository.create(car);
-    }
-
-     */
     public List<Car> getCars() {
         return carRepository.getAll();
     }

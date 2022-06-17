@@ -2,9 +2,11 @@ package com.revature.repository;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
-import com.revature.model.User;
-import com.revature.model.UserRoles;
-
+import com.revature.util.ConnectionUtility;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,27 +23,74 @@ public class CarRepository  implements CrudDAO<Car> {
 
     // POST Method
     @Override
-    public Car create(Car user) {
-        if(cars.add(user)) {
-            return user;
-        } else {
-            return null;
+    public Car create(Car car) {
+        String sql = "insert into cars(make, model, year, status) values(?,?,?,?)";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, car.getMake());
+            statement.setString(2, car.getModel());
+            statement.setInt(3, car.getYear());
+            statement.setObject(4, car.getStatus());
+
+            int success = statement.executeUpdate();
+
+            if (success == 1) {
+                return car;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
-    // GET Method
     @Override
     public List<Car> getAll() {
+        List<Car> cars = new ArrayList<>();
+        String sql = "select * from cars";
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                Car car = new Car();
+                car.setMake(results.getString("make"));
+                car.setModel(results.getString("model"));
+                car.setYear(results.getInt("year"));
+                car.setStatus((CarStatus) results.getObject("status"));
+
+                cars.add(car);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return cars;
     }
 
     // GET Method
     @Override
     public Car getById(int id) {
-        for(int i = 0; i<cars.size(); i++) {
-            if(cars.get(i).getId() == id){
-                return cars.get(i);
+        String sql = "select * from cars where id = "+id;
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if (results.next()) {
+                Car car = new Car();
+                car.setMake(results.getString("make"));
+                car.setModel(results.getString("model"));
+                car.setYear(results.getInt("year"));
+                car.setStatus((CarStatus) results.getObject("status"));
+
+                cars.add(car);
+                return car;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -49,10 +98,23 @@ public class CarRepository  implements CrudDAO<Car> {
     // PUT Method
     @Override
     public Car update(Car car) {
-        for (int i = 0; i < cars.size(); i++) {
-            if(cars.get(i).getId() == car.getId()) {
-                return cars.set(i, car);
+        String sql = "update cars set make = ?, model = ?, year = ?, price = ?, status = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, car.getMake());
+            statement.setString(2, car.getModel());
+            statement.setInt(3, car.getYear());
+            statement.setObject(5, car.getStatus());
+
+            int success = statement.executeUpdate();
+
+            if (success == 1) {
+                return car;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -60,11 +122,17 @@ public class CarRepository  implements CrudDAO<Car> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        for (int i = 0; i < cars.size(); i++){
-            if (cars.get(i).getId() == id) {
-                cars.remove(i);
+        String sql = "delete from cars where id = "+id;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
                 return true;
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -72,30 +140,70 @@ public class CarRepository  implements CrudDAO<Car> {
     // Method to return size of List
     @Override
     public int count() {
-        return cars.size();
+        String sql = "select count(*) from cars";
+        int count = 0;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
+                count = results.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
+    public List<Car> getAllByStatus(CarStatus status) {
+        List<Car> cars = new ArrayList<>();
+        String sql = "select * from cars where status = "+status;
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                Car car = new Car();
+                car.setMake(results.getString("make"));
+                car.setModel(results.getString("model"));
+                car.setYear(results.getInt("year"));
+                car.setStatus((CarStatus) results.getObject("status"));
+
+                cars.add(car);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cars;
     }
 
     public Car getCarIdByRole(int id, CarStatus status) {
-        for(int i = 0; i < cars.size(); i++) {
-            if(cars.get(i).getId() == id && cars.get(i).getStatus().equals(status)){
-                return cars.get(i);
+        String sql = "select * from cars where id = "+id + "and status = "+status;
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet results = stmt.executeQuery();
+
+            if (results.next()) {
+                Car car = new Car();
+                car.setMake(results.getString("make"));
+                car.setModel(results.getString("model"));
+                car.setYear(results.getInt("year"));
+                car.setStatus((CarStatus) results.getObject("status"));
+
+                cars.add(car);
+                return car;
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    // Method to get all users by a specific Role
-    public List<Car> getAllByStatus(CarStatus status) {
-        List<Car> filteredCars = new ArrayList<>();
-
-        for(int i = 0; i<cars.size(); i++) {
-            if (cars.get(i).getStatus().equals(status)) {
-                filteredCars.add(cars.get(i));
-            }
-        }
-        return filteredCars;
-    }
-
+    //  TODO :THIS IS A JOIN? RESEARCH THIS LATER
     public List<Car> getAllCarsOwnedFromASpecificUserId(int id) {
         List<Car> filteredCars = new ArrayList<>();
 

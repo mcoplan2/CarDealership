@@ -3,7 +3,6 @@ package com.revature.repository;
 import com.revature.model.User;
 import com.revature.model.UserRoles;
 import com.revature.util.ConnectionUtility;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +21,7 @@ public class UserRepository implements CrudDAO<User> {
     public UserRepository(List<User> users){
         this.users = users;
     }
-    
+
     @Override
     public User create(User user) {
         String sql = "insert into users(first_name, last_name, username, password) values(?,?,?,?)";
@@ -86,8 +85,8 @@ public class UserRepository implements CrudDAO<User> {
                 user.setUserName(results.getString("username"));
                 user.setPassword(results.getString("password"));
                 user.setId(results.getInt("id"));
-                users.add(user);
 
+                users.add(user);
                 return user;
             }
         } catch (SQLException e) {
@@ -157,7 +156,7 @@ public class UserRepository implements CrudDAO<User> {
 
     public List<User> getAllByRole(UserRoles role) {
         List<User> users = new ArrayList<>();
-        String sql = "select * from users where role = ?";
+        String sql = "select * from users where role = "+role;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -193,8 +192,8 @@ public class UserRepository implements CrudDAO<User> {
                 user.setUserName(results.getString("username"));
                 user.setPassword(results.getString("password"));
                 user.setId(results.getInt("id"));
-                users.add(user);
 
+                users.add(user);
                 return user;
             }
         } catch (SQLException e) {
@@ -202,7 +201,5 @@ public class UserRepository implements CrudDAO<User> {
         }
         return null;
     }
-
-
 }
 
