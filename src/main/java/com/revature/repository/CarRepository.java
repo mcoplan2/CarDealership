@@ -2,6 +2,7 @@ package com.revature.repository;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
+import com.revature.model.UserRoles;
 import com.revature.util.ConnectionUtility;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ public class CarRepository  implements CrudDAO<Car> {
         this.cars = cars;
     }
 
-    // POST Method
+    // TODO FIX ALL THESE STATEMENTS AND USE THE BUILDER METHOD
     @Override
     public Car create(Car car) {
         String sql = "insert into cars(make, model, year, status) values(?,?,?,?)";
@@ -31,7 +32,7 @@ public class CarRepository  implements CrudDAO<Car> {
             statement.setString(1, car.getMake());
             statement.setString(2, car.getModel());
             statement.setInt(3, car.getYear());
-            statement.setObject(4, car.getStatus());
+            statement.setString(4, car.getStatus().name());
 
             int success = statement.executeUpdate();
 
@@ -55,13 +56,11 @@ public class CarRepository  implements CrudDAO<Car> {
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
-                Car car = new Car();
-                car.setMake(results.getString("make"));
-                car.setModel(results.getString("model"));
-                car.setYear(results.getInt("year"));
-                car.setStatus((CarStatus) results.getObject("status"));
-
-                cars.add(car);
+                cars.add(new Car().
+                        setMake(results.getString("make")).
+                        setModel(results.getString("model")).
+                        setYear(results.getInt("year")).
+                        setStatus(CarStatus.valueOf(results.getString("status"))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,12 +79,12 @@ public class CarRepository  implements CrudDAO<Car> {
 
             if (results.next()) {
                 Car car = new Car();
-                car.setMake(results.getString("make"));
-                car.setModel(results.getString("model"));
-                car.setYear(results.getInt("year"));
-                car.setStatus((CarStatus) results.getObject("status"));
+                cars.add(car.
+                        setMake(results.getString("make")).
+                        setModel(results.getString("model")).
+                        setYear(results.getInt("year")).
+                        setStatus(CarStatus.valueOf(results.getString("status"))));
 
-                cars.add(car);
                 return car;
             }
 
@@ -105,7 +104,7 @@ public class CarRepository  implements CrudDAO<Car> {
             statement.setString(1, car.getMake());
             statement.setString(2, car.getModel());
             statement.setInt(3, car.getYear());
-            statement.setObject(5, car.getStatus());
+            statement.setString(4, car.getStatus().name());
 
             int success = statement.executeUpdate();
 
@@ -165,13 +164,11 @@ public class CarRepository  implements CrudDAO<Car> {
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
-                Car car = new Car();
-                car.setMake(results.getString("make"));
-                car.setModel(results.getString("model"));
-                car.setYear(results.getInt("year"));
-                car.setStatus((CarStatus) results.getObject("status"));
-
-                cars.add(car);
+                cars.add(new Car().
+                        setMake(results.getString("make")).
+                        setModel(results.getString("model")).
+                        setYear(results.getInt("year")).
+                        setStatus(CarStatus.valueOf(results.getString("status"))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -188,12 +185,12 @@ public class CarRepository  implements CrudDAO<Car> {
 
             if (results.next()) {
                 Car car = new Car();
-                car.setMake(results.getString("make"));
-                car.setModel(results.getString("model"));
-                car.setYear(results.getInt("year"));
-                car.setStatus((CarStatus) results.getObject("status"));
+                cars.add(car.
+                        setMake(results.getString("make")).
+                        setModel(results.getString("model")).
+                        setYear(results.getInt("year")).
+                        setStatus(CarStatus.valueOf(results.getString("status"))));
 
-                cars.add(car);
                 return car;
             }
 

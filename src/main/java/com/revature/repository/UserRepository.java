@@ -56,15 +56,13 @@ public class UserRepository implements CrudDAO<User> {
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
-                User user = new User();
-                user.setId(results.getInt("id"));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("pass"));
-                user.setRole((UserRoles.valueOf(results.getString("role"))));
-
-                users.add(user);
+                users.add(new User()
+                        .setId(results.getInt("id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUserName(results.getString("username"))
+                        .setPassword(results.getString("pass"))
+                        .setRole((UserRoles.valueOf(results.getString("role")))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,14 +80,13 @@ public class UserRepository implements CrudDAO<User> {
 
             if(results.next()) {
                 User user = new User();
-                user.setId(results.getInt("id"));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("pass"));
-                user.setRole((UserRoles.valueOf(results.getString("role"))));
-
-                users.add(user);
+                users.add(user
+                        .setId(results.getInt("id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUserName(results.getString("username"))
+                        .setPassword(results.getString("pass"))
+                        .setRole((UserRoles.valueOf(results.getString("role")))));
                 return user;
             }
         } catch (SQLException e) {
@@ -167,15 +164,13 @@ public class UserRepository implements CrudDAO<User> {
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
-                User user = new User();
-                user.setId(results.getInt("id"));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setRole((UserRoles.valueOf(results.getString("role"))));
-
-                users.add(user);
+                users.add(new User()
+                        .setId(results.getInt("id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUserName(results.getString("username"))
+                        .setPassword(results.getString("pass"))
+                        .setRole((UserRoles.valueOf(results.getString("role")))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -192,15 +187,13 @@ public class UserRepository implements CrudDAO<User> {
 
             if(results.next()) {
                 User user = new User();
-                user.setId(results.getInt("id"));
-                user.setFirstName(results.getString("first_name"));
-                user.setLastName(results.getString("last_name"));
-                user.setUserName(results.getString("username"));
-                user.setPassword(results.getString("password"));
-                user.setRole((UserRoles.valueOf(results.getString("role"))));
-
-
-                users.add(user);
+                users.add(user
+                        .setId(results.getInt("id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUserName(results.getString("username"))
+                        .setPassword(results.getString("pass"))
+                        .setRole((UserRoles.valueOf(results.getString("role")))));
                 return user;
             }
         } catch (SQLException e) {
