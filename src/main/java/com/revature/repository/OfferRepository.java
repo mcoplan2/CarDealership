@@ -27,12 +27,13 @@ public class OfferRepository implements CrudDAO<Offer> {
 
     @Override
     public Offer create(Offer offer) {
-        String sql = "insert into offers(amount, status) values(?,?)";
+        String sql = "insert into offers(amount, status, user_id) values(?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, offer.getAmount());
             statement.setString(2, offer.getStatus().name());
+            statement.setInt(3, offer.getUserId());
 
             int success = statement.executeUpdate();
 
@@ -58,7 +59,9 @@ public class OfferRepository implements CrudDAO<Offer> {
             while (results.next()) {
                 offers.add(new Offer().
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))));
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,7 +82,9 @@ public class OfferRepository implements CrudDAO<Offer> {
                 Offer offer = new Offer();
                 offers.add(offer.
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))));
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
 
                 return offer;
             }
@@ -162,7 +167,9 @@ public class OfferRepository implements CrudDAO<Offer> {
             while (results.next()) {
                 offers.add(new Offer().
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))));
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -181,7 +188,9 @@ public class OfferRepository implements CrudDAO<Offer> {
                 Offer offer = new Offer();
                 offers.add(offer.
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))));
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
 
                 return offer;
             }
