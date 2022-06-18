@@ -1,11 +1,8 @@
 package com.revature.service;
 
-import com.revature.model.Car;
 import com.revature.model.User;
 import com.revature.model.UserRoles;
 import com.revature.repository.UserRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {

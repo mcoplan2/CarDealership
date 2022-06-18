@@ -5,7 +5,6 @@ import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -156,8 +155,8 @@ public class OfferRepository implements CrudDAO<Offer> {
         return count;
     }
 
-    public List<Car> getAllByStatus(CarStatus status) {
-        List<Car> cars = new ArrayList<>();
+    public List<Offer> getAllByStatus(OfferStatus status) {
+        List<Offer> offers = new ArrayList<>();
         String sql = "select * from offers where status = "+status;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
@@ -174,7 +173,7 @@ public class OfferRepository implements CrudDAO<Offer> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cars;
+        return offers;
     }
 
     public Offer getOfferIdByRole(int id, OfferStatus status) {

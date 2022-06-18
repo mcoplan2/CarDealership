@@ -2,7 +2,6 @@ package com.revature.repository;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
-import com.revature.model.UserRoles;
 import com.revature.util.ConnectionUtility;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

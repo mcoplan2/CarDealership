@@ -2,8 +2,6 @@ package com.revature.service;
 
 import com.revature.model.*;
 import com.revature.repository.OfferRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class OfferService {
