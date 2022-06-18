@@ -4,6 +4,8 @@ import com.revature.model.User;
 import com.revature.model.UserRoles;
 import com.revature.service.UserService;
 import io.javalin.http.Handler;
+import io.javalin.http.HttpCode;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -14,7 +16,7 @@ public class UserController {
 
     public Handler createNewUser = ctx -> {
         User user = ctx.bodyAsClass(User.class);
-        userService.createNewUser(user);
+        ctx.status(HttpCode.CREATED).json(userService.createNewUser(user));
     };
 
     public Handler getAllUsers = ctx -> {
@@ -59,7 +61,7 @@ public class UserController {
         try {
             ctx.json(userService.getUserById(id));
         } catch (NullPointerException e){
-            ctx.result("BROKEN");
+            ctx.status(HttpCode.BAD_REQUEST).result("User is not found, please enter a valid user ID");
         }
     };
 
@@ -86,13 +88,16 @@ public class UserController {
     public Handler updateUserById = ctx -> {
         User user = ctx.bodyAsClass(User.class);
 
-        userService.updateUserById(user);
+        ctx.json(userService.updateUserById(user));
     };
 
     public Handler deleteUserById = ctx -> {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
 
-        userService.deleteUserById(id);
-    };
+        if(userService.deleteUserById(id)) {
+            ctx.result("User " + id + "successfully deleted");
+        } else
+            ctx.status(HttpCode.BAD_REQUEST).result("User " + id + "could not be deleted");
+        };
 }

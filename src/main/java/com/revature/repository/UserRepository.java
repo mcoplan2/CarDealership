@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UserRepository implements CrudDAO<User> {
 
@@ -72,7 +73,7 @@ public class UserRepository implements CrudDAO<User> {
 
     @Override
     public User getById(int id) {
-        String sql = "select * from users where id = "+id;
+        String sql = "select * from users where user_id = "+id;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -122,15 +123,13 @@ public class UserRepository implements CrudDAO<User> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from users where id = "+id;
+        String sql = "delete from users where user_id = "+id;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            ResultSet results = stmt.executeQuery();
+            int results = stmt.executeUpdate();
 
-            if(results.next()) {
-                return true;
-            }
+            return results == 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,10 +156,11 @@ public class UserRepository implements CrudDAO<User> {
 
     public List<User> getAllByRole(UserRoles role) {
         List<User> users = new ArrayList<>();
-        String sql = "select * from users where role = "+role;
+        String sql = "select * from users where role = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1,role.name());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
@@ -179,10 +179,12 @@ public class UserRepository implements CrudDAO<User> {
     }
 
     public User getUserIdByRole(int id, UserRoles role) {
-        String sql = "select * from users where id = "+id +" and role = "+role;
+        String sql = "select * from users where user_id = ? and role = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setString(2, role.name());
             ResultSet results = stmt.executeQuery();
 
             if(results.next()) {

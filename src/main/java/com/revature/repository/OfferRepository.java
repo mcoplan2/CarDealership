@@ -72,7 +72,7 @@ public class OfferRepository implements CrudDAO<Offer> {
     // GET Method
     @Override
     public Offer getById(int id) {
-        String sql = "select * from offers where id = "+id;
+        String sql = "select * from offers where offer_id = "+id;
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -123,7 +123,7 @@ public class OfferRepository implements CrudDAO<Offer> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from offers where id = "+id;
+        String sql = "delete from offers where offer_id = "+id;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -159,10 +159,11 @@ public class OfferRepository implements CrudDAO<Offer> {
 
     public List<Offer> getAllByStatus(OfferStatus status) {
         List<Offer> offers = new ArrayList<>();
-        String sql = "select * from offers where status = "+status;
+        String sql = "select * from offers where status = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, status.name());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
@@ -180,10 +181,12 @@ public class OfferRepository implements CrudDAO<Offer> {
     }
 
     public Offer getOfferIdByRole(int id, OfferStatus status) {
-        String sql = "select * from offers where id = "+id + "and status = "+status;
+        String sql = "select * from offers where offer_id = ? and status = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setString(2, status.name());
             ResultSet results = stmt.executeQuery();
 
             if (results.next()) {

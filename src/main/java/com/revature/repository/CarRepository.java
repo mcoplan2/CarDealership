@@ -72,7 +72,7 @@ public class CarRepository  implements CrudDAO<Car> {
     // GET Method
     @Override
     public Car getById(int id) {
-        String sql = "select * from cars where id = "+id;
+        String sql = "select * from cars where car_id = "+id;
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -125,7 +125,7 @@ public class CarRepository  implements CrudDAO<Car> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from cars where id = "+id;
+        String sql = "delete from cars where car_id = "+id;
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -161,10 +161,11 @@ public class CarRepository  implements CrudDAO<Car> {
 
     public List<Car> getAllByStatus(CarStatus status) {
         List<Car> cars = new ArrayList<>();
-        String sql = "select * from cars where status = "+status;
+        String sql = "select * from cars where status = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, status.name());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
@@ -183,10 +184,12 @@ public class CarRepository  implements CrudDAO<Car> {
     }
 
     public Car getCarIdByRole(int id, CarStatus status) {
-        String sql = "select * from cars where id = "+id + "and status = "+status;
+        String sql = "select * from cars where car_id = ? and status = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setString(2, status.name());
             ResultSet results = stmt.executeQuery();
 
             if (results.next()) {
