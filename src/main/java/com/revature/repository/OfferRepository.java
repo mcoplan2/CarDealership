@@ -57,6 +57,7 @@ public class OfferRepository implements CrudDAO<Offer> {
 
             while (results.next()) {
                 offers.add(new Offer().
+                        setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
                         setStatus(OfferStatus.valueOf(results.getString("status"))).
                         setUserId(results.getInt("user_id")).
@@ -80,6 +81,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             if (results.next()) {
                 Offer offer = new Offer();
                 offers.add(offer.
+                        setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
                         setStatus(OfferStatus.valueOf(results.getString("status"))).
                         setUserId(results.getInt("user_id")).
@@ -165,6 +167,7 @@ public class OfferRepository implements CrudDAO<Offer> {
 
             while (results.next()) {
                 offers.add(new Offer().
+                        setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
                         setStatus(OfferStatus.valueOf(results.getString("status"))).
                         setUserId(results.getInt("user_id")).
@@ -186,11 +189,11 @@ public class OfferRepository implements CrudDAO<Offer> {
             if (results.next()) {
                 Offer offer = new Offer();
                 offers.add(offer.
+                        setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
                         setStatus(OfferStatus.valueOf(results.getString("status"))).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
-
                 return offer;
             }
 

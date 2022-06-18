@@ -57,7 +57,7 @@ public class UserRepository implements CrudDAO<User> {
 
             while (results.next()) {
                 users.add(new User()
-                        .setId(results.getInt("id"))
+                        .setId(results.getInt("user_id"))
                         .setFirstName(results.getString("first_name"))
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
@@ -81,7 +81,7 @@ public class UserRepository implements CrudDAO<User> {
             if(results.next()) {
                 User user = new User();
                 users.add(user
-                        .setId(results.getInt("id"))
+                        .setId(results.getInt("user_id"))
                         .setFirstName(results.getString("first_name"))
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
@@ -165,7 +165,7 @@ public class UserRepository implements CrudDAO<User> {
 
             while (results.next()) {
                 users.add(new User()
-                        .setId(results.getInt("id"))
+                        .setId(results.getInt("user_id"))
                         .setFirstName(results.getString("first_name"))
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
@@ -188,7 +188,7 @@ public class UserRepository implements CrudDAO<User> {
             if(results.next()) {
                 User user = new User();
                 users.add(user
-                        .setId(results.getInt("id"))
+                        .setId(results.getInt("user_id"))
                         .setFirstName(results.getString("first_name"))
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))

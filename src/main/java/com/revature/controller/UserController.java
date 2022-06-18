@@ -4,9 +4,6 @@ import com.revature.model.User;
 import com.revature.model.UserRoles;
 import com.revature.service.UserService;
 import io.javalin.http.Handler;
-
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;

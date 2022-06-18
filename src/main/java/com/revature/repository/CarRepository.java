@@ -56,6 +56,7 @@ public class CarRepository  implements CrudDAO<Car> {
 
             while (results.next()) {
                 cars.add(new Car().
+                        setId(results.getInt("car_id")).
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
@@ -80,6 +81,7 @@ public class CarRepository  implements CrudDAO<Car> {
             if (results.next()) {
                 Car car = new Car();
                 cars.add(car.
+                        setId(results.getInt("car_id")).
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
@@ -167,6 +169,7 @@ public class CarRepository  implements CrudDAO<Car> {
 
             while (results.next()) {
                 cars.add(new Car().
+                        setId(results.getInt("car_id")).
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
@@ -189,6 +192,7 @@ public class CarRepository  implements CrudDAO<Car> {
             if (results.next()) {
                 Car car = new Car();
                 cars.add(car.
+                        setId(results.getInt("car_id")).
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
