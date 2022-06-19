@@ -26,13 +26,14 @@ public class OfferRepository implements CrudDAO<Offer> {
 
     @Override
     public Offer create(Offer offer) {
-        String sql = "insert into offers(amount, status, user_id) values(?,?,?)";
+        String sql = "insert into offers(amount, status, user_id, car_id) values(?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, offer.getAmount());
             statement.setString(2, offer.getStatus().name());
             statement.setInt(3, offer.getUserId());
+            statement.setInt(4, offer.getCarId());
 
             int success = statement.executeUpdate();
 

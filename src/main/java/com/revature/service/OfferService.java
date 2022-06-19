@@ -35,10 +35,8 @@ public class OfferService {
     //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     public Offer createOffer(Offer offer, int carId) {
         if (carService.getCarById(carId).getStatus().equals(CarStatus.AVAILABLE)) {
-            Offer offer2 = offerRepository.create(offer);
-            offer2.setCarId(carId);
-            offerRepository.update(offer2);
-            return offer2;
+            offer.setCarId(carId);
+            return offerRepository.create(offer);
         } else
             return null;
     }
