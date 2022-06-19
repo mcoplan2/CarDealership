@@ -209,6 +209,33 @@ public class OfferRepository implements CrudDAO<Offer> {
         return null;
     }
 
+    public List<Offer> getAllByCarId(int carId) {
+        List<Offer> offers = new ArrayList<>();
+        String sql = "select * from offers where car_id = ?";
+
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, carId);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                //Offer offer = new Offer();
+                offers.add(new Offer().
+                        setId(results.getInt("offer_id")).
+                        setAmount(results.getDouble("amount")).
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
+
+                //return offer;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return offers;
+    }
+
     public List<Offer> getAllOffersFromASpecificUserId(int id) {
         List<Offer> filteredOffers = new ArrayList<>();
 

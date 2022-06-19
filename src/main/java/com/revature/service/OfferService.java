@@ -66,18 +66,25 @@ public class OfferService {
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
         if(userService.getUserById(userId).getRole().equals(UserRoles.EMPLOYEE))
+            // if the offer is Open and the car is Available
             if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
+                // Change the offer status to Accepted and the car status to Purchased
+                // and update each result on the database
                 pendingOffer.setStatus(OfferStatus.ACCEPTED);
                 offerRepository.update(pendingOffer);
                 pendingCar.setStatus(CarStatus.PURCHASED);
                 pendingCar.setUserId(pendingOffer.getUserId());
                 carService.updateCarById(pendingCar);
-                int count = offerRepository.count();
-                for(int i = 0; i < offerRepository.count(); i++) {
-                    // TODO FIX THIS LOGIC
-                    if(offerRepository.getById(i).getCarId() == pendingCar.getId() && offerRepository.getById(i) != offerRepository.getById(offerId)) {
-                        offerRepository.getById(i).setStatus(OfferStatus.REJECTED);
-                        offerRepository.update(pendingOffer);
+
+                List<Offer> cars = offerRepository.getAllByCarId(carId);
+                // Loop through each car ID that is on the Offer
+                for(int i = 0; i < cars.size(); i++) {
+                    // If the car ID is the same as the one on the Offer
+                    // AND the offer ID does not equal our offer ID
+                    if(cars.get(i).getCarId() == carId && cars.get(i).getId() != offerId) {
+                        // Reject all these offers and update the database
+                        cars.get(i).setStatus(OfferStatus.REJECTED);
+                        offerRepository.update(cars.get(i));
                     }
                 }
                 return true;
