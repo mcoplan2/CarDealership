@@ -2,7 +2,6 @@ package com.revature.controller;
 
 import com.revature.model.*;
 import com.revature.service.OfferService;
-import com.revature.service.UserService;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
 import java.util.Arrays;
@@ -12,25 +11,23 @@ import java.util.Locale;
 public class OfferController {
 
     OfferService offerService = new OfferService();
-    private UserService userService;
 
-    public OfferController() {
-        this.userService = UserService.getInstance();
-    }
+
+    public OfferController() {}
 
     public Handler createNewOffer = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
-
         Offer offer = ctx.bodyAsClass(Offer.class);
 
+
+        int id = 0;
         try {
-            Offer createdOffer = offerService.createOffer(offer, id);
-            ctx.status(HttpCode.CREATED).json(createdOffer);
+            id = Integer.parseInt(param);
+            ctx.status(HttpCode.CREATED).json(offerService.createOffer(offer, id));
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.BAD_REQUEST).result("Please enter an available car");
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " could not be created, car is already purchased");
         } catch (NumberFormatException e) {
-            ctx.status(HttpCode.BAD_REQUEST).result("Please enter a valid integer ID");
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
     };
 
@@ -62,11 +59,13 @@ public class OfferController {
 
     public Handler getOfferById = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
         try {
+            int id = Integer.parseInt(param);
             ctx.json(offerService.getOfferById(id));
-        } catch (NullPointerException e){
-            ctx.result("BROKEN");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Enter a valid Offer ID");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
     };
 
@@ -76,60 +75,85 @@ public class OfferController {
         offerService.updateOfferById(offer);
     };
 
-    public Handler deleteUserById = ctx -> {
+    public Handler deleteOfferById = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
+        int id = 0;
+        try {
+            id = Integer.parseInt(param);
+            offerService.deleteOfferById(id);
+            ctx.status(HttpCode.OK).result("Offer " + id + " has been deleted");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " is not found, please enter an existing offer.");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
+        }
 
-        offerService.deleteOfferById(id);
     };
 
     public Handler getAllOffersFromASpecificUserId = ctx -> {
         List<Offer> offers;
 
         String param = ctx.queryParam("id");
-        int id = Integer.parseInt(param);
-
-        offers = offerService.getAllOffersFromASpecificUserId(id);
-        ctx.json(offers);
+        int id = 0;
+        try {
+            id = Integer.parseInt(param);
+            offers = offerService.getAllOffersFromASpecificUserId(id);
+            ctx.json(offers);
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " is not found, please enter an existing offer.");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
+        }
     };
 
-    // TODO : fix this to pass in a userId to check if employee
     public Handler approveOffer = ctx -> {
         String param = ctx.path();
         char[] ch = param.toCharArray();
         StringBuilder stringBuilder = new StringBuilder();
-        for(char c : ch) {
-            if(Character.isDigit(c)){
+        for (char c : ch) {
+            if (Character.isDigit(c)) {
                 stringBuilder.append(c);
             }
         }
-        int offerId = Integer.parseInt(stringBuilder.toString());
-        String body = ctx.body();
+
+        int offerId = 0;
         try {
+            offerId = Integer.parseInt(stringBuilder.toString());
+            String body = ctx.body();
             int userId = Integer.parseInt(body);
             boolean result = offerService.approveOfferById(offerId, userId);
             if (result) {
-                ctx.status(200).result("Offer has been approved");
-            }
-            else ctx.status(HttpCode.BAD_REQUEST).result("You cannot approve offers as a customer");
-        } catch (NullPointerException e){
-            ctx.status(HttpCode.NOT_FOUND).result("The offer is not found, please enter an existing offer.");
-        } catch (NumberFormatException e){
+                ctx.status(200).result("Offer " + offerId + " has been approved");
+            } else ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + offerId + " is not found, please enter an existing offer.");
+        } catch (NumberFormatException e) {
             ctx.status(HttpCode.BAD_REQUEST).result("Please enter an ID as an integer");
         }
     };
 
     public Handler denyOffer = ctx -> {
-        String param = ctx.queryParam("id");
-        int id = Integer.parseInt(param);
-        String body = ctx.body();
-        try {
-            int result = Integer.parseInt(body);
-            if(userService.getUserById(result).getRole().equals(UserRoles.EMPLOYEE)) {
-                offerService.denyOfferById(id);
+        String param = ctx.path();
+        char[] ch = param.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : ch) {
+            if (Character.isDigit(c)) {
+                stringBuilder.append(c);
             }
-        } catch (NullPointerException e){
-            ctx.status(404).result("Enter a valid ID in the path");
+        }
+        int offerId = 0;
+        try {
+            offerId = Integer.parseInt(stringBuilder.toString());
+            String body = ctx.body();
+            int userId = Integer.parseInt(body);
+            boolean result = offerService.denyOfferById(offerId, userId);
+            if (result) {
+                ctx.status(200).result("Offer " + offerId + " has been denied");
+            } else ctx.status(HttpCode.FORBIDDEN).result("You cannot deny offers as a customer");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + offerId + " is not found, please enter an existing offer.");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result("Please enter an ID as an integer");
         }
     };
 }

@@ -51,7 +51,7 @@ public class Driver {
                 path("{id}", () -> {
                     get(offerController.getOfferById);
                     put(offerController.updateOfferById);
-                    delete(offerController.deleteUserById);
+                    delete(offerController.deleteOfferById);
                     path("approve", () -> {
                         post(offerController.approveOffer);
                     });

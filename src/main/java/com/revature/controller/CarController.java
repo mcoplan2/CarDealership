@@ -2,11 +2,9 @@ package com.revature.controller;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
-import com.revature.model.User;
-import com.revature.model.UserRoles;
 import com.revature.service.CarService;
 import io.javalin.http.Handler;
-
+import io.javalin.http.HttpCode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -18,9 +16,16 @@ public class CarController {
         Car car = ctx.bodyAsClass(Car.class);
 
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
 
-        carService.createNewCar(car,id);
+        int id = 0;
+        try {
+            id = Integer.parseInt(param);
+            ctx.status(HttpCode.CREATED).json(carService.createNewCar(car, id));
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result("ID: " + id + " can not create cars, they are not an employee");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
+        }
     };
 
     public Handler getAllCars = ctx -> {
@@ -52,11 +57,14 @@ public class CarController {
 
     public Handler getCarById = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
+        int id = 0;
         try {
+            id = Integer.parseInt(param);
             ctx.json(carService.getCarById(id));
-        } catch (NullPointerException e){
-            ctx.result("BROKEN");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Car " + id + " could not be found");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
     };
 
@@ -69,18 +77,34 @@ public class CarController {
     public Handler deleteCarById = ctx -> {
         String param = ctx.pathParam("id");
         int id = Integer.parseInt(param);
-
-        carService.deleteCarById(id);
+        try {
+            boolean result = carService.deleteCarById(id);
+            if (result)
+                ctx.status(HttpCode.OK).result("Car " + id + " successfully deleted");
+            else
+                ctx.status(HttpCode.BAD_REQUEST).result("Car " + id + " could not be deleted");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Car " + id + " could not be found");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
+        }
     };
 
     public Handler getAllCarsFromASpecificUserId = ctx -> {
         List<Car> cars;
 
         String param = ctx.queryParam("id");
-        int id = Integer.parseInt(param);
 
-        cars = carService.getAllCarsOwnedFromASpecificUserId(id);
-        ctx.json(cars);
-        };
+        int id = 0;
+        try {
+            id = Integer.parseInt(param);
+            cars = carService.getAllCarsOwnedFromASpecificUserId(id);
+            ctx.status(HttpCode.OK).json(cars);
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("Car " + id + " could not be found");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
+        }
+    };
 
 }

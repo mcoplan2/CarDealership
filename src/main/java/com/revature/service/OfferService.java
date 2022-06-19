@@ -27,12 +27,6 @@ public class OfferService {
         return offerRepository.getAll();
     }
 
-    // IF Car is AVAIABLE then user can make an offer. Also, GET USERID of user making offer.
-    // TODO ADD CAR ID TO OFFER SIGNATURE JSON BODY
-
-    // TODO
-    //  CHECK IF BELOW IS WORKING, IT IS ISNT WORKING DO ABOVE
-    //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     public Offer createOffer(Offer offer, int carId) {
         if (carService.getCarById(carId).getStatus().equals(CarStatus.AVAILABLE)) {
             offer.setCarId(carId);
@@ -67,41 +61,43 @@ public class OfferService {
         return offerRepository.getAllOffersFromASpecificUserId(id);
     }
 
-    //TODO: Remove Enums from json and handle in service class, only leave Customer and Employee
-    // Maybe add Offers/ID/Approve to Javalin path and run this command through
-    // (Grab USER ID from body and check if it is an employee?)
-    // LOOP TO REJECT ALL OFFERS THAT BELONG TO THIS CAR ID
     public boolean approveOfferById(int offerId, int userId){
         Offer pendingOffer = offerRepository.getById(offerId);
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
         if(userService.getUserById(userId).getRole().equals(UserRoles.EMPLOYEE))
             if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
-                    pendingOffer.setStatus(OfferStatus.ACCEPTED);
-                    offerRepository.update(pendingOffer);
-                    pendingCar.setStatus(CarStatus.PURCHASED).setUserId(userId);
-                    try {
-                        carService.updateCarById(pendingCar);
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
+                pendingOffer.setStatus(OfferStatus.ACCEPTED);
+                offerRepository.update(pendingOffer);
+                pendingCar.setStatus(CarStatus.PURCHASED);
+                pendingCar.setUserId(pendingOffer.getUserId());
+                carService.updateCarById(pendingCar);
+                int count = offerRepository.count();
+                for(int i = 0; i < offerRepository.count(); i++) {
+                    // TODO FIX THIS LOGIC
+                    if(offerRepository.getById(i).getCarId() == pendingCar.getId() && offerRepository.getById(i) != offerRepository.getById(offerId)) {
+                        offerRepository.getById(i).setStatus(OfferStatus.REJECTED);
+                        offerRepository.update(pendingOffer);
                     }
-                    for(int i = 0; i < offerCount(); i++) {
-                        if(offerRepository.getById(i).getCarId() == pendingCar.getId() && offerRepository.getById(i) != offerRepository.getById(offerId)) {
-                            offerRepository.getById(i).setStatus(OfferStatus.REJECTED);
-                            offerRepository.update(pendingOffer);
-                        }
-                    }
-                    return true;
+                }
+                return true;
         }
         return false;
     }
-    public void denyOfferById(int id){
+    public boolean denyOfferById(int id, int userId){
         Offer pendingOffer = offerRepository.getById(id);
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
-        pendingCar.setUserId(pendingOffer.getUserId());
-        pendingOffer.setStatus(OfferStatus.REJECTED);
-        pendingCar.setStatus(CarStatus.AVAILABLE);
+        if(userService.getUserById(userId).getRole().equals(UserRoles.EMPLOYEE)) {
+            if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
+                pendingOffer.setStatus(OfferStatus.REJECTED);
+                offerRepository.update(pendingOffer);
+                pendingCar.setStatus(CarStatus.AVAILABLE);
+                carService.updateCarById(pendingCar);
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -145,14 +145,15 @@ public class OfferRepository implements CrudDAO<Offer> {
     public int count() {
         String sql = "select count(*) from offers";
         int count = 0;
-
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet results = stmt.executeQuery();
 
-            if(results.next()) {
-                count = results.getInt("offer_id");
+
+            while(results.next()){
+                count = results.getInt("count");
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

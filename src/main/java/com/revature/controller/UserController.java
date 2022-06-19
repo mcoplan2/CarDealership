@@ -5,7 +5,6 @@ import com.revature.model.UserRoles;
 import com.revature.service.UserService;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +15,11 @@ public class UserController {
 
     public Handler createNewUser = ctx -> {
         User user = ctx.bodyAsClass(User.class);
-        ctx.status(HttpCode.CREATED).json(userService.createNewUser(user));
+        try {
+            ctx.status(HttpCode.CREATED).json(userService.createNewUser(user));
+        } catch (NullPointerException | NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result("User could not be created");
+        }
     };
 
     public Handler getAllUsers = ctx -> {
@@ -45,43 +48,16 @@ public class UserController {
         ctx.json(users);
     };
 
-    public Handler getAllCustomers = ctx -> {
-        List<User> customers = userService.getAllUsersByRole(UserRoles.CUSTOMER);
-        ctx.json(customers);
-    };
-
-    public Handler getAllEmployees = ctx -> {
-        List<User> employees = userService.getAllUsersByRole(UserRoles.EMPLOYEE);
-        ctx.json(employees);
-    };
-
     public Handler getUserById = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
+        int id = 0;
         try {
+            id = Integer.parseInt(param);
             ctx.json(userService.getUserById(id));
-        } catch (NullPointerException e){
-            ctx.status(HttpCode.BAD_REQUEST).result("User is not found, please enter a valid user ID");
-        }
-    };
-
-    public Handler getEmployeeById = ctx -> {
-        String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
-        try {
-            ctx.json(userService.getUserIdAndCheckRole(id, UserRoles.EMPLOYEE));
-        } catch (NullPointerException e){
-            ctx.result("BROKEN");
-        }
-    };
-
-    public Handler getCustomerById = ctx -> {
-        String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
-        try {
-            ctx.json(userService.getUserIdAndCheckRole(id, UserRoles.CUSTOMER));
-        } catch (NullPointerException e){
-            ctx.result("BROKEN");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("User " + id + "could not be found");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + "is not a valid integer. Enter a valid integer");
         }
     };
 
@@ -93,11 +69,19 @@ public class UserController {
 
     public Handler deleteUserById = ctx -> {
         String param = ctx.pathParam("id");
-        int id = Integer.parseInt(param);
 
-        if(userService.deleteUserById(id)) {
-            ctx.result("User " + id + "successfully deleted");
-        } else
-            ctx.status(HttpCode.BAD_REQUEST).result("User " + id + "could not be deleted");
-        };
+        int id = 0;
+        try {
+            id = Integer.parseInt(param);
+            boolean result = userService.deleteUserById(id);
+            if (result)
+                ctx.status(HttpCode.OK).result("User " + id + "successfully deleted");
+            else
+                ctx.status(HttpCode.BAD_REQUEST).result("User " + id + "could not be deleted");
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.NOT_FOUND).result("User " + id + "could not be found");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result(param + "is not a valid integer. Enter a valid integer");
+        }
+    };
 }
