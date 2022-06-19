@@ -2,6 +2,8 @@ package com.revature.repository;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
+import com.revature.model.Offer;
+import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -212,15 +214,28 @@ public class CarRepository  implements CrudDAO<Car> {
         return null;
     }
 
-    //  TODO :THIS IS A JOIN? RESEARCH THIS LATER
-    public List<Car> getAllCarsOwnedFromASpecificUserId(int id) {
-        List<Car> filteredCars = new ArrayList<>();
+    public List<Car> getAllByUserId(int userId) {
+        List<Car> cars = new ArrayList<>();
+        String sql = "select * from cars where user_id = ?";
 
-        for(int i = 0; i<cars.size(); i++) {
-            if (cars.get(i).getUserId() == id && cars.get(i).getStatus().equals(CarStatus.PURCHASED) ) {
-                filteredCars.add(cars.get(i));
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                cars.add(new Car().
+                        setId(results.getInt("car_id")).
+                        setMake(results.getString("make")).
+                        setModel(results.getString("model")).
+                        setYear(results.getInt("year")).
+                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")));
             }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return filteredCars;
+        return cars;
     }
 }

@@ -219,15 +219,12 @@ public class OfferRepository implements CrudDAO<Offer> {
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
-                //Offer offer = new Offer();
                 offers.add(new Offer().
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
                         setStatus(OfferStatus.valueOf(results.getString("status"))).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
-
-                //return offer;
             }
 
         } catch (SQLException e) {
@@ -236,16 +233,28 @@ public class OfferRepository implements CrudDAO<Offer> {
         return offers;
     }
 
-    public List<Offer> getAllOffersFromASpecificUserId(int id) {
-        List<Offer> filteredOffers = new ArrayList<>();
+    public List<Offer> getAllByUserId(int userId) {
+        List<Offer> offers = new ArrayList<>();
+        String sql = "select * from offers where user_id = ?";
 
-        for(int i = 0; i<offers.size(); i++) {
-            if (offers.get(i).getUserId() == id && offers.get(i).getStatus().equals(OfferStatus.OPEN)) {
-                filteredOffers.add(offers.get(i));
+        try(Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, userId);
+            ResultSet results = stmt.executeQuery();
+
+            while (results.next()) {
+                offers.add(new Offer().
+                        setId(results.getInt("offer_id")).
+                        setAmount(results.getDouble("amount")).
+                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setUserId(results.getInt("user_id")).
+                        setCarId(results.getInt("car_id")));
+
             }
-        }
-        return filteredOffers;
-    }
 
-    //TODO Add a getIDIfStatusisOPEN ?
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return offers;
+    }
 }

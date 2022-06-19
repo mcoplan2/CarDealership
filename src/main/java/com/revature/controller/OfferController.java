@@ -93,14 +93,24 @@ public class OfferController {
     public Handler getAllOffersFromASpecificUserId = ctx -> {
         List<Offer> offers;
 
-        String param = ctx.queryParam("id");
+        String param = ctx.path();
+        char[] ch = param.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : ch) {
+            if (Character.isDigit(c)) {
+                stringBuilder.append(c);
+            }
+        }
         int id = 0;
         try {
-            id = Integer.parseInt(param);
+            id = Integer.parseInt(stringBuilder.toString());
             offers = offerService.getAllOffersFromASpecificUserId(id);
-            ctx.json(offers);
+            if (!offers.isEmpty())
+                ctx.status(HttpCode.OK).json(offers);
+            else
+                ctx.status(HttpCode.NOT_FOUND).result("User " + id + " does not own any offers");
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " is not found, please enter an existing offer.");
+            ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " could not be found");
         } catch (NumberFormatException e) {
             ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }

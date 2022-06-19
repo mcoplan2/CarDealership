@@ -58,7 +58,7 @@ public class OfferService {
     }
 
     public List<Offer> getAllOffersFromASpecificUserId(int id) {
-        return offerRepository.getAllOffersFromASpecificUserId(id);
+        return offerRepository.getAllByUserId(id);
     }
 
     public boolean approveOfferById(int offerId, int userId){
@@ -78,13 +78,13 @@ public class OfferService {
 
                 List<Offer> cars = offerRepository.getAllByCarId(carId);
                 // Loop through each car ID that is on the Offer
-                for(int i = 0; i < cars.size(); i++) {
+                for (Offer car : cars) {
                     // If the car ID is the same as the one on the Offer
                     // AND the offer ID does not equal our offer ID
-                    if(cars.get(i).getCarId() == carId && cars.get(i).getId() != offerId) {
+                    if (car.getCarId() == carId && car.getId() != offerId) {
                         // Reject all these offers and update the database
-                        cars.get(i).setStatus(OfferStatus.REJECTED);
-                        offerRepository.update(cars.get(i));
+                        car.setStatus(OfferStatus.REJECTED);
+                        offerRepository.update(car);
                     }
                 }
                 return true;

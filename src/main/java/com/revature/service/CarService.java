@@ -68,6 +68,6 @@ public class CarService {
     }
 
     public List<Car> getAllCarsOwnedFromASpecificUserId(int id) {
-        return carRepository.getAllCarsOwnedFromASpecificUserId(id);
+        return carRepository.getAllByUserId(id);
     }
 }

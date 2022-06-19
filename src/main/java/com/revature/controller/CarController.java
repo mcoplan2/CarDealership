@@ -93,13 +93,22 @@ public class CarController {
     public Handler getAllCarsFromASpecificUserId = ctx -> {
         List<Car> cars;
 
-        String param = ctx.queryParam("id");
-
+        String param = ctx.path();
+        char[] ch = param.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (char c : ch) {
+            if (Character.isDigit(c)) {
+                stringBuilder.append(c);
+            }
+        }
         int id = 0;
         try {
-            id = Integer.parseInt(param);
+            id = Integer.parseInt(stringBuilder.toString());
             cars = carService.getAllCarsOwnedFromASpecificUserId(id);
-            ctx.status(HttpCode.OK).json(cars);
+            if (!cars.isEmpty())
+                ctx.status(HttpCode.OK).json(cars);
+            else
+                ctx.status(HttpCode.NOT_FOUND).result("User " + id + " does not own any cars");
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Car " + id + " could not be found");
         } catch (NumberFormatException e) {
