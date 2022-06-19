@@ -99,7 +99,7 @@ public class OfferRepository implements CrudDAO<Offer> {
     // PUT Method
     @Override
     public Offer update(Offer offer) {
-        String sql = "update offers set amount = ?, status = ?, car_id = ?, user_id = ?";
+        String sql = "update offers set amount = ?, status = ?, car_id = ?, user_id = ? where offer_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -107,6 +107,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             statement.setString(2, offer.getStatus().name());
             statement.setInt(3, offer.getCarId());
             statement.setInt(4, offer.getUserId());
+            statement.setInt(5, offer.getId());
 
             int success = statement.executeUpdate();
 
@@ -149,7 +150,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             ResultSet results = stmt.executeQuery();
 
             if(results.next()) {
-                count = results.getInt("id");
+                count = results.getInt("offer_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();

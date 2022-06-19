@@ -4,7 +4,7 @@ import com.revature.model.*;
 import com.revature.service.OfferService;
 import com.revature.service.UserService;
 import io.javalin.http.Handler;
-
+import io.javalin.http.HttpCode;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -23,7 +23,15 @@ public class OfferController {
         int id = Integer.parseInt(param);
 
         Offer offer = ctx.bodyAsClass(Offer.class);
-        offerService.createOffer(offer, id);
+
+        try {
+            Offer createdOffer = offerService.createOffer(offer, id);
+            ctx.status(HttpCode.CREATED).json(createdOffer);
+        } catch (NullPointerException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result("Please enter an available car");
+        } catch (NumberFormatException e) {
+            ctx.status(HttpCode.BAD_REQUEST).result("Please enter a valid integer ID");
+        }
     };
 
     public Handler getAllOffers = ctx -> {
@@ -87,16 +95,27 @@ public class OfferController {
 
     // TODO : fix this to pass in a userId to check if employee
     public Handler approveOffer = ctx -> {
-        String param = ctx.queryParam("id");
-        int id = Integer.parseInt(param);
+        String param = ctx.path();
+        char[] ch = param.toCharArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        for(char c : ch) {
+            if(Character.isDigit(c)){
+                stringBuilder.append(c);
+            }
+        }
+        int offerId = Integer.parseInt(stringBuilder.toString());
         String body = ctx.body();
         try {
-            int result = Integer.parseInt(body);
-            if(userService.getUserById(result).getRole().equals(UserRoles.EMPLOYEE)) {
-                offerService.approveOfferById(id);
+            int userId = Integer.parseInt(body);
+            boolean result = offerService.approveOfferById(offerId, userId);
+            if (result) {
+                ctx.status(200).result("Offer has been approved");
             }
+            else ctx.status(HttpCode.BAD_REQUEST).result("You cannot approve offers as a customer");
         } catch (NullPointerException e){
-            ctx.status(404).result("Enter a valid ID in the path");
+            ctx.status(HttpCode.NOT_FOUND).result("The offer is not found, please enter an existing offer.");
+        } catch (NumberFormatException e){
+            ctx.status(HttpCode.BAD_REQUEST).result("Please enter an ID as an integer");
         }
     };
 

@@ -21,7 +21,7 @@ public class CarRepository  implements CrudDAO<Car> {
         this.cars = cars;
     }
 
-    // TODO FIX ALL THESE STATEMENTS AND USE THE BUILDER METHOD
+    // TODO ADD TRY CATCH BLOCK FOR UNWANTED INPUTS
     @Override
     public Car create(Car car) {
         String sql = "insert into cars(make, model, year, status) values(?,?,?,?)";
@@ -100,7 +100,7 @@ public class CarRepository  implements CrudDAO<Car> {
     // PUT Method
     @Override
     public Car update(Car car) {
-        String sql = "update cars set make = ?, model = ?, year = ?, price = ?, status = ?, user_id = ?";
+        String sql = "update cars set make = ?, model = ?, year = ?, status = ?, user_id = ? where car_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -109,6 +109,7 @@ public class CarRepository  implements CrudDAO<Car> {
             statement.setInt(3, car.getYear());
             statement.setString(4, car.getStatus().name());
             statement.setInt(5, car.getUserId());
+            statement.setInt(6, car.getId());
 
             int success = statement.executeUpdate();
 
