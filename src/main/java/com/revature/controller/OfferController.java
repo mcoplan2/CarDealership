@@ -90,7 +90,7 @@ public class OfferController {
 
     };
 
-    public Handler getAllOffersFromASpecificUserId = ctx -> {
+    public Handler getAllOpenOffersFromASpecificUserId = ctx -> {
         List<Offer> offers;
 
         String param = ctx.path();
@@ -104,7 +104,7 @@ public class OfferController {
         int id = 0;
         try {
             id = Integer.parseInt(stringBuilder.toString());
-            offers = offerService.getAllOffersFromASpecificUserId(id);
+            offers = offerService.getAllOpenOffersFromASpecificUserId(id);
             if (!offers.isEmpty())
                 ctx.status(HttpCode.OK).json(offers);
             else

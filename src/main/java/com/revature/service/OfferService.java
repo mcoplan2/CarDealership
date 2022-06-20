@@ -57,15 +57,16 @@ public class OfferService {
         return offerRepository.update(offer);
     }
 
-    public List<Offer> getAllOffersFromASpecificUserId(int id) {
-        return offerRepository.getAllByUserId(id);
+    public List<Offer> getAllOpenOffersFromASpecificUserId(int id) {
+        return offerRepository.getAllOpenOffersByUserId(id);
     }
 
     public boolean approveOfferById(int offerId, int userId){
         Offer pendingOffer = offerRepository.getById(offerId);
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
-        if(userService.getUserById(userId).getRole().equals(UserRoles.EMPLOYEE))
+        User pendingUser = userService.getUserById(userId);
+        if(pendingUser.getRole().equals(UserRoles.EMPLOYEE))
             // if the offer is Open and the car is Available
             if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
                 // Change the offer status to Accepted and the car status to Purchased

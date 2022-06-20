@@ -31,7 +31,7 @@ public class Driver {
                         post(carController.createNewCar);
                     });
                     path("offers", () -> {
-                        get(offerController.getAllOffersFromASpecificUserId);
+                        get(offerController.getAllOpenOffersFromASpecificUserId);
                     });
                 });
             });

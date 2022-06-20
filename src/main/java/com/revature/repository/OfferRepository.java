@@ -233,13 +233,14 @@ public class OfferRepository implements CrudDAO<Offer> {
         return offers;
     }
 
-    public List<Offer> getAllByUserId(int userId) {
+    public List<Offer> getAllOpenOffersByUserId(int userId) {
         List<Offer> offers = new ArrayList<>();
-        String sql = "select * from offers where user_id = ?";
+        String sql = "select * from offers where user_id = ? and status = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, userId);
+            stmt.setString(2, OfferStatus.OPEN.name());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
