@@ -77,15 +77,15 @@ public class OfferService {
                 pendingCar.setUserId(pendingOffer.getUserId());
                 carService.updateCarById(pendingCar);
 
-                List<Offer> cars = offerRepository.getAllByCarId(carId);
+                List<Offer> offers = offerRepository.getAllByCarId(carId);
                 // Loop through each car ID that is on the Offer
-                for (Offer car : cars) {
+                for (Offer offer: offers) {
                     // If the car ID is the same as the one on the Offer
                     // AND the offer ID does not equal our offer ID
-                    if (car.getCarId() == carId && car.getId() != offerId) {
+                    if (offer.getCarId() == carId && offer.getId() != offerId) {
                         // Reject all these offers and update the database
-                        car.setStatus(OfferStatus.REJECTED);
-                        offerRepository.update(car);
+                        offer.setStatus(OfferStatus.REJECTED);
+                        offerRepository.update(offer);
                     }
                 }
                 return true;
@@ -100,8 +100,6 @@ public class OfferService {
             if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
                 pendingOffer.setStatus(OfferStatus.REJECTED);
                 offerRepository.update(pendingOffer);
-                pendingCar.setStatus(CarStatus.AVAILABLE);
-                carService.updateCarById(pendingCar);
                 return true;
             }
         }
