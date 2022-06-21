@@ -74,10 +74,11 @@ public class CarRepository  implements CrudDAO<Car> {
     // GET Method
     @Override
     public Car getById(int id) {
-        String sql = "select * from cars where car_id = "+id;
+        String sql = "select * from cars where car_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet results = stmt.executeQuery();
 
             if (results.next()) {
@@ -128,10 +129,11 @@ public class CarRepository  implements CrudDAO<Car> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from cars where car_id = "+id;
+        String sql = "delete from cars where car_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet results = stmt.executeQuery();
 
             if(results.next()) {

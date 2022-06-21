@@ -73,10 +73,11 @@ public class OfferRepository implements CrudDAO<Offer> {
     // GET Method
     @Override
     public Offer getById(int id) {
-        String sql = "select * from offers where offer_id = "+id;
+        String sql = "select * from offers where offer_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet results = stmt.executeQuery();
 
             if (results.next()) {
@@ -125,10 +126,11 @@ public class OfferRepository implements CrudDAO<Offer> {
     // DELETE Method
     @Override
     public boolean deleteById(int id) {
-        String sql = "delete from offers where offer_id = "+id;
+        String sql = "delete from offers where offer_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet results = stmt.executeQuery();
 
             if(results.next()) {
