@@ -73,8 +73,7 @@ public class OfferService {
                 // and update each result on the database
                 pendingOffer.setStatus(OfferStatus.ACCEPTED);
                 offerRepository.update(pendingOffer);
-                pendingCar.setStatus(CarStatus.PURCHASED);
-                pendingCar.setUserId(pendingOffer.getUserId());
+                pendingCar.setStatus(CarStatus.PURCHASED).setUserId(pendingOffer.getUserId());
                 carService.updateCarById(pendingCar);
 
                 List<Offer> offers = offerRepository.getAllByCarId(carId);

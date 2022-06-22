@@ -1,5 +1,4 @@
 package com.revature.service;
-import com.revature.controller.UserController;
 import com.revature.model.*;
 import com.revature.repository.CarRepository;
 import org.slf4j.Logger;
@@ -33,7 +32,6 @@ public class CarService {
 
     // Only Employees can create cars, takes in a car object and a user ID
     // If the Role for the ID is an EMPLOYEE, then createCar is allowed.
-
     public Car createNewCar(Car car, int id) {
          User user = userService.getUserById(id);
         if(user.getRole().equals(UserRoles.EMPLOYEE)){

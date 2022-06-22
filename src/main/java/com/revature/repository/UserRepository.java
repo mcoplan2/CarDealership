@@ -5,7 +5,6 @@ import com.revature.model.UserRoles;
 import com.revature.util.ConnectionUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -103,7 +102,7 @@ public class UserRepository implements CrudDAO<User> {
 
     @Override
     public User update(User user) {
-        String sql = "update users set first_name = ?, last_name = ?, username = ?, pass = ?, role = ?";
+        String sql = "update users set first_name = ?, last_name = ?, username = ?, pass = ?, role = ? where user_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);

@@ -1,7 +1,5 @@
 package com.revature.repository;
 
-import com.revature.model.Car;
-import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
@@ -135,11 +133,10 @@ public class OfferRepository implements CrudDAO<Offer> {
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
-            ResultSet results = stmt.executeQuery();
 
-            if(results.next()) {
-                return true;
-            }
+            int success = stmt.executeUpdate();
+
+            return success == 1;
         } catch (SQLException e) {
             logger.warn(e.getMessage());
         }

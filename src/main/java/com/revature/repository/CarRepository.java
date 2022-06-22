@@ -1,14 +1,10 @@
 package com.revature.repository;
 
-import com.revature.controller.UserController;
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
-import com.revature.model.Offer;
-import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -123,7 +119,7 @@ public class CarRepository  implements CrudDAO<Car> {
             int success = statement.executeUpdate();
 
             if (success == 1) {
-                return car;
+                return getById(car.getId());
             }
 
         } catch (SQLException e) {
@@ -140,11 +136,10 @@ public class CarRepository  implements CrudDAO<Car> {
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
-            ResultSet results = stmt.executeQuery();
 
-            if(results.next()) {
-                return true;
-            }
+            int success = stmt.executeUpdate();
+
+            return success == 1;
         } catch (SQLException e) {
             logger.warn(e.getMessage());
         }
