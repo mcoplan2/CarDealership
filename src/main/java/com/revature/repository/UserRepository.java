@@ -3,17 +3,21 @@ package com.revature.repository;
 import com.revature.model.User;
 import com.revature.model.UserRoles;
 import com.revature.util.ConnectionUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class UserRepository implements CrudDAO<User> {
 
     private List<User> users;
+
+    static Logger logger = LoggerFactory.getLogger(UserRepository.class);
 
     public UserRepository(){
         users = new ArrayList<>();
@@ -25,7 +29,7 @@ public class UserRepository implements CrudDAO<User> {
 
     @Override
     public User create(User user) {
-        String sql = "insert into users(first_name, last_name, username, pass, role) values(?,?,?,?,?)";
+        String sql = "insert into users(first_name, last_name, username, pass, user_role_id) values(?,?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -33,7 +37,7 @@ public class UserRepository implements CrudDAO<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getUserName());
             statement.setString(4, user.getPassword());
-            statement.setString(5, user.getRole().name());
+            statement.setInt(5, user.getRole().ordinal());
 
             int success = statement.executeUpdate();
 
@@ -42,7 +46,7 @@ public class UserRepository implements CrudDAO<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -63,10 +67,10 @@ public class UserRepository implements CrudDAO<User> {
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
                         .setPassword(results.getString("pass"))
-                        .setRole((UserRoles.valueOf(results.getString("role")))));
+                        .setRole((UserRoles.values()[(results.getInt("user_role_id"))])));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return users;
     }
@@ -88,11 +92,11 @@ public class UserRepository implements CrudDAO<User> {
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
                         .setPassword(results.getString("pass"))
-                        .setRole((UserRoles.valueOf(results.getString("role")))));
+                        .setRole((UserRoles.values()[(results.getInt("user_role_id"))])));
                 return user;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -107,7 +111,7 @@ public class UserRepository implements CrudDAO<User> {
             statement.setString(2, user.getLastName());
             statement.setString(3, user.getUserName());
             statement.setString(4, user.getPassword());
-            statement.setString(5, user.getRole().name());
+            statement.setInt(5, user.getRole().ordinal());
 
             int success = statement.executeUpdate();
 
@@ -116,7 +120,7 @@ public class UserRepository implements CrudDAO<User> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -133,7 +137,7 @@ public class UserRepository implements CrudDAO<User> {
 
             return results == 1;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return false;
     }
@@ -151,14 +155,14 @@ public class UserRepository implements CrudDAO<User> {
                 count = results.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return count;
     }
 
     public List<User> getAllByRole(UserRoles role) {
         List<User> users = new ArrayList<>();
-        String sql = "select * from users where role = ?";
+        String sql = "select * from users where user_role_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -172,16 +176,16 @@ public class UserRepository implements CrudDAO<User> {
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
                         .setPassword(results.getString("pass"))
-                        .setRole((UserRoles.valueOf(results.getString("role")))));
+                        .setRole((UserRoles.valueOf(results.getString("user_role_id")))));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return users;
     }
 
     public User getUserIdByRole(int id, UserRoles role) {
-        String sql = "select * from users where user_id = ? and role = ?";
+        String sql = "select * from users where user_id = ? and user_role_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -197,11 +201,36 @@ public class UserRepository implements CrudDAO<User> {
                         .setLastName(results.getString("last_name"))
                         .setUserName(results.getString("username"))
                         .setPassword(results.getString("pass"))
-                        .setRole((UserRoles.valueOf(results.getString("role")))));
+                        .setRole((UserRoles.values()[(results.getInt("user_role_id"))])));
                 return user;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
+        }
+        return null;
+    }
+
+    public User getByUserName(String username) {
+        String sql = "select * from users where username= ?";
+
+        try (Connection connection = ConnectionUtility.getConnection()) {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, username);
+            ResultSet results = stmt.executeQuery();
+
+            if(results.next()) {
+                User user = new User();
+                users.add(user
+                        .setId(results.getInt("user_id"))
+                        .setFirstName(results.getString("first_name"))
+                        .setLastName(results.getString("last_name"))
+                        .setUserName(results.getString("username"))
+                        .setPassword(results.getString("pass"))
+                        .setRole((UserRoles.values()[(results.getInt("user_role_id"))])));
+                return user;
+            }
+        } catch (SQLException e) {
+            logger.warn(e.getMessage());
         }
         return null;
     }

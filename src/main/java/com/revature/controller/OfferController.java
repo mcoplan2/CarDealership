@@ -23,6 +23,7 @@ public class OfferController {
         int id = 0;
         try {
             id = Integer.parseInt(param);
+            Offer offer2 = offerService.createOffer(offer, id);
             ctx.status(HttpCode.CREATED).json(offerService.createOffer(offer, id));
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " could not be created, car is already purchased");

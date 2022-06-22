@@ -5,6 +5,8 @@ import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +18,8 @@ public class OfferRepository implements CrudDAO<Offer> {
 
     private List<Offer> offers;
 
+    static Logger logger = LoggerFactory.getLogger(OfferRepository.class);
+
     public OfferRepository() {
         offers = new ArrayList<>();
     }
@@ -26,12 +30,12 @@ public class OfferRepository implements CrudDAO<Offer> {
 
     @Override
     public Offer create(Offer offer) {
-        String sql = "insert into offers(amount, status, user_id, car_id) values(?,?,?,?)";
+        String sql = "insert into offers(amount, offer_status_id, user_id, car_id) values(?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, offer.getAmount());
-            statement.setString(2, offer.getStatus().name());
+            statement.setInt(2, offer.getStatus().ordinal());
             statement.setInt(3, offer.getUserId());
             statement.setInt(4, offer.getCarId());
 
@@ -42,7 +46,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -60,12 +64,12 @@ public class OfferRepository implements CrudDAO<Offer> {
                 offers.add(new Offer().
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return offers;
     }
@@ -85,7 +89,7 @@ public class OfferRepository implements CrudDAO<Offer> {
                 offers.add(offer.
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
 
@@ -93,7 +97,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -101,12 +105,12 @@ public class OfferRepository implements CrudDAO<Offer> {
     // PUT Method
     @Override
     public Offer update(Offer offer) {
-        String sql = "update offers set amount = ?, status = ?, car_id = ?, user_id = ? where offer_id = ?";
+        String sql = "update offers set amount = ?, offer_status_id = ?, car_id = ?, user_id = ? where offer_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setDouble(1, offer.getAmount());
-            statement.setString(2, offer.getStatus().name());
+            statement.setInt(2, offer.getStatus().ordinal());
             statement.setInt(3, offer.getCarId());
             statement.setInt(4, offer.getUserId());
             statement.setInt(5, offer.getId());
@@ -118,7 +122,7 @@ public class OfferRepository implements CrudDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -137,7 +141,7 @@ public class OfferRepository implements CrudDAO<Offer> {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return false;
     }
@@ -157,14 +161,14 @@ public class OfferRepository implements CrudDAO<Offer> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return count;
     }
 
     public List<Offer> getAllByStatus(OfferStatus status) {
         List<Offer> offers = new ArrayList<>();
-        String sql = "select * from offers where status = ?";
+        String sql = "select * from offers where offer_status_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -175,18 +179,18 @@ public class OfferRepository implements CrudDAO<Offer> {
                 offers.add(new Offer().
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return offers;
     }
 
     public Offer getOfferIdByRole(int id, OfferStatus status) {
-        String sql = "select * from offers where offer_id = ? and status = ?";
+        String sql = "select * from offers where offer_id = ? and offer_status_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -199,14 +203,14 @@ public class OfferRepository implements CrudDAO<Offer> {
                 offers.add(offer.
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
                 return offer;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -224,39 +228,39 @@ public class OfferRepository implements CrudDAO<Offer> {
                 offers.add(new Offer().
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return offers;
     }
 
     public List<Offer> getAllOpenOffersByUserId(int userId) {
         List<Offer> offers = new ArrayList<>();
-        String sql = "select * from offers where user_id = ? and status = ?";
+        String sql = "select * from offers where user_id = ? and offer_status_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, userId);
-            stmt.setString(2, OfferStatus.OPEN.name());
+            stmt.setInt(2, OfferStatus.OPEN.ordinal());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
                 offers.add(new Offer().
                         setId(results.getInt("offer_id")).
                         setAmount(results.getDouble("amount")).
-                        setStatus(OfferStatus.valueOf(results.getString("status"))).
+                        setStatus(OfferStatus.values()[(results.getInt("offer_status_id"))]).
                         setUserId(results.getInt("user_id")).
                         setCarId(results.getInt("car_id")));
 
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return offers;
     }

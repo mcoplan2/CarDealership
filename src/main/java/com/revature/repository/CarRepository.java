@@ -1,10 +1,14 @@
 package com.revature.repository;
 
+import com.revature.controller.UserController;
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
 import com.revature.model.Offer;
 import com.revature.model.OfferStatus;
 import com.revature.util.ConnectionUtility;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +18,8 @@ import java.util.List;
 
 public class CarRepository  implements CrudDAO<Car> {
     private List<Car> cars;
+
+    static Logger logger = LoggerFactory.getLogger(CarRepository.class);
 
     public CarRepository(){
         cars = new ArrayList<>();
@@ -26,14 +32,14 @@ public class CarRepository  implements CrudDAO<Car> {
     // TODO ADD TRY CATCH BLOCK FOR UNWANTED INPUTS
     @Override
     public Car create(Car car) {
-        String sql = "insert into cars(make, model, year, status) values(?,?,?,?)";
+        String sql = "insert into cars(make, model, year, car_status_id) values(?,?,?,?)";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, car.getMake());
             statement.setString(2, car.getModel());
             statement.setInt(3, car.getYear());
-            statement.setString(4, car.getStatus().name());
+            statement.setInt(4, car.getStatus().ordinal());
 
             int success = statement.executeUpdate();
 
@@ -42,7 +48,7 @@ public class CarRepository  implements CrudDAO<Car> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -62,11 +68,11 @@ public class CarRepository  implements CrudDAO<Car> {
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
-                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setStatus(CarStatus.values()[(results.getInt("car_status_id"))]).
                         setUserId(results.getInt("user_id")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return cars;
     }
@@ -88,14 +94,14 @@ public class CarRepository  implements CrudDAO<Car> {
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
-                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setStatus(CarStatus.values()[(results.getInt("car_status_id"))]).
                         setUserId(results.getInt("user_id")));
 
                 return car;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -103,14 +109,14 @@ public class CarRepository  implements CrudDAO<Car> {
     // PUT Method
     @Override
     public Car update(Car car) {
-        String sql = "update cars set make = ?, model = ?, year = ?, status = ?, user_id = ? where car_id = ?";
+        String sql = "update cars set make = ?, model = ?, year = ?, car_status_id = ?, user_id = ? where car_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, car.getMake());
             statement.setString(2, car.getModel());
             statement.setInt(3, car.getYear());
-            statement.setString(4, car.getStatus().name());
+            statement.setInt(4, car.getStatus().ordinal());
             statement.setInt(5, car.getUserId());
             statement.setInt(6, car.getId());
 
@@ -121,7 +127,7 @@ public class CarRepository  implements CrudDAO<Car> {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -140,7 +146,7 @@ public class CarRepository  implements CrudDAO<Car> {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return false;
     }
@@ -159,14 +165,14 @@ public class CarRepository  implements CrudDAO<Car> {
                 count = results.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return count;
     }
 
     public List<Car> getAllByStatus(CarStatus status) {
         List<Car> cars = new ArrayList<>();
-        String sql = "select * from cars where status = ?";
+        String sql = "select * from cars where car_status_id = ?";
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -179,17 +185,17 @@ public class CarRepository  implements CrudDAO<Car> {
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
-                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setStatus(CarStatus.values()[(results.getInt("car_status_id"))]).
                         setUserId(results.getInt("user_id")));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return cars;
     }
 
     public Car getCarIdByRole(int id, CarStatus status) {
-        String sql = "select * from cars where car_id = ? and status = ?";
+        String sql = "select * from cars where car_id = ? and car_status_id = ?";
 
         try(Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -204,14 +210,14 @@ public class CarRepository  implements CrudDAO<Car> {
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
-                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setStatus(CarStatus.values()[(results.getInt("car_status_id"))]).
                         setUserId(results.getInt("user_id")));
 
                 return car;
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return null;
     }
@@ -231,12 +237,12 @@ public class CarRepository  implements CrudDAO<Car> {
                         setMake(results.getString("make")).
                         setModel(results.getString("model")).
                         setYear(results.getInt("year")).
-                        setStatus(CarStatus.valueOf(results.getString("status"))).
+                        setStatus(CarStatus.values()[(results.getInt("car_status_id"))]).
                         setUserId(results.getInt("user_id")));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
         return cars;
     }

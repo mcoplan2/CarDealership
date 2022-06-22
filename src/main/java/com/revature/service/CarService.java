@@ -1,14 +1,19 @@
 package com.revature.service;
+import com.revature.controller.UserController;
 import com.revature.model.*;
 import com.revature.repository.CarRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 public class CarService {
 
     private CarRepository carRepository;
     private UserService userService;
-
     private static CarService instance;
+
+    static Logger logger = LoggerFactory.getLogger(CarService.class);
 
     public CarService() {
         carRepository = new CarRepository();
