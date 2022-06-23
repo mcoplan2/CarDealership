@@ -80,12 +80,12 @@ public class CarServiceTest {
     }
 
     @Test
-    public void whenGivenCarIdgetAllByStatusDoesNotThrowAnException() {
+    public void whenGivenCarIdGetAllByStatusDoesNotThrowAnException() {
         Assertions.assertDoesNotThrow(() -> mockedService.getAllCarsByStatus(CarStatus.AVAILABLE));
     }
 
     @Test
-    public void whenGivenCarIdgetAllByStatusReturnsListOfCars() {
+    public void whenGivenCarIdGetAllByStatusReturnsListOfCars() {
         List<Car> cars = new ArrayList<>();
         car.setStatus(CarStatus.PURCHASED);
         cars.add(car);
@@ -97,12 +97,12 @@ public class CarServiceTest {
     }
 
     @Test
-    public void whenGivenCarIdgetAllCarsOwnedDoesNotThrowAnException() {
+    public void whenGivenCarIdGetAllCarsOwnedDoesNotThrowAnException() {
         Assertions.assertDoesNotThrow(() -> mockedService.getAllCarsOwnedFromASpecificUserId(1));
     }
 
     @Test
-    public void whenGivenCarIdgetAllCarsOwnedReturnsListOfCarsOwned() {
+    public void whenGivenCarIdGetAllCarsOwnedReturnsListOfCarsOwned() {
         List<Car> cars = new ArrayList<>();
         car.setUserId(1);
         cars.add(car);
