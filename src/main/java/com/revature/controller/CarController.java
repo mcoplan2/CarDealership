@@ -29,7 +29,7 @@ public class CarController {
                 ctx.status(HttpCode.FORBIDDEN).json("Current role is set to Customer, you need to be an Employee to Create Cars");
             }
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.FORBIDDEN).result("ID: " + id + " can not create cars, they are not an employee");
+            ctx.status(HttpCode.FORBIDDEN).result("User: " + id + " can not create cars, they are not an employee");
         } catch (NumberFormatException e) {
             ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }

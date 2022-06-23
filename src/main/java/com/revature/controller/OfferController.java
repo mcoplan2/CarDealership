@@ -51,7 +51,7 @@ public class OfferController {
                         "Please only use the following role values: " + Arrays.toString(OfferStatus.values())
                         + "\"}";
 
-                ctx.status(400).json(failureMessage);
+                ctx.status(HttpCode.BAD_REQUEST).json(failureMessage);
                 return;
             }
         }
@@ -138,7 +138,7 @@ public class OfferController {
             if (authResult) {
                 boolean result = offerService.approveOfferById(offerId, userId);
                 if (result)
-                    ctx.status(200).result("Offer " + offerId + " has been approved");
+                    ctx.status(HttpCode.OK).result("Offer " + offerId + " has been approved");
             } else
                 ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
         } catch (NullPointerException e) {
@@ -167,10 +167,10 @@ public class OfferController {
             if (authResult) {
                 boolean result = offerService.denyOfferById(offerId, userId);
                 if (result)
-                    ctx.status(200).result("Offer " + offerId + " has been approved");
+                    ctx.status(HttpCode.OK).result("Offer " + offerId + " has been denied");
             }
             else
-                ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
+                ctx.status(HttpCode.FORBIDDEN).result("You cannot deny offers as a customer");
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + offerId + " is not found, please enter an existing offer.");
         } catch (NumberFormatException e) {

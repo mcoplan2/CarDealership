@@ -66,13 +66,14 @@ public class OfferService {
         int carId = pendingOffer.getCarId();
         Car pendingCar = carService.getCarById(carId);
         User pendingUser = userService.getUserById(userId);
+        // Check if the current role of the user is an Employee before we approve
         if(pendingUser.getRole().equals(UserRoles.EMPLOYEE))
-            // if the offer is Open and the car is Available
+            // if the offer is Open and the car is Available we continue
             if (pendingOffer.getStatus().equals(OfferStatus.OPEN) && pendingCar.getStatus().equals(CarStatus.AVAILABLE)) {
-                // Change the offer status to Accepted and the car status to Purchased
-                // and update each result on the database
+                // Change the offer status to Accepted and update each result on the database
                 pendingOffer.setStatus(OfferStatus.ACCEPTED);
                 offerRepository.update(pendingOffer);
+                // set the user ID of who made the offer to the Car and change status to Purchased.
                 pendingCar.setStatus(CarStatus.PURCHASED).setUserId(pendingOffer.getUserId());
                 carService.updateCarById(pendingCar);
 

@@ -15,9 +15,9 @@ public class AuthController {
         // check if null fail, check if not null load token
 
         if (token != null) {
-            ctx.status(200).result("Bearer " + token);
+            ctx.status(HttpCode.OK).result("Bearer " + token);
         } else {
-            ctx.status(401).result("Bad credentials.");
+            ctx.status(HttpCode.UNAUTHORIZED).result("Bad credentials.");
         }
     };
 

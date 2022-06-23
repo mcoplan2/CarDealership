@@ -41,7 +41,7 @@ public class UserController {
                         "Please only use the following role values: " + Arrays.toString(UserRoles.values())
                         + "\"}";
 
-                ctx.status(400).json(failureMessage);
+                ctx.status(HttpCode.BAD_REQUEST).json(failureMessage);
                 return;
             }
         }
