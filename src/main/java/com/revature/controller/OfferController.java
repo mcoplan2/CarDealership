@@ -109,7 +109,7 @@ public class OfferController {
             if (!offers.isEmpty())
                 ctx.status(HttpCode.OK).json(offers);
             else
-                ctx.status(HttpCode.NOT_FOUND).result("User " + id + " does not own any offers");
+                ctx.status(HttpCode.NOT_FOUND).result("User " + id + " does not have any open offers");
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " could not be found");
         } catch (NumberFormatException e) {

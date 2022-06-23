@@ -171,7 +171,7 @@ public class CarRepository  implements CrudDAO<Car> {
 
         try (Connection connection = ConnectionUtility.getConnection()) {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setString(1, status.name());
+            stmt.setInt(1, status.ordinal());
             ResultSet results = stmt.executeQuery();
 
             while (results.next()) {
