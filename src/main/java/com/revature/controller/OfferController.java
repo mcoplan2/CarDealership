@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.model.*;
+import com.revature.service.AuthService;
 import com.revature.service.OfferService;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
@@ -23,7 +24,6 @@ public class OfferController {
         int id = 0;
         try {
             id = Integer.parseInt(param);
-            Offer offer2 = offerService.createOffer(offer, id);
             ctx.status(HttpCode.CREATED).json(offerService.createOffer(offer, id));
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + id + " could not be created, car is already purchased");
@@ -127,15 +127,20 @@ public class OfferController {
             }
         }
 
+        // TODO ADD FOREIGN KEYS AGAIN REDO TABLE
         int offerId = 0;
         try {
             offerId = Integer.parseInt(stringBuilder.toString());
             String body = ctx.body();
             int userId = Integer.parseInt(body);
-            boolean result = offerService.approveOfferById(offerId, userId);
-            if (result) {
-                ctx.status(200).result("Offer " + offerId + " has been approved");
-            } else ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
+            String token = ctx.header("Authorization").replace("Bearer ", "");
+            boolean authResult= AuthService.isValidEmployee(token);
+            if (authResult) {
+                boolean result = offerService.approveOfferById(offerId, userId);
+                if (result)
+                    ctx.status(200).result("Offer " + offerId + " has been approved");
+            } else
+                ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + offerId + " is not found, please enter an existing offer.");
         } catch (NumberFormatException e) {
@@ -157,10 +162,15 @@ public class OfferController {
             offerId = Integer.parseInt(stringBuilder.toString());
             String body = ctx.body();
             int userId = Integer.parseInt(body);
-            boolean result = offerService.denyOfferById(offerId, userId);
-            if (result) {
-                ctx.status(200).result("Offer " + offerId + " has been denied");
-            } else ctx.status(HttpCode.FORBIDDEN).result("You cannot deny offers as a customer");
+            String token = ctx.header("Authorization").replace("Bearer ", "");
+            boolean authResult= AuthService.isValidEmployee(token);
+            if (authResult) {
+                boolean result = offerService.denyOfferById(offerId, userId);
+                if (result)
+                    ctx.status(200).result("Offer " + offerId + " has been approved");
+            }
+            else
+                ctx.status(HttpCode.FORBIDDEN).result("You cannot approve offers as a customer");
         } catch (NullPointerException e) {
             ctx.status(HttpCode.NOT_FOUND).result("Offer " + offerId + " is not found, please enter an existing offer.");
         } catch (NumberFormatException e) {

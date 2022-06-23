@@ -5,21 +5,12 @@ import com.revature.controller.CarController;
 import com.revature.controller.OfferController;
 import com.revature.controller.UserController;
 import io.javalin.Javalin;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Driver {
     public static void main(String[] arg){
-
-        Logger logger = LoggerFactory.getLogger(Driver.class);
-
-        logger.debug("Debug Message Logged !!!");
-        logger.info("Info Message Logged !!!");
-        logger.error("Error Message Logged !!!", new NullPointerException("NullError"));
-
         UserController userController = new UserController();
         CarController carController = new CarController();
         OfferController offerController = new OfferController();

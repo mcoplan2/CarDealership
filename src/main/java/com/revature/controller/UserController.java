@@ -55,9 +55,9 @@ public class UserController {
             id = Integer.parseInt(param);
             ctx.json(userService.getUserById(id));
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.NOT_FOUND).result("User " + id + "could not be found");
+            ctx.status(HttpCode.NOT_FOUND).result("User " + id + " could not be found");
         } catch (NumberFormatException e) {
-            ctx.status(HttpCode.BAD_REQUEST).result(param + "is not a valid integer. Enter a valid integer");
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
     };
 
@@ -75,13 +75,13 @@ public class UserController {
             id = Integer.parseInt(param);
             boolean result = userService.deleteUserById(id);
             if (result)
-                ctx.status(HttpCode.OK).result("User " + id + "successfully deleted");
+                ctx.status(HttpCode.OK).result("User " + id + " successfully deleted");
             else
-                ctx.status(HttpCode.BAD_REQUEST).result("User " + id + "could not be deleted");
+                ctx.status(HttpCode.BAD_REQUEST).result("User " + id + " could not be deleted");
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.NOT_FOUND).result("User " + id + "could not be found");
+            ctx.status(HttpCode.NOT_FOUND).result("User " + id + " could not be found");
         } catch (NumberFormatException e) {
-            ctx.status(HttpCode.BAD_REQUEST).result(param + "is not a valid integer. Enter a valid integer");
+            ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
     };
 }

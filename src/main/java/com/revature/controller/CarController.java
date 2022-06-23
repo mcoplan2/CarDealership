@@ -2,6 +2,7 @@ package com.revature.controller;
 
 import com.revature.model.Car;
 import com.revature.model.CarStatus;
+import com.revature.service.AuthService;
 import com.revature.service.CarService;
 import io.javalin.http.Handler;
 import io.javalin.http.HttpCode;
@@ -20,9 +21,15 @@ public class CarController {
         int id = 0;
         try {
             id = Integer.parseInt(param);
-            ctx.status(HttpCode.CREATED).json(carService.createNewCar(car, id));
+            String token = ctx.header("Authorization").replace("Bearer ", "");
+            boolean result = AuthService.isValidEmployee(token);
+            if (result) {
+                ctx.status(HttpCode.CREATED).json(carService.createNewCar(car, id));
+            } else {
+                ctx.status(HttpCode.FORBIDDEN).json("Current role is set to Customer, you need to be an Employee to Create Cars");
+            }
         } catch (NullPointerException e) {
-            ctx.status(HttpCode.BAD_REQUEST).result("ID: " + id + " can not create cars, they are not an employee");
+            ctx.status(HttpCode.FORBIDDEN).result("ID: " + id + " can not create cars, they are not an employee");
         } catch (NumberFormatException e) {
             ctx.status(HttpCode.BAD_REQUEST).result(param + " is not a valid integer. Enter a valid integer");
         }
