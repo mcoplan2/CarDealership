@@ -183,32 +183,6 @@ public class UserRepository implements CrudDAO<User> {
         return users;
     }
 
-    public User getUserIdByRole(int id, UserRoles role) {
-        String sql = "select * from users where user_id = ? and user_role_id = ?";
-
-        try (Connection connection = ConnectionUtility.getConnection()) {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
-            stmt.setString(2, role.name());
-            ResultSet results = stmt.executeQuery();
-
-            if(results.next()) {
-                User user = new User();
-                users.add(user
-                        .setId(results.getInt("user_id"))
-                        .setFirstName(results.getString("first_name"))
-                        .setLastName(results.getString("last_name"))
-                        .setUserName(results.getString("username"))
-                        .setPassword(results.getString("pass"))
-                        .setRole((UserRoles.values()[(results.getInt("user_role_id"))])));
-                return user;
-            }
-        } catch (SQLException e) {
-            logger.warn(e.getMessage());
-        }
-        return null;
-    }
-
     public User getByUserName(String username) {
         String sql = "select * from users where username= ?";
 

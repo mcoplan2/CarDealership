@@ -52,3 +52,9 @@ java.lang.NullPointerException: NullError
 22-06-2022 17:19:55 ERROR Driver:21 - Error Message Logged !!!
 java.lang.NullPointerException: NullError
 	at com.revature.Driver.main(Driver.java:21)
+22-06-2022 18:52:46 ERROR Driver:21 - Error Message Logged !!!
+java.lang.NullPointerException: NullError
+	at com.revature.Driver.main(Driver.java:21)
+22-06-2022 21:13:57 ERROR Driver:21 - Error Message Logged !!!
+java.lang.NullPointerException: NullError
+	at com.revature.Driver.main(Driver.java:21)

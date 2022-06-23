@@ -1,161 +1,146 @@
 package com.revature.services;
 
 import com.revature.model.*;
-import com.revature.service.CarService;
 import com.revature.service.OfferService;
-import com.revature.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferServiceTest {
-    /*
-    List<Offer> mockedList = Mockito.mock(List.class);
+
+    OfferService mockedService = Mockito.mock(OfferService.class);
+    Offer offer = new Offer(500, 1,OfferStatus.OPEN);
+    Offer offer2 = new Offer(500, 1,OfferStatus.OPEN);
+    User user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
+    User user2 = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
 
     @Test
     public void whenGivenOfferObjectCreateNewOfferDoesNotThrowAnException() {
-        Car car = new Car("Test", "Test", 2322, CarStatus.AVAILABLE);
-        List<Car> mockedList2 = Mockito.mock(List.class);
-        CarService carService = new CarService(mockedList2);
-        car.setId(1);
-
-        Mockito.when(mockedList2.size()).thenReturn(1);
-        Mockito.when(mockedList2.get(0)).thenReturn(car);
-
-        Offer offer = new Offer(500, 1, OfferStatus.OPEN);
-        OfferService offerService = new OfferService(mockedList);
-        offer.setId(1);
-
-        Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-
-
-        Assertions.assertDoesNotThrow(() -> offerService.createOffer(offer,1));
+        Assertions.assertDoesNotThrow(() -> mockedService.createOffer(offer,1));
     }
 
     @Test
     public void whenGivenOfferObjectWithCarAvailCreateOfferUserReturnsTrue(){
-        Car car = new Car("Test", "Test", 2322, CarStatus.AVAILABLE);
-        List<Car> mockedList2 = Mockito.mock(List.class);
-        CarService carService = new CarService(mockedList2);
-        car.setId(1);
+        Mockito.when(mockedService.offerCount()).thenReturn(1);
+        Mockito.when(mockedService.getOfferById(0)).thenReturn(offer);
+        Mockito.when(mockedService.createOffer(offer,1)).thenReturn(offer);
 
-        Mockito.when(mockedList2.size()).thenReturn(1);
-        Mockito.when(mockedList2.get(0)).thenReturn(car);
-
-        Offer offer = new Offer(500, 1,OfferStatus.OPEN);
-        OfferService offerService = new OfferService(mockedList);
-        offer.setId(1);
-
-        Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-
-
-        Mockito.when(mockedList.add(offer)).thenReturn(true);
-        boolean result = offerService.createOffer(offer,1);
-        Assertions.assertTrue(result);
+        Offer result = mockedService.createOffer(offer,1);
+        Assertions.assertEquals(offer, result);
     }
-    @Test
-    public void whenGivenOfferObjectWithNotAvailCareCreateNewOfferReturnsFalse(){
-        Car car = new Car("Test", "Test", 2322, CarStatus.TAKEN);
-        List<Car> mockedList2 = Mockito.mock(List.class);
-        CarService carService = new CarService(mockedList2);
-        car.setId(1);
 
-        Mockito.when(mockedList2.size()).thenReturn(1);
-        Mockito.when(mockedList2.get(0)).thenReturn(car);
-
-        Offer offer = new Offer(500, 1,OfferStatus.OPEN);
-        OfferService offerService = new OfferService(mockedList);
-        offer.setId(1);
-
-        Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-
-
-        Mockito.when(mockedList.add(offer)).thenReturn(true);
-        boolean result = offerService.createOffer(offer,1);
-        Assertions.assertFalse(result);
-    }
 
     @Test
     public void whenGetOffersIsCalledDoesNotThrowAnException() {
-        OfferService offerService = new OfferService();
-        Assertions.assertDoesNotThrow(OfferService::getOffers);
+        Assertions.assertDoesNotThrow(() -> mockedService.getOffers());
     }
 
     @Test
     public void whenGivenValidIdGetOfferByIdReturnsCorrectOffer() {
-        Offer offer = new Offer(500, 1 ,OfferStatus.OPEN);
-        offer.setId(1);
-        OfferService offerService = new OfferService(mockedList);
+        Mockito.when(mockedService.offerCount()).thenReturn(1);
+        Mockito.when(mockedService.getOfferById(0)).thenReturn(offer);
 
-        Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-
-        Offer result = offerService.getOfferById(1);
+        Offer result = mockedService.getOfferById(0);
         Assertions.assertEquals(result, offer);
-
     }
+
     @Test
     public void whenOfferCountIsCalledItReturnsTheCorrectNumberOfOffers(){
-        Offer offer = new Offer(500, 1,OfferStatus.OPEN);
-        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedService.offerCount()).thenReturn(2);
 
-        Offer offer2 = new Offer(500, 1,OfferStatus.OPEN);
-        Mockito.when(mockedList.size()).thenReturn(2);
-
-        OfferService offerService = new OfferService(mockedList);
-        int result = OfferService.offerCount();
+        int result = mockedService.offerCount();
         Assertions.assertEquals(2, result);
     }
 
-
     @Test
-    public void whenGivenUserIdDeleteUserByIdReturnsTrue(){
-        OfferService service = new OfferService(mockedList);
-        Offer offer = new Offer();
-        offer.setId(1);
+    public void whenGivenOfferIdDeleteOfferByIdReturnsTrue(){
+        Mockito.when(mockedService.offerCount()).thenReturn(1);
+        Mockito.when(mockedService.getOfferById(0)).thenReturn(offer);
+        Mockito.when(mockedService.deleteOfferById(0)).thenReturn(true);
 
-        Mockito.when(mockedList.size()).thenReturn(1);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-        Mockito.when(mockedList.remove(0)).thenReturn(offer);
-
-        Assertions.assertTrue(service.deleteOfferById(1));
+        Assertions.assertTrue(mockedService.deleteOfferById(0));
     }
 
     @Test
     public void whenGivenUserIdUpdateUserByIdReturnsTrue() {
-        OfferService offerService = new OfferService(mockedList);
-        Offer offer = new Offer(500, 1,OfferStatus.OPEN);
-        Mockito.when(mockedList.size()).thenReturn(1);
+        Mockito.when(mockedService.getOfferById(0)).thenReturn(offer);
+        Mockito.when(mockedService.updateOfferById(offer)).thenReturn(offer2);
+        Offer result = mockedService.updateOfferById(offer);
 
-        Offer offer2 = new Offer(500, 1,OfferStatus.REJECTED);
-        Mockito.when(mockedList.size()).thenReturn(2);
-
-        Mockito.when(mockedList.size()).thenReturn(2);
-        Mockito.when(mockedList.get(0)).thenReturn(offer);
-        Mockito.when(mockedList.set(0, offer2)).thenReturn(offer2);
-
-        Assertions.assertTrue(offerService.updateOfferById(0, offer2));
+        Assertions.assertEquals(offer2, result);
     }
+
     @Test
-    public void offerServiceCreateOfferWorks(){
-        OfferService offerService = new OfferService();
-        CarService carService = new CarService();
-        UserService userService = new UserService();
-        userService.createNewUser(new User("Test1","Test","test","test", UserRoles.EMPLOYEE));
-        userService.createNewUser(new User("Test2","Test","test","test", UserRoles.CUSTOMER));
-        userService.createNewUser(new User("Test3","Test","test","test", UserRoles.EMPLOYEE));
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.AVAILABLE),0);
-        carService.createCar(new Car("honda", "ford", 2832, CarStatus.TAKEN),2);
-        offerService.createOffer(new Offer(500, 1,OfferStatus.OPEN),0);
-        offerService.createOffer(new Offer(500, 1,OfferStatus.OPEN),1);
-        Assertions.assertEquals(1, OfferService.offerCount());
+    public void whenGivenOfferGetAllByStatusDoesNotThrowAnException() {
+        Assertions.assertDoesNotThrow(() -> mockedService.getAllOffersByStatus(OfferStatus.OPEN));
     }
-    */
 
+    @Test
+    public void whenGivenOfferGetAllByStatusReturnsListOfOffers() {
+        List<Offer> offers = new ArrayList<>();
+        offer.setStatus(OfferStatus.ACCEPTED);
+        offers.add(offer);
+        offer2.setStatus(OfferStatus.ACCEPTED);
+        offers.add(offer2);
+        Mockito.when(mockedService.getAllOffersByStatus(OfferStatus.ACCEPTED)).thenReturn(offers);
+
+        Assertions.assertNotNull(mockedService.getAllOffersByStatus(OfferStatus.ACCEPTED));
+    }
+
+    @Test
+    public void whenGivenOfferIdGetAllByOffersFromAUserDoesNotThrowAnException() {
+        Assertions.assertDoesNotThrow(() -> mockedService.getAllOpenOffersFromASpecificUserId(1));
+    }
+
+    @Test
+    public void whenGivenOfferIdGetAllByOffersFromAUserReturnsListOfOffers() {
+        List<Offer> offers = new ArrayList<>();
+        offer.setStatus(OfferStatus.OPEN);
+        offers.add(offer);
+        offer2.setStatus(OfferStatus.OPEN);
+        offers.add(offer2);
+        Mockito.when(mockedService.getAllOpenOffersFromASpecificUserId(0)).thenReturn(offers);
+
+        Assertions.assertNotNull(mockedService.getAllOpenOffersFromASpecificUserId(0));
+    }
+
+    @Test
+    public void whenApproveOfferByIdIsCalledNotThrowAnException() {
+        Assertions.assertDoesNotThrow(() -> mockedService.approveOfferById(1,1));
+    }
+
+    @Test
+    public void whenApproveOfferByIdIsCalledReturnsTrueIfEmployeeApproves() {
+        Mockito.when(mockedService.approveOfferById(1,0)).thenReturn(true);
+        boolean result = mockedService.approveOfferById(1,0);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void whenApproveOfferByIdIsCalledReturnsFalseIfCustomerApproves() {
+        Mockito.when(mockedService.approveOfferById(1,1)).thenReturn(false);
+        boolean result = mockedService.approveOfferById(1,1);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void whenDenyOfferByIdIsCalledNotThrowAnException() {
+        Assertions.assertDoesNotThrow(() -> mockedService.denyOfferById(1,1));
+    }
+
+    @Test
+    public void whenDenyOfferByIdIsCalledReturnsTrueIfEmployeeApproves() {
+        Mockito.when(mockedService.denyOfferById(1,0)).thenReturn(true);
+        boolean result = mockedService.denyOfferById(1,0);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void whenDenyOfferByIdIsCalledReturnsFalseIfCustomerApproves() {
+        Mockito.when(mockedService.denyOfferById(1,1)).thenReturn(false);
+        boolean result = mockedService.denyOfferById(1,1);
+        Assertions.assertFalse(result);
+    }
 }

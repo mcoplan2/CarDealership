@@ -43,10 +43,6 @@ public class UserService {
         return userRepository.count();
     }
 
-    public User getUserIdAndCheckRole(int id, UserRoles role) {
-        return userRepository.getUserIdByRole(id,role);
-    }
-
     public User updateUserById(User user) {
         return userRepository.update(user);
     }
