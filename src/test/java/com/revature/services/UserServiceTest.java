@@ -12,7 +12,9 @@ import org.mockito.Mockito;
 public class UserServiceTest {
 
     UserService mockedService = Mockito.mock(UserService.class);
-    User user = new User();
+    User user = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
+    User user2 = new User("Test2", "Test2", "test2", "test2", UserRoles.EMPLOYEE);
+
 
     @Test
     public void whenGivenUserObjectCreateDoesNotThrowAnException() {
@@ -38,7 +40,6 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenValidIdGetByIdReturnsCorrectUser() {
-        user = new User("Test", "Test", "test", "test", UserRoles.EMPLOYEE);
         Mockito.when(mockedService.userCount()).thenReturn(1);
         Mockito.when(mockedService.getUserById(0)).thenReturn(user);
 
@@ -66,12 +67,6 @@ public class UserServiceTest {
 
     @Test
     public void whenGivenUserIdUpdateUserByIdReturnsTrue(){
-        User user = new User("Test1", "Test1", "test1", "test1", UserRoles.CUSTOMER);
-        Mockito.when(mockedService.userCount()).thenReturn(1);
-
-        User user2 = new User("Test2", "Test2", "test2", "test2", UserRoles.EMPLOYEE);
-        Mockito.when(mockedService.userCount()).thenReturn(2);
-
         Mockito.when(mockedService.getUserById(0)).thenReturn(user);
         Mockito.when(mockedService.updateUserById(user)).thenReturn(user2);
 
