@@ -60,8 +60,6 @@ public class CarService {
         return carRepository.deleteById(id);
     }
 
-    // Updates the car at the current ID
-    // Pass in the ID you want to modify wih the new Car Object.
     public Car updateCarById(Car car) {
         return carRepository.update(car);
     }

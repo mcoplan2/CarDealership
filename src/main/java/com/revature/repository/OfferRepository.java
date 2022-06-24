@@ -72,7 +72,6 @@ public class OfferRepository implements CrudDAO<Offer> {
         return offers;
     }
 
-    // GET Method
     @Override
     public Offer getById(int id) {
         String sql = "select * from offers where offer_id = ?";
@@ -100,7 +99,6 @@ public class OfferRepository implements CrudDAO<Offer> {
         return null;
     }
 
-    // PUT Method
     @Override
     public Offer update(Offer offer) {
         String sql = "update offers set amount = ?, offer_status_id = ?, car_id = ?, user_id = ? where offer_id = ?";
@@ -125,7 +123,6 @@ public class OfferRepository implements CrudDAO<Offer> {
         return null;
     }
 
-    // DELETE Method
     @Override
     public boolean deleteById(int id) {
         String sql = "delete from offers where offer_id = ?";
@@ -143,7 +140,6 @@ public class OfferRepository implements CrudDAO<Offer> {
         return false;
     }
 
-    // Method to return size of List
     @Override
     public int count() {
         String sql = "select count(*) from offers";

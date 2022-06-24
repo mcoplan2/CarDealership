@@ -25,7 +25,6 @@ public class CarRepository  implements CrudDAO<Car> {
         this.cars = cars;
     }
 
-    // TODO ADD TRY CATCH BLOCK FOR UNWANTED INPUTS
     @Override
     public Car create(Car car) {
         String sql = "insert into cars(make, model, year, car_status_id) values(?,?,?,?)";
@@ -73,7 +72,6 @@ public class CarRepository  implements CrudDAO<Car> {
         return cars;
     }
 
-    // GET Method
     @Override
     public Car getById(int id) {
         String sql = "select * from cars where car_id = ?";
@@ -102,7 +100,6 @@ public class CarRepository  implements CrudDAO<Car> {
         return null;
     }
 
-    // PUT Method
     @Override
     public Car update(Car car) {
         String sql = "update cars set make = ?, model = ?, year = ?, car_status_id = ?, user_id = ? where car_id = ?";
@@ -128,7 +125,6 @@ public class CarRepository  implements CrudDAO<Car> {
         return null;
     }
 
-    // DELETE Method
     @Override
     public boolean deleteById(int id) {
         String sql = "delete from cars where car_id = ?";
@@ -146,7 +142,6 @@ public class CarRepository  implements CrudDAO<Car> {
         return false;
     }
 
-    // Method to return size of List
     @Override
     public int count() {
         String sql = "select count(*) from cars";

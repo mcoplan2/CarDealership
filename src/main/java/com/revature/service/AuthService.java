@@ -20,11 +20,9 @@ public class AuthService {
     private static final String SECRET = "secret";
     private static final Algorithm ALGORITHM = Algorithm.HMAC256(SECRET);
     private static final JWTVerifier JWT_VERIFIER = JWT.require(ALGORITHM).withIssuer(ISSUER).build();
-    // dont need constructor for AuthService, we just want to get the user.
     private static final UserRepository userRepository = new UserRepository();
 
     static Logger logger = LoggerFactory.getLogger(AuthService.class);
-    // return string
     public static String authenticateUser(User user) {
         // Get the user by its username
         User dbUser = userRepository.getByUserName(user.getUserName());
@@ -36,11 +34,9 @@ public class AuthService {
 
             }
         }
-        //something went wrong
         return null;
     }
 
-    // TODO Create controller isAdmin to check if admin, then put .before /cars or /offers to check role
     public static void isValidToken(String token) throws JWTVerificationException {
         DecodedJWT jwt = JWT_VERIFIER.verify(token);
     }
